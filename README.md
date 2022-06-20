@@ -1,5 +1,5 @@
-# Self-supervised learning unveils morphological clusters behind lung cancer types and prognosis
-* **[Quiros A.C.<sup>+</sup>, Coudray N.<sup>+</sup>, Yeaton A., Yang X., Chiriboga L., Karimkhan A., Narula N., Pass H., Moreira A.L., Le Quesne J.<sup>\*</sup>, Tsirigos A.<sup>\*</sup>, and Yuan K.<sup>\*</sup>  Self-supervised learning unveils morphological clusters behind lung cancer types and prognosis. 2022](https://arxiv.org/abs/2205.01931)**
+# Self-supervised learning discovers novel morphological clusters linked to patient outcome and molecular phenotypes
+* **[Quiros A.C.<sup>+</sup>, Coudray N.<sup>+</sup>, Yeaton A., Yang X., Chiriboga L., Karimkhan A., Narula N., Pass H., Moreira A.L., Le Quesne J.<sup>\*</sup>, Tsirigos A.<sup>\*</sup>, and Yuan K.<sup>\*</sup> Self-supervised learning discovers novel morphological clusters linked to patient outcome and molecular phenotypes. 2022](https://arxiv.org/abs/2205.01931)**
 
 **Abstract:**
 
