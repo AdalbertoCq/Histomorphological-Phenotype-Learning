@@ -3,39 +3,15 @@
 
 **Abstract:**
 
-*Histopathological images of tumors contain abundant information about how tumors grow and how they
-interact with their micro-environment. Characterizing and improving our understanding of phenotypes
-could reveal factors related to tumor progression and their underpinning biological processes, ultimately
-improving diagnosis and treatment. In recent years, the field of histological deep learning applications
-has seen great progress, yet most of these applications focus on a supervised approach, relating tissue
-and associated sample annotations.*
+*Histopathological images are the largest source of data for studying the phenotype of tumors, from cell morphology to complex microenvironment interactions. Deep learning image processing methods hold the promise for better understanding of these phenotypes and improving patient diagnosis for targeted therapies. Despite recent progress, most methods focus on supervised paradigms, where their success depends on association with a restricted set of labels, limiting its impact in clinical applications and basic discovery.*
 
-*Supervised approaches have their impact limited by two factors. Firstly, high-quality labels are expensive
-in time and effort, which makes them not easily scalable. Secondly, these methods focus on predicting
-annotations from histological images, fundamentally restricting the discovery of new tissue phenotypes.
-These limitations emphasize the importance of using new methods that can characterize tissue by the
-features enclosed in the image, without pre-defined annotation or supervision.*
-
-*We present Phenotype Representation Learning (PRL), a methodology to extract histomorphological
-phenotypes through self-supervised learning and community detection. PRL creates phenotype clusters
-by identifying tissue patterns that share common morphological and cellular features, allowing to describe
-whole slide images (WSIs) through compositional representations of cluster contributions.*
-
-*We used this framework to analyze histopathology slides of adenocarcinoma (LUAD) and squamous
-cell carcinoma (LUSC) lung cancer subtypes from The Cancer Genome Atlas (TCGA) and New York
-University (NYU) cohorts. We show that PRL achieves a robust lung subtype prediction providing
-statistically relevant phenotypes for each lung subtype. We further demonstrate the significance of these
-phenotypes in lung adenocarcinoma overall and recurrence free survival, relating clusters with patient
-outcomes, cell types, grown patterns, and omic-based immune signatures.
-Our framework provides a simple, interpretable and versatile method that can correlate histomorphological 
-patterns with different clinical annotations, without the need of retraining for different prediction
-purposes.*
+*We present Histomorphological Phenotype Learning (HPL), a methodology to extract tissue patterns through self-supervised learning and community detection. HPL led to the \textit{de novo} discovery of histomorphological phenotype clusters, which are tissue regions with common morphological features. We demonstrate these clusters’ utility in predicting lung adenocarcinoma and squamous cell carcinoma, and lung adenocarcinoma patient survival and recurrence. These predictions are exhaustively explained due to HPL's ability to link its clusters to classical morphological characteristics and a wide range of omics-based molecular phenotype profiles.*
 
 ## Citation
 ```
 @misc{QuirosCoudray2022,
       author = {Quiros, Adalberto Claudio and Coudray, Nicolas and Yeaton, Anna and Yang, Xinyu and Chiriboga, Luis and Karimkhan, Afreen and Narula, Navneet and Pass, Harvey and Moreira, Andre L. and Quesne, John Le and Tsirigos, Aristotelis and Yuan, Ke},
-      title = {Self-supervised learning unveils morphological clusters behind lung cancer types and prognosis},
+      title = {Self-supervised learning discovers novel morphological clusters linked to patient outcome and molecular phenotypes},
       publisher = {arXiv},
       year = {2022},
       doi = {10.48550/ARXIV.2205.01931},  
