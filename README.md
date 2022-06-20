@@ -25,7 +25,7 @@ Slides summarizing methodology and results:
 - [Light weight version.](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/demos/slides/PRL%20Summary.pdf)
 - [High resolution version.](https://drive.google.com/file/d/1zy7oSqCvq_ZIUW1Ix7rEjYjYBnepQZLA/view?usp=sharing)
 <p align="center">
-  <img src="https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/12589de42685f38630e5b2378c0e6f27e16b3ea3/demos/framework_methodology.jpg" width="500">
+  <img src="https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/12589de42685f38630e5b2378c0e6f27e16b3ea3/demos/framework_methodology.jpg" width="500">
 </p>
 
 ```
