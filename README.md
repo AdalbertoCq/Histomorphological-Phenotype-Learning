@@ -1,17 +1,15 @@
-# Self-supervised learning discovers novel morphological clusters linked to patient outcome and molecular phenotypes
-* **[Quiros A.C.<sup>+</sup>, Coudray N.<sup>+</sup>, Yeaton A., Yang X., Chiriboga L., Karimkhan A., Narula N., Pass H., Moreira A.L., Le Quesne J.<sup>\*</sup>, Tsirigos A.<sup>\*</sup>, and Yuan K.<sup>\*</sup> Self-supervised learning discovers novel morphological clusters linked to patient outcome and molecular phenotypes. 2022](https://arxiv.org/abs/2205.01931)**
+# Self-supervised learning in non-small cell lung cancer discovers novel morphological clusters linked to patient outcome and molecular phenotypes
+* **[Quiros A.C.<sup>+</sup>, Coudray N.<sup>+</sup>, Yeaton A., Yang X., Chiriboga L., Karimkhan A., Narula N., Pass H., Moreira A.L., Le Quesne J.<sup>\*</sup>, Tsirigos A.<sup>\*</sup>, and Yuan K.<sup>\*</sup> Self-supervised learning in non-small cell lung cancer discovers novel morphological clusters linked to patient outcome and molecular phenotypes. 2022](https://arxiv.org/abs/2205.01931)**
 
 **Abstract:**
 
-*Histopathological images are the largest source of data for studying the phenotype of tumors, from cell morphology to complex microenvironment interactions. Deep learning image processing methods hold the promise for better understanding of these phenotypes and improving patient diagnosis for targeted therapies. Despite recent progress, most methods focus on supervised paradigms, where their success depends on association with a restricted set of labels, limiting its impact in clinical applications and basic discovery.*
-
-*We present Histomorphological Phenotype Learning (HPL), a methodology to extract tissue patterns through self-supervised learning and community detection. HPL led to the _de novo_ discovery of histomorphological phenotype clusters, which are tissue regions with common morphological features. We demonstrate these clusters’ utility in predicting lung adenocarcinoma and squamous cell carcinoma, and lung adenocarcinoma patient survival and recurrence. These predictions are exhaustively explained due to HPL's ability to link its clusters to classical morphological characteristics and a wide range of omics-based molecular phenotype profiles.*
+*Histopathological images provide the definitive source of cancer diagnosis, containing information used by pathologists to identify and subclassify malignant disease, and to guide therapeutic choices. These images contain vast amounts of information, much of which is currently unavailable to human interpretation. Supervised deep learning approaches have been powerful for classification tasks, but they are inherently limited by the cost and quality of annotations. Therefore, we developed Histomorphological Phenotype Learning, an unsupervised methodology, which requires no annotations and operates via the self-discovery of discriminatory image features in small image tiles. Tiles are grouped into morphologically similar clusters which appear to represent recurrent modes of tumor growth emerging under natural selection. These clusters have distinct features which can be identified using orthogonal methods. Applied to lung cancer tissues, we show that they align closely with patient outcomes, with histopathologically recognised tumor types and growth patterns, and with transcriptomic measures of immunophenotype.*
 
 ## Citation
 ```
 @misc{QuirosCoudray2022,
       author = {Quiros, Adalberto Claudio and Coudray, Nicolas and Yeaton, Anna and Yang, Xinyu and Chiriboga, Luis and Karimkhan, Afreen and Narula, Navneet and Pass, Harvey and Moreira, Andre L. and Quesne, John Le and Tsirigos, Aristotelis and Yuan, Ke},
-      title = {Self-supervised learning discovers novel morphological clusters linked to patient outcome and molecular phenotypes},
+      title = {Self-supervised learning in non-small cell lung cancer discovers novel morphological clusters linked to patient outcome and molecular phenotypes},
       publisher = {arXiv},
       year = {2022},
       doi = {10.48550/ARXIV.2205.01931},  
