@@ -410,11 +410,7 @@ sklearn==0.0
 sklearn-pandas==2.2.0
 statsmodels==0.13.0
 tensorboard==1.14.0
-tensorflow-datasets==1.1.0
-tensorflow-estimator==1.14.0
 tensorflow-gpu==1.14.0
-tensorflow-metadata==0.14.0
-tensorflow-probability==0.7.0
 tqdm==4.32.2
 umap-learn==0.5.0
 wandb==0.12.7
