@@ -8,12 +8,12 @@
 ## Citation
 ```
 @misc{QuirosCoudray2022,
-      author = {Quiros, Adalberto Claudio and Coudray, Nicolas and Yeaton, Anna and Yang, Xinyu and Chiriboga, Luis and Karimkhan, Afreen and Narula, Navneet and Pass, Harvey and Moreira, Andre L. and Quesne, John Le and Tsirigos, Aristotelis and Yuan, Ke},
-      title = {Self-supervised learning in non-small cell lung cancer discovers novel morphological clusters linked to patient outcome and molecular phenotypes},
-      publisher = {arXiv},
-      year = {2022},
-      doi = {10.48550/ARXIV.2205.01931},  
-      url = {https://arxiv.org/abs/2205.01931},        
+      title={Self-supervised learning in non-small cell lung cancer discovers novel morphological clusters linked to patient outcome and molecular phenotypes},
+      author={Adalberto Claudio Quiros and Nicolas Coudray and Anna Yeaton and Xinyu Yang and Luis Chiriboga and Afreen Karimkhan and Navneet Narula and Harvey Pass and Andre L. Moreira and John Le Quesne and Aristotelis Tsirigos and Ke Yuan},
+      year={2022},
+      eprint={2205.01931},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV}        
 }
 ```
 
