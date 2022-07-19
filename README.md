@@ -39,12 +39,20 @@ Pending:
 ## Repository overview
 
 In this repository you will find the following sections: 
-1. [Workspace Setup and Directory Structure](#Workspace-Setup-and-Directory-Structure): Details on how to setup the directory and H5 file naming convention.
-2. [Specification on the content of the H5 files](#Specifications-on-the-content-of-the-H5-files):
-3. [Instructions](#Instructions): Details on how to run the complete methodology. 
-4. [Pretrained models](#Pretrained-models): Pretrained weights for the self-supervised trained CNN models. 
-5. [Dockers](#Dockers): Docker environments to run the different instruction steps.
-6. [Python Environment](#Python-Environment): Python version and packages necessary. 
+1. [WSI Tiling Process](#WSI-Tiling-process): Instruction on how to create H5 files with WSI tiles.
+2. [Workspace Setup and Directory Structure](#Workspace-Setup-and-Directory-Structure): Details on how to setup the directory and H5 file naming convention.
+3. [Specification on the content of the H5 files](#Specifications-on-the-content-of-the-H5-files):
+4. [HPL Instructions](#HPL-Instructions): Details on how to run the complete methodology. 
+5. [Pretrained models](#Pretrained-models): Pretrained weights for the self-supervised trained CNN models. 
+6. [Dockers](#Dockers): Docker environments to run the different instruction steps.
+7. [Python Environment](#Python-Environment): Python version and packages necessary. 
+
+### WSI Tiling process
+This step converts the whole slide images (WSI) in SVS format into 224x224 tiles and store them into H5 files.
+
+We used the framework provided in [Coudray et al. 'Classification and mutation prediction from non–small cell lung cancer histopathology images using deep learning' Nature Medicine, 2018.](https://github.com/ncoudray/DeepPATH/tree/master/DeepPATH_code)
+
+The steps to run it that framework are _0.1_, _0.2.a_, and _4_ (end of readme). In our work we used Reinhardt normalization, which can be applied at the same time as the tiling is done through the _'-N'_ option in step _0.1_.
 
 ## Workspace Setup and Directory Structure
 The code will make the following assumptions with respect to where the datasets, model training outputs, and image representations are stored. 
@@ -73,29 +81,20 @@ The code will make the following assumptions with respect to where the datasets,
 
 ## Specifications on the content of the H5 files
     
-## Instructions
+## HPL Instructions
 The complete flow consists in the following steps:
-1. **Tiling process.** 
-2. **Self-supervised Barlow Twins training.**
-3. **Tile image projection on self-supervised trained encoder.**
-4. **Combination of all sets into a complete one**: This allows to later perform a clustering fold cross-validation.
-5. **Fold cross-validation files.**
-6. **Include meta data into complete H5 file**: Cancer subtype, event indicator, or event time. Fields that will later be used in the logistic or cox regression.
-7. **Leiden clustering over fold cross validation**.
-8. [_Optional_] **Removing background tiles.** 
-9. **Logistic regression for WSI classification.**
-10. **Cox proportional hazard regression for survival prediction.**
-11. **Correlation between annotations and clusters.**
+1. **Self-supervised Barlow Twins training.**
+2. **Tile image projection on self-supervised trained encoder.**
+3. **Combination of all sets into a complete one**: This allows to later perform a clustering fold cross-validation.
+4. **Fold cross-validation files.**
+5. **Include meta data into complete H5 file**: Cancer subtype, event indicator, or event time. Fields that will later be used in the logistic or cox regression.
+6. **Leiden clustering over fold cross validation**.
+7. **[Optional] Removing background tiles.** 
+8. **Logistic regression for WSI classification.**
+9. **Cox proportional hazard regression for survival prediction.**
+10. **Correlation between annotations and clusters.**
 
-### 1. Tiling process
-
-This step converts the whole slide images (WSI) in SVS format into 224x224 tiles and store them into H5 files.
-
-We used the framework provided in [Coudray et al. 'Classification and mutation prediction from non–small cell lung cancer histopathology images using deep learning' Nature Medicine, 2018.](https://github.com/ncoudray/DeepPATH/tree/master/DeepPATH_code)
-
-The steps to run it that framework are _0.1_, _0.2.a_, and _4_ (end of readme). In our work we used Reinhardt normalization, which can be applied at the same time as the tiling is done through the _'-N'_ option in step _0.1_.
-
-### 2. Self-Supervised model training
+### 1. Self-Supervised model training
 
 [**Note**] It is important to setup the directories and h5 files according to Section [Workspace Setup and Directory Structure](#Workspace-Setup-and-Directory-Structure).
 
@@ -135,7 +134,7 @@ python3 /nfs/PhD_Workspace/run_representationspathology.py \
 --report 
 ```
 
-### 3. Tile Projections
+### 2. Tile Projections
 
 This step encodes each tile image into a vector representation using a pretrained self-supervised model. 
 You can choose how to project tiles into vector representations if you want to, either with each h5 file individually or by projection an entire train/validation/test dataset. 
@@ -195,7 +194,7 @@ python3 ./run_representationspathology_projection.py \
 --model BarlowTwins_3 
 ```
 
-### 4. Combine all representation sets into one representations file
+### 3. Combine all representation sets into one representations file
 This step takes all set H5 files in the projection folder and merges then into a single H5 file. E.g.:
 - Original H5 files [**Required**]:
     - results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_he_train.h5
@@ -229,7 +228,7 @@ python3 ./utilities/h5_handling/combine_complete_h5.py \
 --dataset TCGAFFPE_5x_perP \
 --model ContrastivePathology_BarlowTwins_2
 ```
-### 5. Fold cross-validation files
+### 4. Fold cross-validation files
 In order to run clustering, logistic regression, and cox proportional hazard, you will need to create the following files:
 1. Pickle file containing samples (patients/slides) for a 5 fold cross validation:
    1. Class classification: [notebook](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/fold_creation/class_folds.ipynb)
@@ -243,7 +242,7 @@ In order to run clustering, logistic regression, and cox proportional hazard, yo
       1. [LUAD vs LUSC](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
       2. [LUAD Overall Survival](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.csv)
 
-### 6. Add fields to samples. E.g.: Subtype flag, OS event indicator, or OS event time
+### 5. Add fields to samples. E.g.: Subtype flag, OS event indicator, or OS event time
 
 ```
 Script to create a subset H5 representation file based on meta data file.
@@ -265,14 +264,14 @@ Command example:
  --h5_file ./results/ContrastivePathology_BarlowTwins_2/TCGAFFPE_5x_perP/h224_w224_n3_zdim128/hdf5_TCGAFFPE_5x_perP_he_complete.h5 \
  --meta_name lungsubtype_survival
 ```
-### 7. _[Optional]_ Removing background tiles
+### 6. [Optional] Removing background tiles
 This is step allows to get rid of representation instances that are background or artifact tiles. It's composed by 4 different steps. 
 1. Leiden clustering
 2. Get cluster tile samples
 3. Identify background and artifact clusters and create pickle file with tiles to remove
 4. Remove tile instances from H5 file.
 
-### 8. Leiden clustering based on fold cross validation
+### 7. Leiden clustering based on fold cross validation
 
 Usage:
 ```
@@ -301,7 +300,7 @@ python3 ./run_representationsleiden.py \
 
 ```
 
-### Logistic regression.
+### 8. Logistic regression.
 
 Usage:
 ```
@@ -332,7 +331,7 @@ python3 ./report_representationsleiden_lr.py \
 --h5_additional_path ./results/ContrastivePathology_BarlowTwins_3/NYU_BiFrFF_5x/h224_w224_n3_zdim128/hdf5_NYU_BiFrFF_5x_he_test_luad.h5
 ```
 
-### Cox Proportional hazard regression
+### 9. Cox Proportional hazard regression
 
 Usage:
 ```
@@ -367,11 +366,11 @@ python3 ./report_representationsleiden_cox.py \
 --h5_additional_path ./results/ContrastivePathology_BarlowTwins_3/NYU_LUADall_5x/h224_w224_n3_zdim128/hdf5_NYU_LUADall_5x_he_combined_os_pfs_survival.h5  
 ```
 
-### Correlation between annotations and clusters
+### 10. Correlation between annotations and clusters
 You can find the notebook to run the correaltion and figure [here](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/visualizations/cluster_correlations_figures.ipynb). 
 
 ## Pretrained Models
-Pre-trained model weights:
+Self-supervised model weights:
 1. [Lung adenocarcinoma (LUAD) and squamous cell carcinoma (LUSC) model](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020). 
 2. [PanCancer: BRCA, HNSC, KICH, KIRC, KIRP, LUSC, LUAD](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_PanCancer_5x/19949708).
 ## Dockers
@@ -382,7 +381,7 @@ These are the dockers with the environments to run different steps of the flow. 
     - gcfntnu/scanpy:1.7.0 
    
 ## Python Environment
-The code uses Python 3.7 and the following packages:
+The code uses Python 3.7.12 and the following packages:
 ```
 anndata==0.7.8
 autograd==1.3
