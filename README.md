@@ -47,7 +47,7 @@ In this repository you will find the following sections:
 6. [Dockers](#Dockers): Docker environments to run the different instruction steps.
 7. [Python Environment](#Python-Environment): Python version and packages necessary. 
 
-### WSI Tiling process
+## WSI Tiling process
 This step converts the whole slide images (WSI) in SVS format into 224x224 tiles and store them into H5 files.
 
 We used the framework provided in [Coudray et al. 'Classification and mutation prediction from non–small cell lung cancer histopathology images using deep learning' Nature Medicine, 2018.](https://github.com/ncoudray/DeepPATH/tree/master/DeepPATH_code)
