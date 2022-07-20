@@ -20,39 +20,34 @@
 ## Demo Materials
 
 Slides summarizing methodology and results: 
-- [Light weight version.](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/demos/slides/PRL%20Summary.pdf)
-- [High resolution version.](https://drive.google.com/file/d/1zy7oSqCvq_ZIUW1Ix7rEjYjYBnepQZLA/view?usp=sharing)
+- [Light-weight version.](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/demos/slides/PRL%20Summary.pdf)
+- [High-resolution version.](https://drive.google.com/file/d/1zy7oSqCvq_ZIUW1Ix7rEjYjYBnepQZLA/view?usp=sharing)
 <p align="center">
   <img src="https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/12589de42685f38630e5b2378c0e6f27e16b3ea3/demos/framework_methodology.jpg" width="500">
 </p>
 
-```
-Pending:
-    2. Datasets: Where and how.
-    3. Workspace Setup and Directory Structure: More information on assumptions, name convention (datasets across train/validation/test must be named the same).
-    4. Pre-trained models
-    5. Instructions: comment on each step with clarifications.
-    6. Fold creation.
-    7. Background/Artifact cluster removal.
-```
-
 ## Repository overview
 
 In this repository you will find the following sections: 
-1. [WSI Tiling Process](#WSI-Tiling-process): Instruction on how to create H5 files with WSI tiles.
-2. [Workspace Setup and Directory Structure](#Workspace-Setup-and-Directory-Structure): Details on how to setup the directory and H5 file naming convention.
-3. [Specification on the content of the H5 files](#Specifications-on-the-content-of-the-H5-files):
-4. [HPL Instructions](#HPL-Instructions): Details on how to run the complete methodology. 
-5. [Pretrained models](#Pretrained-models): Pretrained weights for the self-supervised trained CNN models. 
-6. [Dockers](#Dockers): Docker environments to run the different instruction steps.
-7. [Python Environment](#Python-Environment): Python version and packages necessary. 
+1. [WSI tiling process](#WSI-Tiling-process): Instruction on how to create H5 files with WSI tiles.
+2. [Workspace setup and directory structure](#Workspace-Setup-and-Directory-Structure): Details on how to setup the directory and H5 file naming convention.
+3. [H5 file content specification](#Specifications-on-the-content-of-the-H5-files):
+4. [HPL instructions](#HPL-Instructions): Details on how to run the complete methodology. 
+5. [Pretrained models](#Pretrained-models): Pretrained weights for the self-supervised trained CNN models.
+6. [TCGA tile projections](#TCGA-tile-projections)
+7. [TCGA clusters](#TCGA-clusters)
+8. [Frequently Asked Questions](#Frequently-Asked-Questions)
+9. [Dockers](#Dockers): Docker environments to run the different instruction steps.
+10. [Python Environment](#Python-Environment): Python version and packages necessary. 
 
 ## WSI Tiling process
-This step converts the whole slide images (WSI) in SVS format into 224x224 tiles and store them into H5 files.
+This step divides whole slide images (WSIs) in SVS format into 224x224 tiles and store them into H5 files.
 
 We used the framework provided in [Coudray et al. 'Classification and mutation prediction from non–small cell lung cancer histopathology images using deep learning' Nature Medicine, 2018.](https://github.com/ncoudray/DeepPATH/tree/master/DeepPATH_code)
 
 The steps to run it that framework are _0.1_, _0.2.a_, and _4_ (end of readme). In our work we used Reinhardt normalization, which can be applied at the same time as the tiling is done through the _'-N'_ option in step _0.1_.
+
+
 
 ## Workspace Setup and Directory Structure
 The code will make the following assumptions with respect to where the datasets, model training outputs, and image representations are stored. 
@@ -87,7 +82,7 @@ The complete flow consists in the following steps:
 2. **Tile image projection on self-supervised trained encoder.**
 3. **Combination of all sets into a complete one**: This allows to later perform a clustering fold cross-validation.
 4. **Fold cross-validation files.**
-5. **Include meta data into complete H5 file**: Cancer subtype, event indicator, or event time. Fields that will later be used in the logistic or cox regression.
+5. **Include metadata into complete H5 file**: Cancer subtype, event indicator, or event time. Fields that will later be used in the logistic or cox regression.
 6. **Leiden clustering over fold cross validation**.
 7. **[Optional] Removing background tiles.** 
 8. **Logistic regression for WSI classification.**
@@ -230,19 +225,31 @@ python3 ./utilities/h5_handling/combine_complete_h5.py \
 ```
 ### 4. Fold cross-validation files
 In order to run clustering, logistic regression, and cox proportional hazard, you will need to create the following files:
-1. Pickle file containing samples (patients/slides) for a 5 fold cross validation:
-   1. Class classification: [notebook](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/fold_creation/class_folds.ipynb)
-   2. Survival: [notebook](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/fold_creation/survival_folds.ipynb)
-   3. Examples used in paper:
-      1. [LUAD vs LUSC](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
-      2. [LUAD Overall Survival](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
-2. CSV file with data used for the task (classification or survival):
-   1. Column names on the 
+1. Pickle file:
+   1. It contains samples (patients or slides) for each fold in the 5-fold cross-validation.
    2. Examples used in paper:
-      1. [LUAD vs LUSC](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
-      2. [LUAD Overall Survival](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.csv)
+       1. [LUAD vs LUSC](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
+       2. [LUAD Overall Survival](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
+2. CSV file with data used for the task (classification or survival):
+    1. It contains labels (cancer type or survival data) for each sample. 
+    2. This file is used in Step 5 (Include metadata into H5 file). Please verify that the values in the column with patients or slides (matching_field) follows the same format as the 'dataset' in the H5 file that contains the same type of information. This field is to cross-check each sample and include the metadata into the H5 file.  
+    3. Examples used in paper:
+        1. [LUAD vs LUSC](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
+        2. [LUAD Overall Survival](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.csv)
 
-### 5. Add fields to samples. E.g.: Subtype flag, OS event indicator, or OS event time
+You can create the CSV and pickle files with these notebooks:
+1. Class classification: [notebook](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/fold_creation/class_folds.ipynb)
+2. Survival: [notebook](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/fold_creation/survival_folds.ipynb)
+
+### 5. Include metadata into the H5 file.
+
+This step includes metadata into the H5 file. The metadata is later used in the cancer type classification (logistic regression) or survival regression (Cox proportional hazards).
+
+You can find examples of the CSV files used in this step here:
+1. [LUAD vs LUSC](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
+2. [LUAD Overall Survival](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.csv)
+
+Please verify that the values in the column with patients or slides (matching_field) follows the same format as the 'dataset' in the H5 file that contains the same type of information. This field is to cross-check each sample and include the metadata into the H5 file.
 
 ```
 Script to create a subset H5 representation file based on meta data file.
@@ -250,12 +257,13 @@ optional arguments:
   -h, --help            show this help message and exit
   --meta_file           Path to CSV file with meta data.
   --meta_name           Name to use to rename H5 file.
-  --list_meta_field     Field name that contains the information to include in the H5 file.
+  --list_meta_field     Field name that contains 
+  he information to include in the H5 file.
   --matching_field      Reference filed to use, cross check between original H5 and meta file.
   --h5_file             Original H5 file to parse.
   --override            Override 'complete' H5 file if it already exists.
 ```
-Command example:
+Command example that includes lung type and survival information into the H5 file:
 ```
  python3 ./utilities/h5_handling/create_metadata_h5.py \
  --meta_file ./utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv \
@@ -264,6 +272,7 @@ Command example:
  --h5_file ./results/ContrastivePathology_BarlowTwins_2/TCGAFFPE_5x_perP/h224_w224_n3_zdim128/hdf5_TCGAFFPE_5x_perP_he_complete.h5 \
  --meta_name lungsubtype_survival
 ```
+
 ### 6. [Optional] Removing background tiles
 This is step allows to get rid of representation instances that are background or artifact tiles. It's composed by 4 different steps. 
 1. Leiden clustering
@@ -272,16 +281,19 @@ This is step allows to get rid of representation instances that are background o
 4. Remove tile instances from H5 file.
 
 ### 7. Leiden clustering based on fold cross validation
+This step performs clustering by only using representations in the training set. Samples in the training set are taken from the specified fold pickle.
+
+Keep in mind that if there are 5 folds, the script will perform 5 different clustering steps. One per training set. 
 
 Usage:
 ```
 Run Leiden Comunity detection over Self-Supervised representations.
 optional arguments:
   -h, --help            show this help message and exit
-  --subsample           Number of sample to run Leiden on, default is None, 200000 works well.
-  --n_neighbors         Number of neighbors to use when creating the graph, default is 250.
-  --meta_field          Purpose of the clustering, name of output folder.
-  --matching_field      Key used to match folds split and H5 representation file.
+  --subsample           Number of samples used to run Leiden. Default is None, 200000 works well.
+  --n_neighbors         Number of neighbors to use when creating the graph. Default is 250.
+  --meta_field           Purpose of the clustering, name of output folder.
+  --matching_field       Key used to match folds split and H5 representation file.
   --rep_key REP_KEY     Key pattern for representations to grab: z_latent, h_latent.
   --folds_pickle        Pickle file with folds information.
   --main_path           Workspace main path.
@@ -367,12 +379,28 @@ python3 ./report_representationsleiden_cox.py \
 ```
 
 ### 10. Correlation between annotations and clusters
-You can find the notebook to run the correaltion and figure [here](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/visualizations/cluster_correlations_figures.ipynb). 
+You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/visualizations/cluster_correlations_figures.ipynb). 
+
+## Frequently Asked Questions
+#### I have my own cohort and I want to assign existing clusters to my own WSI tiles. Is it possible?
+Yes, you can find the cluster configuration files for LUAD vs LUSC or LUAD survival at the TCGA cluster section.
 
 ## Pretrained Models
 Self-supervised model weights:
 1. [Lung adenocarcinoma (LUAD) and squamous cell carcinoma (LUSC) model](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020). 
 2. [PanCancer: BRCA, HNSC, KICH, KIRC, KIRP, LUSC, LUAD](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_PanCancer_5x/19949708).
+
+## TCGA tile projections
+You can find tile projections for TCGA LUAD and LUSC cohorts [here](https://drive.google.com/file/d/1KEHA0-AhxQsP_lQE06Jc5S8rzBkfKllV/view?usp=sharing). These are the projections used in the publication results.
+
+## TCGA clusters
+You can find cluster configurations used in the publication results at:
+1. [Background and artifact removal](https://drive.google.com/drive/folders/1K0F0rfKb2I_DJgmxYGl6skeQXWqFAGL4?usp=sharing)
+2. [LUAD vs LUSC type classification](https://drive.google.com/drive/folders/1TcwIJuSNGl4GC-rT3jh_5cqML7hGR0Ht?usp=sharing)
+3. [LUAD survival](https://drive.google.com/drive/folders/1CaB1UArfvkAUxGkR5hv9eD9CMDqJhIIO?usp=sharing)
+
+At each of those locations you will find the AnnData H5 file with the cluster configuration. You can use this file along with the cluster assignment script 
+
 ## Dockers
 These are the dockers with the environments to run different steps of the flow. Step 8 needs to be run with docker [**2**], all other steps can be run with docker [**1**]:
 1. **Self-Supervised models training and projections:**
