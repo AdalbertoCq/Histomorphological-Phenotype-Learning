@@ -75,6 +75,8 @@ The code will make the following assumptions with respect to where the datasets,
         - E.g.: _results/BarlowTwins_3/TCGAFFPE_LUAD_5x/h224_w224_n3_zdim128_
 
 ## Specifications on the content of the H5 files
+
+All H5 set files should have the same datasets. E.g. images, slides, cancer_type.
     
 ## HPL Instructions
 The complete flow consists in the following steps:
@@ -384,6 +386,9 @@ You can find the notebook to run correlations and figures [here](https://github.
 ## Frequently Asked Questions
 #### I have my own cohort and I want to assign existing clusters to my own WSI tiles. Is it possible?
 Yes, you can find the cluster configuration files for LUAD vs LUSC or LUAD survival at the TCGA cluster section.
+
+#### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
+Based on experience, this error occurs with non-compatible version on numba, umap-learn, and scanpy. The package versions in the python environment should work. 
 
 ## Pretrained Models
 Self-supervised model weights:
