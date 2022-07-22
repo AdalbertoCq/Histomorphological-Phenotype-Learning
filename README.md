@@ -20,7 +20,7 @@
 ## Demo Materials
 
 Slides summarizing methodology and results: 
-- [Light-weight version.](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/91658a4588e2c3a8fb448d3ce2735d488473da9b/demos/slides/HPL%20Summary.pdf)
+- [Light-weight version.](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/demos/slides/HPL%20Summary.pdf)
 - [High-resolution version.](https://drive.google.com/file/d/1F5ffZqXoNLpT5dgzVLhhCnnspyUe4FPQ/view?usp=sharing)
 <p align="center">
   <img src="https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/12589de42685f38630e5b2378c0e6f27e16b3ea3/demos/framework_methodology.jpg" width="500">
