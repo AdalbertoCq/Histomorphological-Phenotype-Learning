@@ -32,16 +32,16 @@ In this repository you will find the following sections:
 1. [WSI tiling process](#WSI-Tiling-process): Instructions on how to create H5 files from WSI tiles.
 2. [Workspace setup](#Workspace-Setup): Details on H5 file content and directory structure.
 3. [HPL instructions](#HPL-Instructions): Step-by-step instructions on how to run the complete methodology.
-   1. [**Self-supervised Barlow Twins training.**](#1.-Self-supervised-model-training)
-   2. [**Tile image projection on self-supervised trained encoder.**](#2.-Tile-projections)
-   3. [**Combination of all sets into one H5.**](#3.-Combine-all-representation-sets-into-one-H5-file)
-   4. [**Fold cross validation files.**](#4.-Fold-cross-validation-files-for-classification-and-survival-analysis)
-   5. [**Include metadata in H5 file.**](#5.-Include-metadata-in-H5-file)
-   6. [**Leiden clustering.**](#6.-Leiden-clustering-based-on-fold-cross-validation)
-   7. [**Removing background tiles [Optional].**](#7.-Remove-background-tiles)
-   8. [**Logistic regression for lung type WSI classification.**](#8.-Logistic-regression-for-classification)
-   9. [**Cox proportional hazards for survival regression.**](#9.-Cox-proportional-hazards-for-survival-regression)
-   10. [**Correlation between annotations and clusters.**](#10.-Correlation-between-annotations-and-clusters)
+   1. [Self-supervised Barlow Twins training.](#1.-Self-supervised-model-training)
+   2. [Tile image projection on self-supervised trained encoder.](#2.-Tile-projections)
+   3. [Combination of all sets into one H5.](#3.-Combine-all-representation-sets-into-one-H5-file)
+   4. [Fold cross validation files.](#4.-Fold-cross-validation-files-for-classification-and-survival-analysis)
+   5. [Include metadata in H5 file.](#5.-Include-metadata-in-H5-file)
+   6. [Leiden clustering.](#6.-Leiden-clustering-based-on-fold-cross-validation)
+   7. [Removing background tiles [Optional].](#7.-Remove-background-tiles)
+   8. [Logistic regression for lung type WSI classification.](#8.-Logistic-regression-for-classification)
+   9. [Cox proportional hazards for survival regression.](#9.-Cox-proportional-hazards-for-survival-regression)
+   10.[Correlation between annotations and clusters.](#10.-Correlation-between-annotations-and-clusters)
 4. [TCGA HPL files](#TCGA-HPL-files): HPL output files of paper results.  
 5. [Dockers](#Dockers): Docker environments to run HPL steps.
 6. [Python Environment](#Python-Environment): Python version and packages.
@@ -109,16 +109,16 @@ The code will make the following assumptions with respect to where the datasets,
     
 ## HPL Instructions
 The flow consists in the following steps:
-1. [**Self-supervised Barlow Twins training.**](#1.-Self-supervised-model-training)
-2. [**Tile image projection on self-supervised trained encoder.**](#2.-Tile-projections)
-3. [**Combination of all sets into one H5.**](#3.-Combine-all-representation-sets-into-one-H5-file)
-4. [**Fold cross validation files.**](#4.-Fold-cross-validation-files-for-classification-and-survival-analysis)
-5. [**Include metadata in H5 file.**](#5.-Include-metadata-in-H5-file)
-6. [**Leiden clustering.**](#6.-Leiden-clustering-based-on-fold-cross-validation)
-7. [**Removing background tiles [Optional].**](#7.-Remove-background-tiles)
-8. [**Logistic regression for lung type WSI classification.**](#8.-Logistic-regression-for-classification)
-9. [**Cox proportional hazards for survival regression.**](#9.-Cox-proportional-hazards-for-survival-regression)
-10.[**Correlation between annotations and clusters.**](#10.-Correlation-between-annotations-and-clusters)
+1. [Self-supervised Barlow Twins training.](#1.-Self-supervised-model-training)
+2. [Tile image projection on self-supervised trained encoder.](#2.-Tile-projections)
+3. [Combination of all sets into one H5.](#3.-Combine-all-representation-sets-into-one-H5-file)
+4. [Fold cross validation files.](#4.-Fold-cross-validation-files-for-classification-and-survival-analysis)
+5. [Include metadata in H5 file.](#5.-Include-metadata-in-H5-file)
+6. [Leiden clustering.](#6.-Leiden-clustering-based-on-fold-cross-validation)
+7. [Removing background tiles [Optional].](#7.-Remove-background-tiles)
+8. [Logistic regression for lung type WSI classification.](#8.-Logistic-regression-for-classification)
+9. [Cox proportional hazards for survival regression.](#9.-Cox-proportional-hazards-for-survival-regression)
+10.[Correlation between annotations and clusters.](#10.-Correlation-between-annotations-and-clusters)
 
 ### 1. Self supervised model training
 [**Note**] It is important to setup the directories and h5 files according to Section [Workspace Setup](#Workspace-Setup).
