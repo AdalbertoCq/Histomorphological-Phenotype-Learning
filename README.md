@@ -29,16 +29,13 @@ Slides summarizing methodology and results:
 ## Repository overview
 
 In this repository you will find the following sections: 
-1. [WSI tiling process](#WSI-Tiling-process): Instruction on how to create H5 files with WSI tiles.
-2. [Workspace setup and directory structure](#Workspace-Setup-and-Directory-Structure): Details on how to setup the directory and H5 file naming convention.
-3. [H5 file content specification](#Specifications-on-the-content-of-the-H5-files):
-4. [HPL instructions](#HPL-Instructions): Details on how to run the complete methodology. 
-5. [Pretrained models](#Pretrained-models): Pretrained weights for the self-supervised trained CNN models.
-6. [TCGA tile projections](#TCGA-tile-projections)
-7. [TCGA clusters](#TCGA-clusters)
-8. [Frequently Asked Questions](#Frequently-Asked-Questions)
-9. [Dockers](#Dockers): Docker environments to run the different instruction steps.
-10. [Python Environment](#Python-Environment): Python version and packages necessary. 
+1. [WSI tiling process](#WSI-Tiling-process): Instructions on how to create H5 files from WSI tiles.
+2. [Workspace setup](#Workspace-Setup): Details on how to setup the directory and H5 file content convention.
+3. [HPL instructions](#HPL-Instructions): Details on how to run the complete methodology. 
+5. [TCGA HPL files](#TCGA-HPL-files)
+6. [Frequently Asked Questions](#Frequently-Asked-Questions)
+7. [Dockers](#Dockers): Docker environments to run the different instruction steps.
+8. [Python Environment](#Python-Environment): Python version and packages necessary. 
 
 ## WSI Tiling process
 This step divides whole slide images (WSIs) in SVS format into 224x224 tiles and store them into H5 files.
@@ -47,48 +44,57 @@ We used the framework provided in [Coudray et al. 'Classification and mutation p
 
 The steps to run it that framework are _0.1_, _0.2.a_, and _4_ (end of readme). In our work we used Reinhardt normalization, which can be applied at the same time as the tiling is done through the _'-N'_ option in step _0.1_.
 
+[ToDo] Include here sentences of requirements for train, validation, and test.
 
+## Workspace Setup 
+This section specifies requirements on H5 file content and directory structure to run the flow.
 
-## Workspace Setup and Directory Structure
-The code will make the following assumptions with respect to where the datasets, model training outputs, and image representations are stored. 
-**This structure is necessary if you want to run step 2 and following**: 
+In the instructions below we use the following variables and names:
+- **dataset_name**: TCGAFFPE_LUADLUSC_5x_60pc
+- **marker_name**: he
+- **tile_size**: 224
+
+### H5 file content specification.
+
+All H5 set files should have the same datasets. E.g. images, slides, cancer_type.
+
+[ToDo] Naming convention for the datasets and examples. 
+
+### Directory Structure
+The code will make the following assumptions with respect to where the datasets, model training outputs, and image representations are stored:
 - Datasets: 
     - Dataset folder.
     - Follows the following structure: 
         - datasets/**dataset_name**/**marker_name**/patches_h**tile_size**_w**tile_size**
-        - E.g.: _datasets/LUAD_5x/he/patches_h224_w224_
+        - E.g.: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224_
     - Train, validation, and test sets:
         - Each dataset will assume that at least there is a training set. 
         - Naming convention: 
             - hdf5_**dataset_name**\_**marker_name**\_**set_name**.h5 
-            - E.g.: _datasets/LUAD_5x/he/patches_h224_w224/hdf5_LUAD_5x_he_train.h5_
+            - E.g.: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5_
 - Data_model_output: 
     - Output folder for self-supervised trained models.
     - Follows the following structure:
         - data_model_output/**model_name**/**dataset_name**/h**tile_size**_w**tile_size**_n3_zdim**latent_space_size**
-        - E.g.: _data_model_output/BarlowTwins_3/TCGAFFPE_LUAD_5x/h224_w224_n3_zdim128_
+        - E.g.: _data_model_output/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_
 - Results: 
     - Output folder for self-supervised representations results.
     - This folder will contain the representation, clustering data, and logistic/cox regression results.
     - Follows the following structure:
         - results/**model_name**/**dataset_name**/h**tile_size**_w**tile_size**_n3_zdim**latent_space_size**
-        - E.g.: _results/BarlowTwins_3/TCGAFFPE_LUAD_5x/h224_w224_n3_zdim128_
-
-## Specifications on the content of the H5 files
-
-All H5 set files should have the same datasets. E.g. images, slides, cancer_type.
+        - E.g.: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_
     
 ## HPL Instructions
-The complete flow consists in the following steps:
+The flow consists in the following steps:
 1. **Self-supervised Barlow Twins training.**
 2. **Tile image projection on self-supervised trained encoder.**
-3. **Combination of all sets into a complete one**: This allows to later perform a clustering fold cross-validation.
+3. **Combination of all sets into a complete one.**
 4. **Fold cross-validation files.**
 5. **Include metadata into complete H5 file**: Cancer subtype, event indicator, or event time. Fields that will later be used in the logistic or cox regression.
-6. **Leiden clustering over fold cross validation**.
+6. **Leiden clustering.**
 7. **[Optional] Removing background tiles.** 
-8. **Logistic regression for WSI classification.**
-9. **Cox proportional hazard regression for survival prediction.**
+8. **Logistic regression for lung type WSI classification.**
+9. **Cox proportional hazards for survival prediction.**
 10. **Correlation between annotations and clusters.**
 
 ### 1. Self-Supervised model training
@@ -390,21 +396,40 @@ Yes, you can find the cluster configuration files for LUAD vs LUSC or LUAD survi
 #### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
 Based on experience, this error occurs with non-compatible version on numba, umap-learn, and scanpy. The package versions in the python environment should work. 
 
-## Pretrained Models
+#### I want to reproduce the results from the paper.  
+These are the steps to reproduce the TCGA results. 
+
+Clone this repository and create a folder called '_results_'. Under that folder another one called '_TCGAFFPE_LUADLUSC_5x_60pc_'. Download the tile representation from '_TCGA tile projections_' section and place them under that folder.   
+
+**LUAD vs LUSC classification**
+
+
+
+
+## TCGA HPL files.
+This section contains the following TCGA files produced by HPL:
+1. Self-supervised trained weights.
+2. TCGA tile projections.
+3. TCGA cluster configurations.
+4. TCGA WSI & patient representations. 
+
+### Pretrained Models
 Self-supervised model weights:
-1. [Lung adenocarcinoma (LUAD) and squamous cell carcinoma (LUSC) model](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020). 
+1. [Lung adenocarcinoma (LUAD) and squamous cell carcinoma (LUSC) model](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020).
 2. [PanCancer: BRCA, HNSC, KICH, KIRC, KIRP, LUSC, LUAD](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_PanCancer_5x/19949708).
 
-## TCGA tile projections
+### TCGA tile projections
 You can find tile projections for TCGA LUAD and LUSC cohorts [here](https://drive.google.com/file/d/1KEHA0-AhxQsP_lQE06Jc5S8rzBkfKllV/view?usp=sharing). These are the projections used in the publication results.
 
-## TCGA clusters
+### TCGA clusters
 You can find cluster configurations used in the publication results at:
 1. [Background and artifact removal](https://drive.google.com/drive/folders/1K0F0rfKb2I_DJgmxYGl6skeQXWqFAGL4?usp=sharing)
 2. [LUAD vs LUSC type classification](https://drive.google.com/drive/folders/1TcwIJuSNGl4GC-rT3jh_5cqML7hGR0Ht?usp=sharing)
 3. [LUAD survival](https://drive.google.com/drive/folders/1CaB1UArfvkAUxGkR5hv9eD9CMDqJhIIO?usp=sharing)
 
 At each of those locations you will find the AnnData H5 file with the cluster configuration. You can use this file along with the cluster assignment script 
+
+### TCGA pa
 
 ## Dockers
 These are the dockers with the environments to run different steps of the flow. Step 8 needs to be run with docker [**2**], all other steps can be run with docker [**1**]:
