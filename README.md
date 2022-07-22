@@ -33,7 +33,7 @@ In this repository you will find the following sections:
 2. [Workspace setup](#Workspace-setup): Details on H5 file content and directory structure.
 3. [HPL instructions](#HPL-Instructions): Step-by-step instructions on how to run the complete methodology.
    1. [Self-supervised Barlow Twins training.](#1.-Self-supervised-model-training)
-   2. [Tile image projection on self-supervised trained encoder.](#2.-Tile-projections)
+   2. [Tile vector representations.](#2.-Tile-vector-representations)
    3. [Combination of all sets into one H5.](#3.-Combine-all-representation-sets-into-one-H5-file)
    4. [Fold cross validation files.](#4.-Fold-cross-validation-files-for-classification-and-survival-analysis)
    5. [Include metadata in H5 file.](#5.-Include-metadata-in-H5-file)
@@ -105,7 +105,7 @@ The code will make the following assumptions with respect to where the datasets,
 ## HPL Instructions
 The flow consists in the following steps:
 1. [Self-supervised Barlow Twins training.](#1.-Self-supervised-model-training)
-2. [Tile image projection on self-supervised trained encoder.](#2.-Tile-projections)
+2. [Tile vector representations.](#2.-Tile-vector-representations)
 3. [Combination of all sets into one H5.](#3.-Combine-all-representation-sets-into-one-H5-file)
 4. [Fold cross validation files.](#4.-Fold-cross-validation-files-for-classification-and-survival-analysis)
 5. [Include metadata in H5 file.](#5.-Include-metadata-in-H5-file)
@@ -123,7 +123,7 @@ This step trains the self-supervised model on a given dataset.
 - Dataset H5 train file. E.g.: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5_
 
 **Step Outputs:**
-- Model weights. At the end of training, there should be a folder with the Self-supervised CNN details. Weights are located at the 'checkpoints' folder. E.g.: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_
+- Model weights. At the end of training, there should be a folder with the Self-supervised CNN details. Weights are located at the 'checkpoints' folder. E.g.: _data_model_output/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_
 
 In our work, we train the model only on 250K tiles. You can use this [script](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/h5_handling/subsample_h5.py) to subsample tiles from you training set. Afterward, you will need to setup a dataset structure for the 250K training set. Make sure you follow the details from [**Workspace Setup**](#Workspace-setup). E.g.: _datasets/TCGAFFPE_LUADLUSC_5x_60pc_250K/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_250K_he_train.h5_
 
@@ -159,12 +159,30 @@ python3 run_representationspathology.py \
 --report 
 ```
 
-### 2. Tile projections
-This step encodes each tile image into a vector representation using a pretrained self-supervised model. 
-You can choose how to project tiles into vector representations if you want to, either with each h5 file individually or by projection an entire train/validation/test dataset. 
+### 2. Tile vector representations
+This step uses the self-supervised trained CNN to find vector representations for each tile image.
 
-- File projection: Projects a given file tile images into the self-supervised trained encoder. Please refer to `run_representationspathology_projection.py`
-- Dataset projection: Projects train/validation/test set tile images into the self-supervised trained encoder. Please refer to `run_representationspathology_projection_dataset.py`
+There are two options when to run this step. You can do it by file (e.g. an external cohort) or by using an entire dataset (e.g. TCGA training, validation, and test sets).
+
+**Step Inputs:**
+- Dataset H5 files. E.g.:
+  - Training set: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5_
+  - Validation set: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5_
+  - Test set: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5_
+- Individual file. E.g.: _datasets/NYUFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined.h5_
+- Self-supervised trained CNN. E.g.: _data_model_output/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/checkpoints/BarlowTwins_3.ckt_ 
+
+**Step Outputs:**
+- Tile vector representations. E.g.:
+  - Dataset:
+    - Training set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5_
+    - Validation set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5_
+    - Test set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5_
+  - Individual file: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined.h5_
+
+**Scripts:**
+- Individual file: Please refer to `run_representationspathology_projection.py`
+- Entire dataset: Please refer to `run_representationspathology_projection_dataset.py`
 
 Usage:
 ```
@@ -219,18 +237,19 @@ python3 ./run_representationspathology_projection.py \
 ```
 
 ### 3. Combine all representation sets into one H5 file
-This step takes all set H5 files in the projection folder and merges then into a single H5 file. E.g.:
-- Original H5 files [**Required**]:
-    - results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_he_train.h5
-    - results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_he_validation.h5
-    - results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_he_test.h5
-- Combined H5 file [**Output**]:
-    - results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_he_complete.h5
+This step takes all set H5 files with tile vector representations and merges then into a single H5 file.
 
-[**Important**] The code assumes that the datasets inside the H5 will have a common name across the train/validation/test sets. 
-For further details please refer to Section [Specification on the content of the H5 files](#Specifications-on-the-content-of-the-H5-files).
+**Step Inputs:**
+- Dataset H5 files with tile vector representations. E.g.:
+  - Training set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5_
+  - Validation set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5_
+  - Test set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5_
 
-Running this step allows to run the clustering step **5** based on a specified fold configuration, by collecting the complete H5 with all samples.
+**Step Output:**
+- Combined H5 file. E.g.:
+    - Complete set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete.h5_
+
+[**Important**] This code works on the assumptions specified in the [**Workspace setup**](#Workspace-setup) 
 
 Usage:
 ```
