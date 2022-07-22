@@ -84,23 +84,23 @@ The code will make the following assumptions with respect to where the datasets,
     - Dataset folder.
     - Follows the following structure: 
         - datasets/**dataset_name**/**marker_name**/patches_h**tile_size**_w**tile_size**
-        - E.g.: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224_
+        - E.g.: `datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224`
     - Train, validation, and test sets:
         - Each dataset will assume that at least there is a training set. 
         - Naming convention: 
             - hdf5_**dataset_name**\_**marker_name**\_**set_name**.h5 
-            - E.g.: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5_
+            - E.g.: `datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5`
 - Data_model_output: 
     - Output folder for self-supervised trained models.
     - Follows the following structure:
         - data_model_output/**model_name**/**dataset_name**/h**tile_size**_w**tile_size**_n3_zdim**latent_space_size**
-        - E.g.: _data_model_output/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_
+        - E.g.: `data_model_output/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128`
 - Results: 
     - Output folder for self-supervised representations results.
     - This folder will contain the representation, clustering data, and logistic/cox regression results.
     - Follows the following structure:
         - results/**model_name**/**dataset_name**/h**tile_size**_w**tile_size**_n3_zdim**latent_space_size**
-        - E.g.: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_
+        - E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128`
     
 ## HPL Instructions
 The flow consists in the following steps:
@@ -125,7 +125,7 @@ This step trains the self-supervised model on a given dataset.
 **Step Outputs:**
 - Model weights. At the end of training, there should be a folder with the Self-supervised CNN details. Weights are located at the 'checkpoints' folder. E.g.: `data_model_output/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128`
 
-In our work, we train the model only on 250K tiles. You can use this [script](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/h5_handling/subsample_h5.py) to subsample tiles from you training set. Afterward, you will need to setup a dataset structure for the 250K training set. Make sure you follow the details from [**Workspace Setup**](#Workspace-setup). E.g.: _datasets/TCGAFFPE_LUADLUSC_5x_60pc_250K/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_250K_he_train.h5_
+In our work, we train the model only on 250K tiles. You can use this [script](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/h5_handling/subsample_h5.py) to subsample tiles from you training set. Afterward, you will need to setup a dataset structure for the 250K training set. Make sure you follow the details from [**Workspace Setup**](#Workspace-setup). E.g.: `datasets/TCGAFFPE_LUADLUSC_5x_60pc_250K/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_250K_he_train.h5`
 
 Usage:
 ```
