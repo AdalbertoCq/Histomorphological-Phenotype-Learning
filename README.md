@@ -29,8 +29,8 @@ Slides summarizing methodology and results:
 ## Repository overview
 
 In this repository you will find the following sections: 
-1. [WSI tiling process](#WSI-Tiling-process): Instructions on how to create H5 files from WSI tiles.
-2. [Workspace setup](#Workspace-Setup): Details on H5 file content and directory structure.
+1. [WSI tiling process](#WSI-tiling-process): Instructions on how to create H5 files from WSI tiles.
+2. [Workspace setup](#Workspace-setup): Details on H5 file content and directory structure.
 3. [HPL instructions](#HPL-Instructions): Step-by-step instructions on how to run the complete methodology.
    1. [Self-supervised Barlow Twins training.](#1.-Self-supervised-model-training)
    2. [Tile image projection on self-supervised trained encoder.](#2.-Tile-projections)
@@ -47,16 +47,15 @@ In this repository you will find the following sections:
 6. [Python Environment](#Python-Environment): Python version and packages.
 7. [Frequently Asked Questions](#Frequently-Asked-Questions).
 
-## WSI Tiling process
-This step divides whole slide images (WSIs) in SVS format into 224x224 tiles and store them into H5 files.
+## WSI tiling process
+This step divides whole slide images (WSIs) into 224x224 tiles and store them into H5 files. At the end of this step, you should have three H5 files. One per training, validation, and test sets. The training set will be used to train the self-supervised CNN, in our work this corresponded to 60% of TCGA LUAD & LUSC WSIs.
 
 We used the framework provided in [Coudray et al. 'Classification and mutation prediction from non–small cell lung cancer histopathology images using deep learning' Nature Medicine, 2018.](https://github.com/ncoudray/DeepPATH/tree/master/DeepPATH_code)
-
-The steps to run it that framework are _0.1_, _0.2.a_, and _4_ (end of readme). In our work we used Reinhardt normalization, which can be applied at the same time as the tiling is done through the _'-N'_ option in step _0.1_.
+The steps to run the framework are _0.1_, _0.2.a_, and _4_ (end of readme). In our work we used Reinhardt normalization, which can be applied at the same time as the tiling is done through the _'-N'_ option in step _0.1_.
 
 [ToDo] Include here sentences of requirements for train, validation, and test.
 
-## Workspace Setup 
+## Workspace setup 
 This section specifies requirements on H5 file content and directory structure to run the flow.
 
 In the instructions below we use the following variables and names:
@@ -65,13 +64,9 @@ In the instructions below we use the following variables and names:
 - **tile_size**: 224
 
 ### H5 file content specification.
+If you are not familiar with H5 files, you can find documentation on the python package [here](https://docs.h5py.org/en/stable/quick.html).
 
-[H5 file python package documentation](https://docs.h5py.org/en/stable/quick.html)
-
-[ToDo] Naming convention for the datasets.
-
-All H5 set files should have the same datasets. E.g. images, slides, cancer_type.
-
+This framework makes the assumption that datasets inside each H5 set will follow the format 'set_labelname'. In addition, all H5 files are required to have the same number of datasets. 
 Example:
 - File: **hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5**
     - Dataset names:
@@ -121,11 +116,16 @@ The flow consists in the following steps:
 10. [Correlation between annotations and clusters.](#10.-Correlation-between-annotations-and-clusters)
 
 ### 1. Self supervised model training
-[**Note**] It is important to setup the directories and h5 files according to Section [Workspace Setup](#Workspace-Setup).
 
-Requirements on h5 file used for self-supervised model training:
-1. H5 file naming and directory structure. E.g.: _datasets/LUADLUSC_5x/he/patches_h224_w224/hdf5_LUADLUSC_5x_he_train.h5_
-2. The H5 dataset key containing the tile images must contain the patterns 'images' or 'img'.
+This step trains the self-supervised model on a given dataset.
+
+**Step Inputs:**
+- Dataset H5 train file. E.g.: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5_
+
+**Step Outputs:**
+- Model weights. At the end of training, there should be a folder with the Self-supervised CNN details. Weights are located at the 'checkpoints' folder. E.g.: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_
+
+In our work, we train the model only on 250K tiles. You can use this [script](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/h5_handling/subsample_h5.py) to subsample tiles from you training set. Afterward, you will need to setup a dataset structure for the 250K training set. Make sure you follow the details from [**Workspace Setup**](#Workspace-setup). E.g.: _datasets/TCGAFFPE_LUADLUSC_5x_60pc_250K/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_250K_he_train.h5_
 
 Usage:
 ```
@@ -142,13 +142,13 @@ optional arguments:
   --model               Model name, used to select the type of model (SimCLR, RelationalReasoning, BarlowTwins).
   --main_path           Path for the output run.
   --dbs_path            Directory with DBs to use.
-  --check_every         Save checkpoint and projects samples every X epcohs.
+  --check_every         Save checkpoint and show UMAP samples every X epcohs.
   --restore             Restore previous run and continue.
-  --report              Report Latent Space progress.
+  --report              Report latent pace progress.
 ```
 Command example:
 ```
-python3 /nfs/PhD_Workspace/run_representationspathology.py \
+python3 run_representationspathology.py \
 --img_size 224 \
 --batch_size 64 \
 --epochs 60 \
