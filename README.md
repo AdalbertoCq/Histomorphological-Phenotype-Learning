@@ -120,10 +120,10 @@ The flow consists in the following steps:
 This step trains the self-supervised model on a given dataset.
 
 **Step Inputs:**
-- Dataset H5 train file. E.g.: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5_
+- Dataset H5 train file. E.g.: `datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5`
 
 **Step Outputs:**
-- Model weights. At the end of training, there should be a folder with the Self-supervised CNN details. Weights are located at the 'checkpoints' folder. E.g.: _data_model_output/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_
+- Model weights. At the end of training, there should be a folder with the Self-supervised CNN details. Weights are located at the 'checkpoints' folder. E.g.: `data_model_output/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128`
 
 In our work, we train the model only on 250K tiles. You can use this [script](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/h5_handling/subsample_h5.py) to subsample tiles from you training set. Afterward, you will need to setup a dataset structure for the 250K training set. Make sure you follow the details from [**Workspace Setup**](#Workspace-setup). E.g.: _datasets/TCGAFFPE_LUADLUSC_5x_60pc_250K/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_250K_he_train.h5_
 
