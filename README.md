@@ -59,24 +59,24 @@ The steps to run the framework are _0.1_, _0.2.a_, and _4_ (end of readme). In o
 This section specifies requirements on H5 file content and directory structure to run the flow.
 
 In the instructions below we use the following variables and names:
-- **dataset_name**: TCGAFFPE_LUADLUSC_5x_60pc
-- **marker_name**: he
-- **tile_size**: 224
+- **dataset_name**: `TCGAFFPE_LUADLUSC_5x_60pc`
+- **marker_name**: `he`
+- **tile_size**: `224`
 
 ### H5 file content specification.
 If you are not familiar with H5 files, you can find documentation on the python package [here](https://docs.h5py.org/en/stable/quick.html).
 
 This framework makes the assumption that datasets inside each H5 set will follow the format 'set_labelname'. In addition, all H5 files are required to have the same number of datasets. 
 Example:
-- File: **hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5**
+- File: `hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5`
     - Dataset names:
-        - **train_img, train_tiles, train_slides, train_samples**
-- File: **hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5**
+        - `train_img`, `train_tiles`, `train_slides`, `train_samples`
+- File: `hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5`
     - Dataset names:
-        - **valid_img, valid_tiles, valid_slides, valid_samples**
-- File: **hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5**
+        - `valid_img`, `valid_tiles`, `valid_slides`, `valid_samples`
+- File: `hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5`
     - Dataset names:
-        - **test_img, test_tiles, test_slides, test_samples**
+        - `test_img`, `test_tiles`, `test_slides`, `test_samples`
 
 ### Directory Structure
 The code will make the following assumptions with respect to where the datasets, model training outputs, and image representations are stored:
