@@ -6,7 +6,6 @@ import os
 from models.clustering.logistic_regression_leiden_clusters import run_circular_plots
 from models.clustering.cox_proportional_hazard_regression_leiden_clusters import *
 
-
 ##### Main #######
 parser = argparse.ArgumentParser(description='Report classification and cluster performance based on Logistic Regression.')
 parser.add_argument('--alpha',               dest='alpha',               type=float,          default=None,        help='Cox regression penalty value.')

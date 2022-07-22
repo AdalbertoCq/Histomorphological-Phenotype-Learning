@@ -501,7 +501,7 @@ def build_cohort_representations(meta_folder, meta_field, matching_field, groupb
 	train_df, valid_df, test_df, additional_df = dataframes
 
 	# Check clusters and diversity within.
-	frame_clusters, frame_samples = create_frames(train_df, groupby, meta_field, diversity_key=matching_field, reduction=reduction)
+	frame_clusters, frame_samples = create_frames(frame_complete, groupby, meta_field, diversity_key=matching_field, reduction=reduction)
 
 	# Create representations per sample: cluster % of total sample.
 	data, data_df, features = prepare_data_classes(dataframes, matching_field, meta_field, groupby, leiden_clusters, type_composition, min_tiles, use_conn=use_conn, use_ratio=use_ratio, top_variance_feat=top_variance_feat)
@@ -561,7 +561,7 @@ def prepare_set_representation(frame, matching_field, meta_field, groupby, leide
 	lr_label = np.stack(lr_label)
 
 	slide_rep_df = pd.DataFrame(data=lr_data, columns=leiden_clusters)
-	slide_rep_df[meta_field] = lr_label[:,1].astype(float).astype(int)
+	slide_rep_df[meta_field]  = lr_label[:,1].astype(float).astype(int)
 	slide_rep_df['slides']   = lr_label[:,0].astype(str)
 	slide_rep_df['tiles']    = lr_label[:,2].astype(int)
 	slide_rep_df = slide_rep_df.set_index('slides')

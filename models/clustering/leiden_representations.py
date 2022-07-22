@@ -274,11 +274,18 @@ def assign_additional_only(meta_field, rep_key, h5_complete_path, h5_additional_
                 h5_path = os.path.join(main_cluster_path, adata_name) + '.h5ad'
                 if os.path.isfile(h5_path):
                     adata_train = anndata.read_h5ad(h5_path)
-                else:
+                elif os.path.isfile(h5_path.replace('.h5ad', '_subsample.h5ad')):
                     adata_train = anndata.read_h5ad(h5_path.replace('.h5ad', '_subsample.h5ad'))
-            except:
-                print('\t\tIssue running Leiden %s on fold %s Train Set' % (resolution, i))
+                else:
+                    print('\t\t[Warning] H5AD file not found at \'.h5ad\' or \'_subsample.h5ad\':', h5_path)
+                    failed = True
+            except Exception as ex:
+                print('\t\tIssue finding Leiden %s on fold %s Train Set' % (resolution, i))
                 failed = True
+                if hasattr(ex, 'message'):
+                    print('\t\tException', ex.message)
+                else:
+                    print('\t\tException', ex)
             finally:
                 gc.collect()
 
@@ -290,8 +297,12 @@ def assign_additional_only(meta_field, rep_key, h5_complete_path, h5_additional_
                 adata_name = h5_additional_path.split('/hdf5_')[1].split('.h5')[0] + '_%s__fold%s' % (groupby.replace('.', 'p'), i)
                 assign_clusters(additional_frame, additional_dims, additional_rest, groupby, adata_train, main_cluster_path, adata_name, include_connections=include_connections,
                                 save_adata=save_adata)
-            except:
-                print('\t\tIssue running Leiden %s on fold %s Additinal Set' % (resolution, i))
+            except Exception as ex:
+                print('\t\tIssue running Leiden %s on fold %s Additional Set' % (resolution, i))
+                if hasattr(ex, 'message'):
+                    print('\t\tException', ex.message)
+                else:
+                    print('\t\tException', ex)
 
             del adata_train
             gc.collect()

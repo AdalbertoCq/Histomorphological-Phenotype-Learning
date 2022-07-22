@@ -11,7 +11,7 @@ from models.visualization.clusters import plot_cluster_images, plot_wsi_clusters
 ##### Main #######
 parser = argparse.ArgumentParser(description='Report cluster images from a given Leiden cluster configuration.')
 parser.add_argument('--meta_folder',         dest='meta_folder',         type=str,            default=None,                   help='Purpose of the clustering, name of folder.')
-parser.add_argument('--meta_field',           dest='meta_field',           type=str,            default=None,                   help='Meta field to use for the Logistic Regression.')
+parser.add_argument('--meta_field',           dest='meta_field',           type=str,            default=None,                   help='Meta field to use for the Logistic Regression or Cox event indicator.')
 parser.add_argument('--matching_field',       dest='matching_field',       type=str,            default=None,                   help='Key used to match folds split and H5 representation file.')
 parser.add_argument('--resolution',          dest='resolution',          type=float,           default=None,                   help='Minimum number of tiles per matching_field.')
 parser.add_argument('--dpi',                 dest='dpi',                 type=int,            default=1000,                   help='Highest quality: 1000.')
@@ -49,16 +49,17 @@ additional_as_fold = args.additional_as_fold
 
 # Dominating clusters to pull WSI.
 value_cluster_ids = dict()
-value_cluster_ids[1] = []
-value_cluster_ids[0] = []
-only_id = True
+# value_cluster_ids[1] = []
+# value_cluster_ids[0] = []
+# only_id = True
 
 ########################################################
 ############# LUAD vs LUSC #############################
-## Leiden_2.0 fold 4.
-# value_cluster_ids[1] = [11,31,28,36,22,35]
-# value_cluster_ids[0] = [5, 45,]
-# only_id = False
+# Leiden_2.0 fold 4.
+value_cluster_ids = dict()
+value_cluster_ids[1] = [11,31,28,36,22,35]
+value_cluster_ids[0] = [5, 45,]
+only_id = False
 ## Leiden_1.0 fold 4.
 # value_cluster_ids[1] = [11,12,13]
 # value_cluster_ids[0] = [14,26]
@@ -67,6 +68,7 @@ only_id = True
 ########################################################
 ############# LUAD OS ##################################
 ## Leiden 2.0 fold 0.
+# value_cluster_ids = dict()
 # value_cluster_ids[0] = [31, 1,37, 0,16, 8, 5]
 # value_cluster_ids[1] = [15,39,41,22,10,14,27]
 # only_id = True
@@ -78,6 +80,7 @@ only_id = True
 ########################################################
 ############# LUAD PFS #################################
 ## Leiden 2.0 fold 0.
+# value_cluster_ids = dict()
 # value_cluster_ids[0] = [39,45,29,27,22,36,32, 0,37,21]
 # value_cluster_ids[1] = [15,11, 6,44, 5,24]
 # only_id = True
@@ -89,9 +92,9 @@ only_id = True
 ########################################################
 ############# Interaction OS/PFS #######################
 inter_dict = dict()
-inter_dict['value'] = ['4_13','4_2','4_32','4_10','13_2','13_32','13_9','2_9','2_32','2_10','2_3','6_34',
-                      '6_5','6_7','23_3','23_22','16_1','16_0','0_1','0_9','0_25','0_5','0_17','1_9','1_25',
-                      '1_5','1_7','5_15','28_27','28_35','21_37','21_8','21_26','14_7','11_7','11_15','7_15']
+# inter_dict['value'] = ['4_13','4_2','4_32','4_10','13_2','13_32','13_9','2_9','2_32','2_10','2_3','6_34',
+#                       '6_5','6_7','23_3','23_22','16_1','16_0','0_1','0_9','0_25','0_5','0_17','1_9','1_25',
+#                       '1_5','1_7','5_15','28_27','28_35','21_37','21_8','21_26','14_7','11_7','11_15','7_15']
 
 # Default path for GDC manifest.
 manifest_csv = '%s/utilities/files/LUADLUSC/gdc_manifest.txt' % os.path.dirname(os.path.realpath(__file__))
@@ -112,8 +115,8 @@ if tile_img:
 
 # Save WSI overlay with clusters.
 plot_wsi_clusters(groupby, meta_folder, matching_field, meta_field, data, fold, h5_complete_path, h5_additional_path, additional_as_fold, dpi, min_tiles, manifest_csv=manifest_csv,
-                  value_cluster_ids=value_cluster_ids, type_='percent', only_id=only_id, n_wsi_samples=2)
+                  value_cluster_ids=value_cluster_ids, type_='percent', only_id=only_id, n_wsi_samples=3)
 
 # Save WSI overlay with clusters.
-plot_wsi_clusters_interactions(groupby, meta_folder, 'slides', meta_field, data, fold, h5_complete_path, h5_additional_path, additional_as_fold, dpi, min_tiles, manifest_csv=manifest_csv,
-                               inter_dict=inter_dict, type_='percent', only_id=only_id, n_wsi_samples=2)
+# plot_wsi_clusters_interactions(groupby, meta_folder, 'slides', meta_field, data, fold, h5_complete_path, h5_additional_path, additional_as_fold, dpi, min_tiles, manifest_csv=manifest_csv,
+#                                inter_dict=inter_dict, type_='percent', only_id=only_id, n_wsi_samples=2)

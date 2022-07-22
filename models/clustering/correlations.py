@@ -185,7 +185,15 @@ def ks_test_cluster_purities(cluster_anno_df, fields, groupby, fold_number, dire
     critical_ref.to_csv(os.path.join(correlations_path,   file_name+'_critical_ref.csv'))
     p_values.to_csv(os.path.join(correlations_path,       file_name+'_pval.csv'))
 
-    return critical_coef, critical_ref, p_values
+    if critical_values_flag:
+        mask  = (np.abs(critical_coef)<=critical_ref)
+    else:
+        # Mask for p-value threshold.
+        mask = (p_values.values > p_th)
+        mask = pd.DataFrame(mask, columns=p_values.columns)
+        mask.index = p_values.index
+
+    return critical_coef, critical_ref, p_values, mask
 
 ''' ############ Cluster purity with hypergeometric test ############ '''
 # Get counts for the different classes.
