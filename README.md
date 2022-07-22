@@ -326,7 +326,7 @@ Command example:
 ### 6. Leiden clustering based on fold cross validation
 This step performs clustering by only using representations in the training set. Samples in the training set are taken from the fold pickle (Step 4). Keep in mind that if there are 5 folds, the script will perform 5 different clustering configurations. One per training set.
 
-You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the paper. 
+[**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the paper. 
 
 **Step Inputs:**
 - H5 file with tile vector representations and metadata. E.g.:
@@ -390,14 +390,17 @@ This is step run the cancer type classification over logistic regression.
 
 **Step Outputs:**
 
+
+[**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the paper.
+
 Usage:
 ```
 Report classification and cluster performance based on Logistic Regression.
 optional arguments:
   -h, --help            show this help message and exit
   --meta_folder         Purpose of the clustering, name of output folder.
-  --meta_field          Meta field to use for the Logistic Regression.
-  --matching_field      Key used to match folds split and H5 representation file.
+  --meta_field           Meta field to use for the Logistic Regression.
+  --matching_field       Key used to match folds split and H5 representation file.
   --diversity_key       Key use to check diversity within cluster: Slide, Institution, Sample.
   --type_composition    Space trasnformation type: percent, clr, ilr, alr.
   --min_tiles           Minimum number of tiles per matching_field.
