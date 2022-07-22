@@ -274,16 +274,16 @@ This step defines the 5-fold cross-validation to run the classification and surv
 
 **Step Inputs:**
 You can create the CSV and pickle files with these notebooks:
-1. Class classification: [notebook](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/fold_creation/class_folds.ipynb)
-2. Survival: [notebook](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/fold_creation/survival_folds.ipynb)
+1. Class classification: [notebook](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/main/utilities/fold_creation/class_folds.ipynb)
+2. Survival: [notebook](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/main/utilities/fold_creation/survival_folds.ipynb)
 
 **Step Outputs:**
 1. Pickle file: It contains samples (patients or slides) for each fold in the 5-fold cross-validation. E.g.:
-   - LUAD vs LUSC: [utilities/files/LUADLUSC/lungsubtype_Institutions.pkl](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
-   - LUAD Overall Survival: [utilities/files/LUAD/overall_survival_TCGA_folds.pkl](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
+   - LUAD vs LUSC: [utilities/files/LUADLUSC/lungsubtype_Institutions.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/main/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
+   - LUAD Overall Survival: [utilities/files/LUAD/overall_survival_TCGA_folds.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
 2. CSV file with data used for the task: It contains labels for each sample. This file is used in Step 5 (Include metadata in H5 file). Please verify that the values in the column with patients or slides (matching_field) follows the same format as the 'dataset' in the H5 file that contains the same type of information. This field is to cross-check each sample and include the metadata into the H5 file. E.g.:
-   - LUAD vs LUSC: [utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
-   - LUAD Overall Survival: [utilities/files/LUAD/overall_survival_TCGA_folds.csv](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.csv)
+   - LUAD vs LUSC: [utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
+   - LUAD Overall Survival: [utilities/files/LUAD/overall_survival_TCGA_folds.csv](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.csv)
 
 ### 5. Include metadata in H5 file
 This step includes metadata into the H5 file. It used the data in the CSV files from the previous steps. The metadata is later used in the cancer type classification (logistic regression) or survival analysis (Cox proportional hazards).
@@ -292,7 +292,7 @@ This step includes metadata into the H5 file. It used the data in the CSV files 
 - H5 file with tile vector representations. E.g.:
   - Complete set (Set 3): `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete.h5`
 - CSV file with metadata. E.g.:
-  - Lung type and survival data: [utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
+  - Lung type and survival data: [utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
 
 **Step Output:**
 - H5 file with tile vector representations and metadata. E.g.:
@@ -334,8 +334,8 @@ This step performs clustering by only using representations in the training set.
 - [Optional] H5 file with external cohort. It should include the same kind of metadata. E.g.:
   - Additional file: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined_lungsubtype_survival.h5`
 - Pickle file with 5-fold cross-validation. E.g.:
-  - Lung type classification (Step 4): [utilities/files/LUADLUSC/lungsubtype_Institutions.pkl](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
-  - LUAD Overall Survival (Step 4): [utilities/files/LUAD/overall_survival_TCGA_folds.pkl](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
+  - Lung type classification (Step 4): [utilities/files/LUADLUSC/lungsubtype_Institutions.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/main/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
+  - LUAD Overall Survival (Step 4): [utilities/files/LUAD/overall_survival_TCGA_folds.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
 
 **Step Output:**
 - Cluster configuration files will be under the directory `meta_field`/adatas. E.g.:
@@ -458,7 +458,7 @@ python3 ./report_representationsleiden_cox.py \
 ```
 
 ### 10. Correlation between annotations and clusters
-You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/visualizations/cluster_correlations_figures.ipynb). 
+You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/main/utilities/visualizations/cluster_correlations_figures.ipynb). 
 
 ## TCGA HPL files
 This section contains the following TCGA files produced by HPL:
