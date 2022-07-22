@@ -33,8 +33,8 @@ In this repository you will find the following sections:
 2. [Workspace setup](#Workspace-Setup): Details on H5 file content and directory structure.
 3. [HPL instructions](#HPL-Instructions): Step-by-step instructions on how to run the complete methodology. 
 4. [TCGA HPL files](#TCGA-HPL-files): HPL output files of paper results.  
-5. [Dockers](#Dockers): Docker environments to run the different instruction steps.
-6. [Python Environment](#Python-Environment): Python version and packages necessary.
+5. [Dockers](#Dockers): Docker environments to run HPL steps.
+6. [Python Environment](#Python-Environment): Python version and packages.
 7. [Frequently Asked Questions](#Frequently-Asked-Questions).
 
 ## WSI Tiling process
@@ -222,7 +222,7 @@ This step takes all set H5 files in the projection folder and merges then into a
 [**Important**] The code assumes that the datasets inside the H5 will have a common name across the train/validation/test sets. 
 For further details please refer to Section [Specification on the content of the H5 files](#Specifications-on-the-content-of-the-H5-files).
 
-Running this step allows to run the clustering step **5** based on an specified fold configuration, by collecting the complete H5 with all samples.
+Running this step allows to run the clustering step **5** based on a specified fold configuration, by collecting the complete H5 with all samples.
 
 Usage:
 ```
@@ -402,7 +402,7 @@ python3 ./report_representationsleiden_cox.py \
 ### 10. Correlation between annotations and clusters
 You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/visualizations/cluster_correlations_figures.ipynb). 
 
-## TCGA HPL files.
+## TCGA HPL files
 This section contains the following TCGA files produced by HPL:
 1. Self-supervised trained weights.
 2. TCGA tile projections.
@@ -428,11 +428,11 @@ At each of those locations you will find the AnnData H5 file with the cluster co
 ### TCGA pa
 
 ## Dockers
-These are the dockers with the environments to run different steps of the flow. Step 8 needs to be run with docker [**2**], all other steps can be run with docker [**1**]:
+These are the dockers with the environments to run the steps of HPL. Step **'Leiden clustering'** needs to be run with docker [**2**], all other steps can be run with docker [**1**]:
 1. **Self-Supervised models training and projections:**
-     - aclaudioquiros/tf_package:v16
+     - [aclaudioquiros/tf_package:v16](https://hub.docker.com/r/aclaudioquiros/tf_package/tags)
 2. **Leiden clustering:**
-    - gcfntnu/scanpy:1.7.0 
+    - [gcfntnu/scanpy:1.7.0](https://hub.docker.com/r/gcfntnu/scanpy) 
    
 ## Python Environment
 The code uses Python 3.7.12 and the following packages:
