@@ -290,7 +290,7 @@ This step includes metadata into the H5 file. It used the data in the CSV files 
 
 **Step Inputs:**
 - H5 file with tile vector representations. E.g.:
-  - Complete set (Set 3): 1results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete.h51
+  - Complete set (Set 3): `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete.h5`
 - CSV file with metadata. E.g.:
   - Lung type and survival data: [utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
 
@@ -431,9 +431,9 @@ Report classification and cluster performance based on Logistic Regression.
 optional arguments:
   -h, --help            show this help message and exit
   --meta_folder         Purpose of the clustering, name of folder.
-  --matching_field      Key used to match folds split and H5 representation file.
-  --event_ind_field     Key used to match event indicator field.
-  --event_data_field    Key used to match event data field.
+  --matching_field       Key used to match folds split and H5 representation file.
+  --event_ind_field      Key used to match event indicator field.
+  --event_data_field     Key used to match event data field.
   --diversity_key       Key use to check diversity within cluster: Slide, Institution, Sample.
   --type_composition    Space transformation type: percent, clr, ilr, alr.
   --min_tiles           Minimum number of tiles per matching_field.
@@ -483,7 +483,7 @@ You can find cluster configurations used in the publication results at:
 
 At each of those locations you will find the AnnData H5 file with the cluster configuration. You can use this file along with the cluster assignment script 
 
-### TCGA pa
+### TCGA WSI & patient vector representations
 
 ## Dockers
 These are the dockers with the environments to run the steps of HPL. Step **'Leiden clustering'** needs to be run with docker [**2**], all other steps can be run with docker [**1**]:
