@@ -139,7 +139,7 @@ optional arguments:
   --img_size            Image size for the model.
   --img_ch              Number of channels for the model.
   --z_dim               Latent space size for constrastive loss.
-  --model               Model name, used to select the type of model (SimCLR, RelationalReasoning, BarlowTwins).
+  --model               Model name.
   --main_path           Path for the output run.
   --dbs_path            Directory with DBs to use.
   --check_every         Save checkpoint and show UMAP samples every X epcohs.
@@ -197,7 +197,7 @@ optional arguments:
   --dataset             Dataset to use.
   --marker              Marker of dataset to use.
   --batch_size          Batch size, default size is 64.
-  --model               Model name, used to select the type of model (SimCLR, RelationalReasoning, BarlowTwins).
+  --model               Model name.
   --main_path           Path for the output run.
   --dbs_path            Directory with DBs to use.
   --save_img            Save reconstructed images in the H5 file.
@@ -223,7 +223,7 @@ optional arguments:
   --dataset             Dataset to use.
   --marker              Marker of dataset to use.
   --batch_size          Batch size, default size is 64.
-  --model MODEL         Model name, used to select the type of model (SimCLR, RelationalReasoning, BarlowTwins).
+  --model MODEL         Model name.
   --main_path           Path for the output run.
   --dbs_path            Directory with DBs to use.
   --save_img            Save reconstructed images in the H5 file.
@@ -251,15 +251,17 @@ This step takes all set H5 files with tile vector representations and merges the
 
 [**Important**] This code works on the assumptions specified in the [**Workspace setup**](#Workspace-setup) 
 
+You can find the TCGA tile vector representation used in the paper in the section [**TCGA tile vector representations**](#TCGA-tile-vector-representations)
+
 Usage:
 ```
 Script to combine all H5 representation file into a 'complete' one.
 optional arguments:
   -h, --help            show this help message and exit
   --img_size            Image size for the model.
-  --z_dim               Dimensionality of projections, default is the Z latent of Self-Supervised.
+  --z_dim               Dimensionality of vector representations. Default is the z latent of Self-Supervised.
   --dataset             Dataset to use.
-  --model               Model name, used to select the type of model (SimCLR, RelationalReasoning, BarlowTwins).
+  --model               Model name.
   --main_path           Path for the output run.
   --override            Override 'complete' H5 file if it already exists.
 ```
@@ -271,59 +273,81 @@ python3 ./utilities/h5_handling/combine_complete_h5.py \
 --dataset TCGAFFPE_5x_perP \
 --model ContrastivePathology_BarlowTwins_2
 ```
-### 4. Fold cross validation files for classification and survival analysis 
-In order to run clustering, logistic regression, and cox proportional hazard, you will need to create the following files:
-1. Pickle file:
-   1. It contains samples (patients or slides) for each fold in the 5-fold cross-validation.
-   2. Examples used in paper:
-       1. [LUAD vs LUSC](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
-       2. [LUAD Overall Survival](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
-2. CSV file with data used for the task (classification or survival):
-    1. It contains labels (cancer type or survival data) for each sample. 
-    2. This file is used in Step 5 (Include metadata into H5 file). Please verify that the values in the column with patients or slides (matching_field) follows the same format as the 'dataset' in the H5 file that contains the same type of information. This field is to cross-check each sample and include the metadata into the H5 file.  
-    3. Examples used in paper:
-        1. [LUAD vs LUSC](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
-        2. [LUAD Overall Survival](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.csv)
 
+### 4. Fold cross validation files for classification and survival analysis
+This step defines the 5-fold cross-validation to run the classification and survival analysis. The files created here will be used in the Leiden clustering, logistic regression, and Cox proportional hazards.
+
+**Step Inputs:**
 You can create the CSV and pickle files with these notebooks:
 1. Class classification: [notebook](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/fold_creation/class_folds.ipynb)
 2. Survival: [notebook](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/fold_creation/survival_folds.ipynb)
 
+**Step Outputs:**
+1. Pickle file: It contains samples (patients or slides) for each fold in the 5-fold cross-validation. E.g.:
+   - LUAD vs LUSC: [utilities/files/LUADLUSC/lungsubtype_Institutions.pkl](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
+   - LUAD Overall Survival: [utilities/files/LUAD/overall_survival_TCGA_folds.pkl](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
+2. CSV file with data used for the task: It contains labels for each sample. This file is used in Step 5 (Include metadata in H5 file). Please verify that the values in the column with patients or slides (matching_field) follows the same format as the 'dataset' in the H5 file that contains the same type of information. This field is to cross-check each sample and include the metadata into the H5 file. E.g.:
+   - LUAD vs LUSC: [utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
+   - LUAD Overall Survival: [utilities/files/LUAD/overall_survival_TCGA_folds.csv](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.csv)
+
 ### 5. Include metadata in H5 file
+This step includes metadata into the H5 file. It used the data in the CSV files from the previous steps. The metadata is later used in the cancer type classification (logistic regression) or survival analysis (Cox proportional hazards).
 
-This step includes metadata into the H5 file. The metadata is later used in the cancer type classification (logistic regression) or survival regression (Cox proportional hazards).
+**Step Inputs:**
+- H5 file with tile vector representations. E.g.:
+  - Complete set (Set 3): _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete.h5_
+- CSV file with metadata. E.g.:
+  - Lung type and survival data: [utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
 
-You can find examples of the CSV files used in this step here:
-1. [LUAD vs LUSC](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
-2. [LUAD Overall Survival](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.csv)
+**Step Output:**
+- H5 file with tile vector representations and metadata. E.g.:
+  - Complete set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5_
 
-Please verify that the values in the column with patients or slides (matching_field) follows the same format as the 'dataset' in the H5 file that contains the same type of information. This field is to cross-check each sample and include the metadata into the H5 file.
+[**Important**] Please verify that the values in the column with patients or slides (matching_field) follows the same format as the 'dataset' in the H5 file that contains the same type of information. This field is to cross-check each sample and include the metadata into the H5 file.
 
 ```
 Script to create a subset H5 representation file based on meta data file.
 optional arguments:
   -h, --help            show this help message and exit
-  --meta_file           Path to CSV file with meta data.
+  --meta_file            Path to CSV file with meta data.
   --meta_name           Name to use to rename H5 file.
-  --list_meta_field     Field name that contains 
-  he information to include in the H5 file.
-  --matching_field      Reference filed to use, cross check between original H5 and meta file.
-  --h5_file             Original H5 file to parse.
+  --list_meta_field      Field name that contains the information to include in the H5 file.
+  --matching_field       Reference filed to use, cross check between original H5 and meta file.
+  --h5_file              Original H5 file to parse.
   --override            Override 'complete' H5 file if it already exists.
 ```
-Command example that includes lung type and survival information into the H5 file:
+Command example:
 ```
  python3 ./utilities/h5_handling/create_metadata_h5.py \
  --meta_file ./utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv \
  --matching_field slides \
  --list_meta_field luad os_event_ind os_event_data \
- --h5_file ./results/ContrastivePathology_BarlowTwins_2/TCGAFFPE_5x_perP/h224_w224_n3_zdim128/hdf5_TCGAFFPE_5x_perP_he_complete.h5 \
+ --h5_file ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete.h5
  --meta_name lungsubtype_survival
 ```
-### 6. Leiden clustering based on fold cross validation
-This step performs clustering by only using representations in the training set. Samples in the training set are taken from the specified fold pickle.
 
-Keep in mind that if there are 5 folds, the script will perform 5 different clustering steps. One per training set. 
+### 6. Leiden clustering based on fold cross validation
+This step performs clustering by only using representations in the training set. Samples in the training set are taken from the fold pickle (Step 4). Keep in mind that if there are 5 folds, the script will perform 5 different clustering configurations. One per training set.
+
+You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the paper. 
+
+**Step Inputs:**
+- H5 file with tile vector representations and metadata. E.g.:
+  - Complete set (Step 5): _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5_
+- [Optional] H5 file with external cohort. It should include the same kind of metadata. E.g.:
+  - Additional file: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined_lungsubtype_survival.h5_
+- Pickle file with 5-fold cross-validation. E.g.:
+  - Lung type classification (Step 4): [utilities/files/LUADLUSC/lungsubtype_Institutions.pkl](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
+  - LUAD Overall Survival (Step 4): [utilities/files/LUAD/overall_survival_TCGA_folds.pkl](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
+
+**Step Output:**
+- Cluster configuration files will be under the directory `meta_field`/adatas. E.g.:
+  - Lung type classification: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/lungsubtype_nn250/adatas_
+    - Per resolution and fold. The output files are: 
+      - Train set H5AD: This file contains the cluster configuration and it is used by the scanpy package to map external tile vector representations to existing clusters. E.g.:_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_leiden_1p0__fold1_subsample.h5ad_
+      - Train set CSV: Tiles from training set with cluster assignations. E.g.: _TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_leiden_1p0__fold1.csv_
+      - Validation set CSV: Tiles from validation set with cluster assignations. E.g.: _TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_leiden_1p0__fold1_valid.csv_
+      - Test set CSV: Tiles from test set with cluster assignations. E.g.: _TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_leiden_1p0__fold1_test.csv_
 
 Usage:
 ```
@@ -363,6 +387,11 @@ This is step allows to get rid of representation instances that are background o
 
 
 ### 8. Logistic regression for classification
+This is step run the cancer type classification over logistic regression.
+
+**Step Inputs:**
+
+**Step Outputs:**
 
 Usage:
 ```
@@ -443,7 +472,7 @@ Self-supervised model weights:
 1. [Lung adenocarcinoma (LUAD) and squamous cell carcinoma (LUSC) model](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020).
 2. [PanCancer: BRCA, HNSC, KICH, KIRC, KIRP, LUSC, LUAD](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_PanCancer_5x/19949708).
 
-### TCGA tile projections
+### TCGA tile vector representations
 You can find tile projections for TCGA LUAD and LUSC cohorts [here](https://drive.google.com/file/d/1KEHA0-AhxQsP_lQE06Jc5S8rzBkfKllV/view?usp=sharing). These are the projections used in the publication results.
 
 ### TCGA clusters
