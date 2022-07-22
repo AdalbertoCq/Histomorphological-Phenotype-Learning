@@ -20,7 +20,7 @@
 ## Demo Materials
 
 Slides summarizing methodology and results: 
-- [Light-weight version.](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/demos/slides/PRL%20Summary.pdf)
+- [Light-weight version.](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/91658a4588e2c3a8fb448d3ce2735d488473da9b/demos/slides/HPL%20Summary.pdf)
 - [High-resolution version.](https://drive.google.com/file/d/1zy7oSqCvq_ZIUW1Ix7rEjYjYBnepQZLA/view?usp=sharing)
 <p align="center">
   <img src="https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/12589de42685f38630e5b2378c0e6f27e16b3ea3/demos/framework_methodology.jpg" width="500">
@@ -30,12 +30,12 @@ Slides summarizing methodology and results:
 
 In this repository you will find the following sections: 
 1. [WSI tiling process](#WSI-Tiling-process): Instructions on how to create H5 files from WSI tiles.
-2. [Workspace setup](#Workspace-Setup): Details on how to setup the directory and H5 file content convention.
-3. [HPL instructions](#HPL-Instructions): Details on how to run the complete methodology. 
-5. [TCGA HPL files](#TCGA-HPL-files)
-6. [Frequently Asked Questions](#Frequently-Asked-Questions)
-7. [Dockers](#Dockers): Docker environments to run the different instruction steps.
-8. [Python Environment](#Python-Environment): Python version and packages necessary. 
+2. [Workspace setup](#Workspace-Setup): Details on H5 file content and directory structure.
+3. [HPL instructions](#HPL-Instructions): Step-by-step instructions on how to run the complete methodology. 
+4. [TCGA HPL files](#TCGA-HPL-files): HPL output files of paper results.  
+5. [Dockers](#Dockers): Docker environments to run the different instruction steps.
+6. [Python Environment](#Python-Environment): Python version and packages necessary.
+7. [Frequently Asked Questions](#Frequently-Asked-Questions).
 
 ## WSI Tiling process
 This step divides whole slide images (WSIs) in SVS format into 224x224 tiles and store them into H5 files.
@@ -56,9 +56,22 @@ In the instructions below we use the following variables and names:
 
 ### H5 file content specification.
 
+[H5 file python package documentation](https://docs.h5py.org/en/stable/quick.html)
+
+[ToDo] Naming convention for the datasets.
+
 All H5 set files should have the same datasets. E.g. images, slides, cancer_type.
 
-[ToDo] Naming convention for the datasets and examples. 
+Example:
+- File: **hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5**
+    - Dataset names:
+        - **train_img, train_tiles, train_slides, train_samples**
+- File: **hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5**
+    - Dataset names:
+        - **valid_img, valid_tiles, valid_slides, valid_samples**
+- File: **hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5**
+    - Dataset names:
+        - **test_img, test_tiles, test_slides, test_samples**
 
 ### Directory Structure
 The code will make the following assumptions with respect to where the datasets, model training outputs, and image representations are stored:
@@ -389,23 +402,6 @@ python3 ./report_representationsleiden_cox.py \
 ### 10. Correlation between annotations and clusters
 You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/visualizations/cluster_correlations_figures.ipynb). 
 
-## Frequently Asked Questions
-#### I have my own cohort and I want to assign existing clusters to my own WSI tiles. Is it possible?
-Yes, you can find the cluster configuration files for LUAD vs LUSC or LUAD survival at the TCGA cluster section.
-
-#### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
-Based on experience, this error occurs with non-compatible version on numba, umap-learn, and scanpy. The package versions in the python environment should work. 
-
-#### I want to reproduce the results from the paper.  
-These are the steps to reproduce the TCGA results. 
-
-Clone this repository and create a folder called '_results_'. Under that folder another one called '_TCGAFFPE_LUADLUSC_5x_60pc_'. Download the tile representation from '_TCGA tile projections_' section and place them under that folder.   
-
-**LUAD vs LUSC classification**
-
-
-
-
 ## TCGA HPL files.
 This section contains the following TCGA files produced by HPL:
 1. Self-supervised trained weights.
@@ -472,3 +468,18 @@ tqdm==4.32.2
 umap-learn==0.5.0
 wandb==0.12.7
 ```
+
+## Frequently Asked Questions
+#### I have my own cohort and I want to assign existing clusters to my own WSI tiles. Is it possible?
+Yes, you can find the cluster configuration files for LUAD vs LUSC or LUAD survival at the TCGA cluster section.
+
+#### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
+Based on experience, this error occurs with non-compatible version on numba, umap-learn, and scanpy. The package versions in the python environment should work.
+
+#### I want to reproduce the results from the paper.
+These are the steps to reproduce the TCGA results.
+
+Clone this repository and create a folder called '_results_'. Under that folder another one called '_TCGAFFPE_LUADLUSC_5x_60pc_'. Download the tile representation from '_TCGA tile projections_' section and place them under that folder.
+
+**LUAD vs LUSC classification**
+
