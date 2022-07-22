@@ -31,7 +31,17 @@ Slides summarizing methodology and results:
 In this repository you will find the following sections: 
 1. [WSI tiling process](#WSI-Tiling-process): Instructions on how to create H5 files from WSI tiles.
 2. [Workspace setup](#Workspace-Setup): Details on H5 file content and directory structure.
-3. [HPL instructions](#HPL-Instructions): Step-by-step instructions on how to run the complete methodology. 
+3. [HPL instructions](#HPL-Instructions): Step-by-step instructions on how to run the complete methodology.
+   1. [**Self-supervised Barlow Twins training.**](#1.-Self-supervised-model-training)
+   2. [**Tile image projection on self-supervised trained encoder.**](#2.-Tile-projections)
+   3. [**Combination of all sets into one H5.**](#3.-Combine all representation sets into one representations file)
+   4. [**Fold cross validation files.**](#4.-Fold-cross-validation-files-for-classification-and-survival-analysis)
+   5. [**Include metadata in H5 file.**](#5.-Include-metadata-in-H5-file)
+   6. [**Leiden clustering.**](#6.-Leiden-clustering-based-on-fold-cross-validation)
+   7. [**Removing background tiles [Optional].**](#7.-Remove-background-tiles)
+   8. [**Logistic regression for lung type WSI classification.**](#8.-Logistic-regression-for-classification)
+   9. [**Cox proportional hazards for survival regression.**](#9.-Cox proportional-hazards-for-survival-regression)
+   10. [**Correlation between annotations and clusters.**](#10.-Correlation between annotations and clusters)
 4. [TCGA HPL files](#TCGA-HPL-files): HPL output files of paper results.  
 5. [Dockers](#Dockers): Docker environments to run HPL steps.
 6. [Python Environment](#Python-Environment): Python version and packages.
@@ -99,20 +109,19 @@ The code will make the following assumptions with respect to where the datasets,
     
 ## HPL Instructions
 The flow consists in the following steps:
-1. **Self-supervised Barlow Twins training.**
-2. **Tile image projection on self-supervised trained encoder.**
-3. **Combination of all sets into a complete one.**
-4. **Fold cross-validation files.**
-5. **Include metadata into complete H5 file.**
-6. **Leiden clustering.**
-7. **Removing background tiles [Optional] .** 
-8. **Logistic regression for lung type WSI classification.**
-9. **Cox proportional hazards for survival prediction.**
-10. **Correlation between annotations and clusters.**
+1. [**Self-supervised Barlow Twins training.**](#1.-Self-supervised-model-training)
+2. [**Tile image projection on self-supervised trained encoder.**](#2.-Tile-projections)
+3. [**Combination of all sets into one H5.**](#3.-Combine all representation sets into one representations file)
+4. [**Fold cross validation files.**](#4.-Fold-cross-validation-files-for-classification-and-survival-analysis)
+5. [**Include metadata in H5 file.**](#5.-Include-metadata-in-H5-file)
+6. [**Leiden clustering.**](#6.-Leiden-clustering-based-on-fold-cross-validation)
+7. [**Removing background tiles [Optional].**](#7.-Remove-background-tiles)
+8. [**Logistic regression for lung type WSI classification.**](#8.-Logistic-regression-for-classification)
+9. [**Cox proportional hazards for survival regression.**](#9.-Cox proportional-hazards-for-survival-regression)
+10.[**Correlation between annotations and clusters.**](#10.-Correlation between annotations and clusters)
 
-### 1. Self-Supervised model training
-
-[**Note**] It is important to setup the directories and h5 files according to Section [Workspace Setup and Directory Structure](#Workspace-Setup-and-Directory-Structure).
+### 1. Self supervised model training
+[**Note**] It is important to setup the directories and h5 files according to Section [Workspace Setup](#Workspace-Setup).
 
 Requirements on h5 file used for self-supervised model training:
 1. H5 file naming and directory structure. E.g.: _datasets/LUADLUSC_5x/he/patches_h224_w224/hdf5_LUADLUSC_5x_he_train.h5_
@@ -150,8 +159,7 @@ python3 /nfs/PhD_Workspace/run_representationspathology.py \
 --report 
 ```
 
-### 2. Tile Projections
-
+### 2. Tile projections
 This step encodes each tile image into a vector representation using a pretrained self-supervised model. 
 You can choose how to project tiles into vector representations if you want to, either with each h5 file individually or by projection an entire train/validation/test dataset. 
 
@@ -244,7 +252,7 @@ python3 ./utilities/h5_handling/combine_complete_h5.py \
 --dataset TCGAFFPE_5x_perP \
 --model ContrastivePathology_BarlowTwins_2
 ```
-### 4. Fold cross-validation files
+### 4. Fold cross validation files for classification and survival analysis 
 In order to run clustering, logistic regression, and cox proportional hazard, you will need to create the following files:
 1. Pickle file:
    1. It contains samples (patients or slides) for each fold in the 5-fold cross-validation.
@@ -262,7 +270,7 @@ You can create the CSV and pickle files with these notebooks:
 1. Class classification: [notebook](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/fold_creation/class_folds.ipynb)
 2. Survival: [notebook](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/fold_creation/survival_folds.ipynb)
 
-### 5. Include metadata into the H5 file.
+### 5. Include metadata in H5 file
 
 This step includes metadata into the H5 file. The metadata is later used in the cancer type classification (logistic regression) or survival regression (Cox proportional hazards).
 
@@ -293,15 +301,7 @@ Command example that includes lung type and survival information into the H5 fil
  --h5_file ./results/ContrastivePathology_BarlowTwins_2/TCGAFFPE_5x_perP/h224_w224_n3_zdim128/hdf5_TCGAFFPE_5x_perP_he_complete.h5 \
  --meta_name lungsubtype_survival
 ```
-
-### 6. [Optional] Removing background tiles
-This is step allows to get rid of representation instances that are background or artifact tiles. It's composed by 4 different steps. 
-1. Leiden clustering
-2. Get cluster tile samples
-3. Identify background and artifact clusters and create pickle file with tiles to remove
-4. Remove tile instances from H5 file.
-
-### 7. Leiden clustering based on fold cross validation
+### 6. Leiden clustering based on fold cross validation
 This step performs clustering by only using representations in the training set. Samples in the training set are taken from the specified fold pickle.
 
 Keep in mind that if there are 5 folds, the script will perform 5 different clustering steps. One per training set. 
@@ -333,7 +333,17 @@ python3 ./run_representationsleiden.py \
 
 ```
 
-### 8. Logistic regression.
+### 7. Remove background tiles
+**Optional step**
+
+This is step allows to get rid of representation instances that are background or artifact tiles. It's composed by 4 different steps.
+1. Leiden clustering
+2. Get cluster tile samples
+3. Identify background and artifact clusters and create pickle file with tiles to remove
+4. Remove tile instances from H5 file.
+
+
+### 8. Logistic regression for classification
 
 Usage:
 ```
@@ -364,7 +374,7 @@ python3 ./report_representationsleiden_lr.py \
 --h5_additional_path ./results/ContrastivePathology_BarlowTwins_3/NYU_BiFrFF_5x/h224_w224_n3_zdim128/hdf5_NYU_BiFrFF_5x_he_test_luad.h5
 ```
 
-### 9. Cox Proportional hazard regression
+### 9. Cox proportional hazards for survival regression
 
 Usage:
 ```
