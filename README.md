@@ -34,7 +34,7 @@ In this repository you will find the following sections:
 3. [HPL instructions](#HPL-Instructions): Step-by-step instructions on how to run the complete methodology.
    1. [**Self-supervised Barlow Twins training.**](#1.-Self-supervised-model-training)
    2. [**Tile image projection on self-supervised trained encoder.**](#2.-Tile-projections)
-   3. [**Combination of all sets into one H5.**](#3.-Combine all representation sets into one representations file)
+   3. [**Combination of all sets into one H5.**](#3.-Combine-all-representation-sets-into-one-H5-file)
    4. [**Fold cross validation files.**](#4.-Fold-cross-validation-files-for-classification-and-survival-analysis)
    5. [**Include metadata in H5 file.**](#5.-Include-metadata-in-H5-file)
    6. [**Leiden clustering.**](#6.-Leiden-clustering-based-on-fold-cross-validation)
@@ -111,7 +111,7 @@ The code will make the following assumptions with respect to where the datasets,
 The flow consists in the following steps:
 1. [**Self-supervised Barlow Twins training.**](#1.-Self-supervised-model-training)
 2. [**Tile image projection on self-supervised trained encoder.**](#2.-Tile-projections)
-3. [**Combination of all sets into one H5.**](#3.-Combine all representation sets into one representations file)
+3. [**Combination of all sets into one H5.**](#3.-Combine-all-representation-sets-into-one-H5-file)
 4. [**Fold cross validation files.**](#4.-Fold-cross-validation-files-for-classification-and-survival-analysis)
 5. [**Include metadata in H5 file.**](#5.-Include-metadata-in-H5-file)
 6. [**Leiden clustering.**](#6.-Leiden-clustering-based-on-fold-cross-validation)
@@ -218,7 +218,7 @@ python3 ./run_representationspathology_projection.py \
 --model BarlowTwins_3 
 ```
 
-### 3. Combine all representation sets into one representations file
+### 3. Combine all representation sets into one H5 file
 This step takes all set H5 files in the projection folder and merges then into a single H5 file. E.g.:
 - Original H5 files [**Required**]:
     - results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_he_train.h5
