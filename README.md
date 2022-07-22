@@ -166,19 +166,19 @@ There are two options when to run this step. You can do it by file (e.g. an exte
 
 **Step Inputs:**
 - Dataset H5 files. E.g.:
-  - Training set: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5_
-  - Validation set: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5_
-  - Test set: _datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5_
-- Individual file. E.g.: _datasets/NYUFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined.h5_
-- Self-supervised trained CNN. E.g.: _data_model_output/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/checkpoints/BarlowTwins_3.ckt_ 
+  - Training set: `datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5`
+  - Validation set: `datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5`
+  - Test set: `datasets/TCGAFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5`
+- Individual file. E.g.: `datasets/NYUFFPE_LUADLUSC_5x_60pc/he/patches_h224_w224/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined.h5`
+- Self-supervised trained CNN. E.g.: `data_model_output/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/checkpoints/BarlowTwins_3.ckt` 
 
 **Step Outputs:**
 - Tile vector representations. E.g.:
   - Dataset:
-    - Training set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5_
-    - Validation set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5_
-    - Test set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5_
-  - Individual file: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined.h5_
+    - Training set: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5`
+    - Validation set: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5`
+    - Test set: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5`
+  - Individual file: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined.h5`
 
 **Scripts:**
 - Individual file: Please refer to `run_representationspathology_projection.py`
@@ -241,13 +241,13 @@ This step takes all set H5 files with tile vector representations and merges the
 
 **Step Inputs:**
 - Dataset H5 files with tile vector representations. E.g.:
-  - Training set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5_
-  - Validation set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5_
-  - Test set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5_
+  - Training set: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5`
+  - Validation set: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5`
+  - Test set: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5`
 
 **Step Output:**
 - Combined H5 file. E.g.:
-    - Complete set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete.h5_
+    - Complete set: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete.h5`
 
 [**Important**] This code works on the assumptions specified in the [**Workspace setup**](#Workspace-setup) 
 
@@ -295,15 +295,17 @@ This step includes metadata into the H5 file. It used the data in the CSV files 
 
 **Step Inputs:**
 - H5 file with tile vector representations. E.g.:
-  - Complete set (Set 3): _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete.h5_
+  - Complete set (Set 3): 1results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete.h51
 - CSV file with metadata. E.g.:
   - Lung type and survival data: [utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
 
 **Step Output:**
 - H5 file with tile vector representations and metadata. E.g.:
-  - Complete set: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5_
+  - Complete set: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5`
 
 [**Important**] Please verify that the values in the column with patients or slides (matching_field) follows the same format as the 'dataset' in the H5 file that contains the same type of information. This field is to cross-check each sample and include the metadata into the H5 file.
+
+You can find the TCGA tile vector representation used in the paper in the section [**TCGA tile vector representations**](#TCGA-tile-vector-representations)
 
 ```
 Script to create a subset H5 representation file based on meta data file.
@@ -333,21 +335,21 @@ You can find further information on this step in the sections **Online Methods -
 
 **Step Inputs:**
 - H5 file with tile vector representations and metadata. E.g.:
-  - Complete set (Step 5): _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5_
+  - Complete set (Step 5): `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5`
 - [Optional] H5 file with external cohort. It should include the same kind of metadata. E.g.:
-  - Additional file: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined_lungsubtype_survival.h5_
+  - Additional file: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined_lungsubtype_survival.h5`
 - Pickle file with 5-fold cross-validation. E.g.:
   - Lung type classification (Step 4): [utilities/files/LUADLUSC/lungsubtype_Institutions.pkl](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
   - LUAD Overall Survival (Step 4): [utilities/files/LUAD/overall_survival_TCGA_folds.pkl](https://github.com/AdalbertoCq/Phenotype-Representation-Learning/blob/main/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
 
 **Step Output:**
 - Cluster configuration files will be under the directory `meta_field`/adatas. E.g.:
-  - Lung type classification: _results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/lungsubtype_nn250/adatas_
+  - Lung type classification: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/lungsubtype_nn250/adatas`
     - Per resolution and fold. The output files are: 
-      - Train set H5AD: This file contains the cluster configuration and it is used by the scanpy package to map external tile vector representations to existing clusters. E.g.:_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_leiden_1p0__fold1_subsample.h5ad_
-      - Train set CSV: Tiles from training set with cluster assignations. E.g.: _TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_leiden_1p0__fold1.csv_
-      - Validation set CSV: Tiles from validation set with cluster assignations. E.g.: _TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_leiden_1p0__fold1_valid.csv_
-      - Test set CSV: Tiles from test set with cluster assignations. E.g.: _TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_leiden_1p0__fold1_test.csv_
+      - Train set H5AD: This file contains the cluster configuration and it is used by the scanpy package to map external tile vector representations to existing clusters. E.g.: `TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_leiden_1p0__fold1_subsample.h5ad`
+      - Train set CSV: Tiles from training set with cluster assignations. E.g.: `TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_leiden_1p0__fold1.csv`
+      - Validation set CSV: Tiles from validation set with cluster assignations. E.g.: `TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_leiden_1p0__fold1_valid.csv`
+      - Test set CSV: Tiles from test set with cluster assignations. E.g.: `TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_leiden_1p0__fold1_test.csv`
 
 Usage:
 ```
