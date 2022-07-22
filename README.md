@@ -90,9 +90,9 @@ The flow consists in the following steps:
 2. **Tile image projection on self-supervised trained encoder.**
 3. **Combination of all sets into a complete one.**
 4. **Fold cross-validation files.**
-5. **Include metadata into complete H5 file**: Cancer subtype, event indicator, or event time. Fields that will later be used in the logistic or cox regression.
+5. **Include metadata into complete H5 file.**
 6. **Leiden clustering.**
-7. **[Optional] Removing background tiles.** 
+7. **Removing background tiles [Optional] .** 
 8. **Logistic regression for lung type WSI classification.**
 9. **Cox proportional hazards for survival prediction.**
 10. **Correlation between annotations and clusters.**
