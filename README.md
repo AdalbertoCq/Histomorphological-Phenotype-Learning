@@ -53,8 +53,6 @@ This step divides whole slide images (WSIs) into 224x224 tiles and store them in
 We used the framework provided in [Coudray et al. 'Classification and mutation prediction from non–small cell lung cancer histopathology images using deep learning' Nature Medicine, 2018.](https://github.com/ncoudray/DeepPATH/tree/master/DeepPATH_code)
 The steps to run the framework are _0.1_, _0.2.a_, and _4_ (end of readme). In our work we used Reinhardt normalization, which can be applied at the same time as the tiling is done through the _'-N'_ option in step _0.1_.
 
-[ToDo] Include here sentences of requirements for train, validation, and test.
-
 ## Workspace setup 
 This section specifies requirements on H5 file content and directory structure to run the flow.
 
