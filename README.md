@@ -69,14 +69,11 @@ If you are not familiar with H5 files, you can find documentation on the python 
 This framework makes the assumption that datasets inside each H5 set will follow the format 'set_labelname'. In addition, all H5 files are required to have the same number of datasets. 
 Example:
 - File: `hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_train.h5`
-    - Dataset names:
-        - `train_img`, `train_tiles`, `train_slides`, `train_samples`
+    - Dataset names: `train_img`, `train_tiles`, `train_slides`, `train_samples`
 - File: `hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_validation.h5`
-    - Dataset names:
-        - `valid_img`, `valid_tiles`, `valid_slides`, `valid_samples`
+    - Dataset names: `valid_img`, `valid_tiles`, `valid_slides`, `valid_samples`
 - File: `hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_test.h5`
-    - Dataset names:
-        - `test_img`, `test_tiles`, `test_slides`, `test_samples`
+    - Dataset names: `test_img`, `test_tiles`, `test_slides`, `test_samples`
 
 ### Directory Structure
 The code will make the following assumptions with respect to where the datasets, model training outputs, and image representations are stored:
