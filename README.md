@@ -40,8 +40,8 @@ In this repository you will find the following sections:
    6. [**Leiden clustering.**](#6.-Leiden-clustering-based-on-fold-cross-validation)
    7. [**Removing background tiles [Optional].**](#7.-Remove-background-tiles)
    8. [**Logistic regression for lung type WSI classification.**](#8.-Logistic-regression-for-classification)
-   9. [**Cox proportional hazards for survival regression.**](#9.-Cox proportional-hazards-for-survival-regression)
-   10. [**Correlation between annotations and clusters.**](#10.-Correlation between annotations and clusters)
+   9. [**Cox proportional hazards for survival regression.**](#9.-Cox-proportional-hazards-for-survival-regression)
+   10. [**Correlation between annotations and clusters.**](#10.-Correlation-between-annotations-and-clusters)
 4. [TCGA HPL files](#TCGA-HPL-files): HPL output files of paper results.  
 5. [Dockers](#Dockers): Docker environments to run HPL steps.
 6. [Python Environment](#Python-Environment): Python version and packages.
@@ -117,8 +117,8 @@ The flow consists in the following steps:
 6. [**Leiden clustering.**](#6.-Leiden-clustering-based-on-fold-cross-validation)
 7. [**Removing background tiles [Optional].**](#7.-Remove-background-tiles)
 8. [**Logistic regression for lung type WSI classification.**](#8.-Logistic-regression-for-classification)
-9. [**Cox proportional hazards for survival regression.**](#9.-Cox proportional-hazards-for-survival-regression)
-10.[**Correlation between annotations and clusters.**](#10.-Correlation between annotations and clusters)
+9. [**Cox proportional hazards for survival regression.**](#9.-Cox-proportional-hazards-for-survival-regression)
+10.[**Correlation between annotations and clusters.**](#10.-Correlation-between-annotations-and-clusters)
 
 ### 1. Self supervised model training
 [**Note**] It is important to setup the directories and h5 files according to Section [Workspace Setup](#Workspace-Setup).
