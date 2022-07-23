@@ -326,7 +326,7 @@ Command example:
 ### 6. Leiden clustering based on fold cross validation
 This step performs clustering by only using representations in the training set. Samples in the training set are taken from the fold pickle (Step 4). Keep in mind that if there are 5 folds, the script will perform 5 different clustering configurations. One per training set.
 
-[**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the paper. 
+[**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the [paper](https://arxiv.org/abs/2205.01931). 
 
 **Step Inputs:**
 - H5 file with tile vector representations and metadata. E.g.:
@@ -382,7 +382,6 @@ This is step allows to get rid of representation instances that are background o
 3. Identify background and artifact clusters and create pickle file with tiles to remove
 4. Remove tile instances from H5 file.
 
-
 ### 8. Logistic regression for classification
 This is step run the cancer type classification over logistic regression.
 
@@ -391,7 +390,7 @@ This is step run the cancer type classification over logistic regression.
 **Step Outputs:**
 
 
-[**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the paper.
+[**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the [paper](https://arxiv.org/abs/2205.01931).
 
 Usage:
 ```
