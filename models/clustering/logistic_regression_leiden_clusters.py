@@ -15,7 +15,7 @@ from models.visualization.forest_plots import report_forest_plot_lr
 from models.visualization.clusters import cluster_circular, plot_confusion_matrix_lr
 
 ''' ############## Combine cluster coefficients ############## '''
-# Summarize results for the Cox Individual run.
+# Summarize results for the LR run with same cluster fold.
 def summarize_stat_clusters_across_folds(data, meta_field, frame_clusters, alpha, groupby, folds, alpha_path, p_th):
 	from scipy.stats import combine_pvalues
 
@@ -27,40 +27,40 @@ def summarize_stat_clusters_across_folds(data, meta_field, frame_clusters, alpha
 		labels.remove(0)
 
 	for label in labels:
-		cox_folds = list()
+		lr_folds = list()
 		counts    = list()
 		for i, _ in enumerate(folds):
-			cox_run = pd.read_csv(os.path.join(alpha_path, '%s_fold%s_clusters.csv' % (str(groupby).replace('.', 'p'), i)))
-			cox_run['se'] = (cox_run['coef_%s' % label]-cox_run['0.975]_%s' % label])/1.95996
-			cox_folds.append(cox_run)
+			lr_run = pd.read_csv(os.path.join(alpha_path, '%s_fold%s_clusters.csv' % (str(groupby).replace('.', 'p'), i)))
+			lr_run['se'] = (lr_run['coef_%s' % label]-lr_run['0.975]_%s' % label])/1.95996
+			lr_folds.append(lr_run)
 			counts.append(len(folds[i][0]))
 		counts    = np.array(counts)
-		cox_folds = pd.concat(cox_folds, axis=0)
-		cox_coef_pvals = cox_folds[[groupby, 'P>|z|_%s' % label]].copy(deep=True)
-		cox_coef       = cox_folds[[groupby, 'coef_%s' % label]].copy(deep=True)
-		cox_coef_se    = cox_folds[[groupby, 'se']].copy(deep=True)
+		lr_folds = pd.concat(lr_folds, axis=0)
+		lr_coef_pvals = lr_folds[[groupby, 'P>|z|_%s' % label]].copy(deep=True)
+		lr_coef       = lr_folds[[groupby, 'coef_%s' % label]].copy(deep=True)
+		lr_coef_se    = lr_folds[[groupby, 'se']].copy(deep=True)
 
-		cox_folds = cox_folds.groupby(groupby).mean().reset_index()
-		cox_folds = cox_folds.sort_values(by=groupby)
+		lr_folds = lr_folds.groupby(groupby).mean().reset_index()
+		lr_folds = lr_folds.sort_values(by=groupby)
 
 		# Combine coefficients and standard errors for folds.
 		avgs = list()
 		ses  = list()
-		for i in cox_folds[groupby]:
-			average = np.average(cox_coef[cox_coef[groupby]==i]['coef_%s' % label].values, weights=counts)
-			std = np.sqrt(np.sum((counts - 1) * (cox_coef_se[cox_coef_se[groupby]==i]['se'].values**2))/(np.sum(counts)- counts.shape[0]))
+		for i in lr_folds[groupby]:
+			average = np.average(lr_coef[lr_coef[groupby]==i]['coef_%s' % label].values, weights=counts)
+			std = np.sqrt(np.sum((counts - 1) * (lr_coef_se[lr_coef_se[groupby]==i]['se'].values**2))/(np.sum(counts)- counts.shape[0]))
 			avgs.append(average)
 			ses.append(std)
-		cox_folds['coef_%s' % label] = avgs
-		cox_folds['se']   = ses
-		cox_folds['[0.025_%s' % label] = cox_folds['coef_%s' % label] - (1.95996*cox_folds['se'])
-		cox_folds['0.975]_%s' % label] = cox_folds['coef_%s' % label] + (1.95996*cox_folds['se'])
+		lr_folds['coef_%s' % label] = avgs
+		lr_folds['se']   = ses
+		lr_folds['[0.025_%s' % label] = lr_folds['coef_%s' % label] - (1.95996*lr_folds['se'])
+		lr_folds['0.975]_%s' % label] = lr_folds['coef_%s' % label] + (1.95996*lr_folds['se'])
 
-		cox_folds['P>|z|_%s' % label] = cox_coef_pvals.groupby(groupby).apply(lambda x: combine_pvalues(x['P>|z|_%s' % label], method='fisher')[1]).reset_index()[0]
-		cox_folds = cox_folds.sort_values(by='coef_%s' % label)
+		lr_folds['P>|z|_%s' % label] = lr_coef_pvals.groupby(groupby).apply(lambda x: combine_pvalues(x['P>|z|_%s' % label], method='fisher')[1]).reset_index()[0]
+		lr_folds = lr_folds.sort_values(by='coef_%s' % label)
 		csv_path  = os.path.join(alpha_path, '%s_stats_all_folds.csv' % (str(groupby).replace('.', 'p')))
-		cox_folds.to_csv(csv_path, index=False)
-		report_forest_plot_lr(meta_field, frame_clusters, directory=alpha_path, file_name='%s_stats_all_folds.csv' % (str(groupby).replace('.', 'p')))
+		lr_folds.to_csv(csv_path, index=False)
+		report_forest_plot_lr(meta_field, lr_folds, directory=alpha_path, file_name='%s_stats_all_folds.csv' % (str(groupby).replace('.', 'p')))
 
 ''' ############## Figures ############## '''
 # Summarize results for run.
