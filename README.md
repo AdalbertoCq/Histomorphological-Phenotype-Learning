@@ -1,9 +1,13 @@
 # Self-supervised learning in non-small cell lung cancer discovers novel morphological clusters linked to patient outcome and molecular phenotypes
 * **[Quiros A.C.<sup>+</sup>, Coudray N.<sup>+</sup>, Yeaton A., Yang X., Chiriboga L., Karimkhan A., Narula N., Pass H., Moreira A.L., Le Quesne J.<sup>\*</sup>, Tsirigos A.<sup>\*</sup>, and Yuan K.<sup>\*</sup> Self-supervised learning in non-small cell lung cancer discovers novel morphological clusters linked to patient outcome and molecular phenotypes. 2022](https://arxiv.org/abs/2205.01931)**
 
+---
+
 **Abstract:**
 
 *Histopathological images provide the definitive source of cancer diagnosis, containing information used by pathologists to identify and subclassify malignant disease, and to guide therapeutic choices. These images contain vast amounts of information, much of which is currently unavailable to human interpretation. Supervised deep learning approaches have been powerful for classification tasks, but they are inherently limited by the cost and quality of annotations. Therefore, we developed Histomorphological Phenotype Learning, an unsupervised methodology, which requires no annotations and operates via the self-discovery of discriminatory image features in small image tiles. Tiles are grouped into morphologically similar clusters which appear to represent recurrent modes of tumor growth emerging under natural selection. These clusters have distinct features which can be identified using orthogonal methods. Applied to lung cancer tissues, we show that they align closely with patient outcomes, with histopathologically recognised tumor types and growth patterns, and with transcriptomic measures of immunophenotype.*
+
+---
 
 ## Citation
 ```
@@ -26,6 +30,9 @@ Slides summarizing methodology and results:
   <img src="https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/12589de42685f38630e5b2378c0e6f27e16b3ea3/demos/framework_methodology.jpg" width="500">
 </p>
 
+
+---
+
 ## Repository overview
 
 In this repository you will find the following sections: 
@@ -42,10 +49,13 @@ In this repository you will find the following sections:
    8. [Logistic regression for lung type WSI classification.](#8.-Logistic-regression-for-classification)
    9. [Cox proportional hazards for survival regression.](#9.-Cox-proportional-hazards-for-survival-regression)
    10. [Correlation between annotations and clusters.](#10.-Correlation-between-annotations-and-clusters)
+   11. [Get tiles and WSI samples for HPCs.](#11.-Get-tiles-and-WSI-samples-for-HPCs)
 4. [TCGA HPL files](#TCGA-HPL-files): HPL output files of paper results.  
 5. [Dockers](#Dockers): Docker environments to run HPL steps.
 6. [Python Environment](#Python-Environment): Python version and packages.
 7. [Frequently Asked Questions](#Frequently-Asked-Questions).
+
+---
 
 ## WSI tiling process
 This step divides whole slide images (WSIs) into 224x224 tiles and store them into H5 files. At the end of this step, you should have three H5 files. One per training, validation, and test sets. The training set will be used to train the self-supervised CNN, in our work this corresponded to 60% of TCGA LUAD & LUSC WSIs.
@@ -109,6 +119,7 @@ The flow consists in the following steps:
 8. [Logistic regression for lung type WSI classification.](#8.-Logistic-regression-for-classification)
 9. [Cox proportional hazards for survival regression.](#9.-Cox-proportional-hazards-for-survival-regression)
 10. [Correlation between annotations and clusters.](#10.-Correlation-between-annotations-and-clusters)
+11. [Get tiles and WSI samples for HPCs.](#11.-Get-tiles-and-WSI-samples-for-HPCs)
 
 ### 1. Self supervised model training
 
@@ -376,14 +387,14 @@ python3 ./run_representationsleiden.py \
 ### 7. Remove background tiles
 **Optional step**
 
-This is step allows to get rid of representation instances that are background or artifact tiles. It's composed by 4 different steps.
-1. Leiden clustering
+This is step removes tile vector representations that correspond to background or artifact. It's composed by 4 different steps.
+
 2. Get cluster tile samples
 3. Identify background and artifact clusters and create pickle file with tiles to remove
 4. Remove tile instances from H5 file.
 
 ### 8. Logistic regression for classification
-This is step run the cancer type classification over logistic regression.
+This is step runs the cancer type classification over logistic regression.
 
 **Step Inputs:**
 
@@ -458,6 +469,50 @@ python3 ./report_representationsleiden_cox.py \
 
 ### 10. Correlation between annotations and clusters
 You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb). 
+
+### 11. Get tiles and WSI samples for HPCs
+
+
+Usage:
+```
+Report cluster images from a given Leiden cluster configuration.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --meta_folder         Purpose of the clustering, name of folder.
+  --meta_field           Meta field to use for the Logistic Regression or Cox event indicator.
+  --matching_field       Key used to match folds split and H5 representation file.
+  --resolution          Minimum number of tiles per matching_field.
+  --dpi DPI             Highest quality: 1000.
+  --fold FOLD           Minimum number of tiles per matching_field.
+  --dataset DATASET     Dataset to use.
+  --h5_complete_path    H5 file path to run the leiden clustering folds.
+  --h5_additional_path  Additional H5 representation to assign leiden clusters.
+  --min_tiles MIN_TILES Minimum number of tiles per matching_field.
+  --dbs_path DBS_PATH   Path for the output run.
+  --img_size IMG_SIZE   Image size for the model.
+  --img_ch IMG_CH       Number of channels for the model.
+  --marker MARKER       Marker of dataset to use.
+  --tile_img            Dump cluster tile images.
+  --extensive           Flag to dump test set cluster images in addition to train.
+  --additional_as_fold  Flag to specify if additional H5 file will be used for cross-validation.
+
+```
+
+Command example:
+```
+python3 ./report_representationsleiden_samples.py \
+--meta_folder lung_subtypes_nn250 \
+--meta_field luad \
+--matching_field slides \
+--resolution 2.0 \
+--fold 0 \
+--h5_complete_path results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 \
+--dpi 1000 \
+--dataset TCGAFFPE_LUADLUSC_5x_60pc
+  
+```
+
 
 ## TCGA HPL files
 This section contains the following TCGA files produced by HPL:
