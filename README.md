@@ -337,7 +337,12 @@ Command example:
 ### 6. Leiden clustering based on fold cross validation
 This step performs clustering by only using representations in the training set. Samples in the training set are taken from the fold pickle (Step 4). Keep in mind that if there are 5 folds, the script will perform 5 different clustering configurations. One per training set.
 
-[**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the [paper](https://arxiv.org/abs/2205.01931). 
+At this step you can select if you want to run several resolution parameters or just one. The resolution parameter indirectly controls the number of clusters, where a higher value results in higher number of clusters. 
+If you are just running one resolution value, you can provide it through the argument `--resolution`. If you want to run a range of them, you can modify this at line 45 of `run_representationsleiden.py`. 
+
+[**Note**] If you are running this step for filtering out background and artifact tiles (Step 7). I suggest to use `--resolution 5.0`.
+
+[**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the [paper](https://arxiv.org/abs/2205.01931).
 
 **Step Inputs:**
 - H5 file with tile vector representations and metadata. E.g.:
@@ -387,11 +392,45 @@ python3 ./run_representationsleiden.py \
 ### 7. Remove background tiles
 **Optional step**
 
-This is step removes tile vector representations that correspond to background or artifact. It's composed by 4 different steps.
+This is step removes tile vector representations that correspond to background or artifact tile images. It's composed by 4 different steps.
 
-2. Get cluster tile samples
-3. Identify background and artifact clusters and create pickle file with tiles to remove
-4. Remove tile instances from H5 file.
+1. Get tile samples per HPC: 
+   - Select a cluster fold and resolution. At this step is good to select a high resolution parameter (e.g. 5) so the clusters are more compact that allows to a finer filtering of background and artifact clusters.
+   - You can refer to the step ['Get tiles and WSI samples for HPCs'](#11.-Get-tiles-and-WSI-samples-for-HPCs).
+2. Identify background and artifact clusters and create pickle file with tiles to remove:
+   - From the previous step you can identify which HPCs contain background and artifacts.
+   - Use this [notebook](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/h5_handling/review_cluster_create_pickles.ipynb) to create the pickle files in order to remove tile vector representations from the H5 file. 
+3. Remove tile instances from H5 file:
+   - Remove tile vector representations contained into the pickle file from the H5 file (created in Step 5).
+
+**Step Inputs:**
+- Pickle file created in sub-step 2. E.g.: [utilities/files/indexes_to_remove/TCGAFFPE_LUADLUSC_5x_60pc/complete.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/files/indexes_to_remove/TCGAFFPE_LUADLUSC_5x_60pc/complete.pkl)
+- Original H5 file with tile vector representations used for clustering. E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5` 
+
+**Step Output:**
+- H5 file without background and artifact tile vector representations: E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5`
+
+Usage:
+```
+Script to remove indexes from H5 file.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --h5_file H5_FILE      Original H5 file to parse.
+  --pickle_file          Pickle file with indexes to remove.
+  --override            Override 'complete' H5 file if it already exists.
+```
+Command example:
+```
+python3 ./utilities/tile_cleaning/remove_indexes_h5.py \
+--pickle_file ./utilities/files/indexes_to_remove/TCGAFFPE_LUADLUSC_5x_60pc/complete.pkl \ 
+--h5_file ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5 \
+```
+
+4. Re-cluster representations:
+   - Create a new directory for a new clustering step and copy the filtered H5 file from the previous step. E.g.: `./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_filtered`
+   - Repeat Step 6 ['Leiden clustering'](#6.-Leiden-clustering-based-on-fold-cross-validation).
+
 
 ### 8. Logistic regression for classification
 This is step runs the cancer type classification over logistic regression.
@@ -471,7 +510,18 @@ python3 ./report_representationsleiden_cox.py \
 You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb). 
 
 ### 11. Get tiles and WSI samples for HPCs
+This step 
 
+**Step Inputs:**
+- H5 file with tile vector representations and metadata. E.g.:
+    - Complete set (Step 5): `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5`
+- [Optional] H5 file with external cohort. It should include the same kind of metadata. E.g.:
+    - Additional file: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined_lungsubtype_survival.h5`
+- Pickle file with 5-fold cross-validation. E.g.:
+    - Lung type classification (Step 4): [utilities/files/LUADLUSC/lungsubtype_Institutions.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
+    - LUAD Overall Survival (Step 4): [utilities/files/LUAD/overall_survival_TCGA_folds.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
+
+**Step Output:**
 
 Usage:
 ```
