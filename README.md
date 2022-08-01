@@ -399,7 +399,7 @@ This is step removes tile vector representations that correspond to background o
    - You can refer to the step ['Get tiles and WSI samples for HPCs'](#11.-Get-tiles-and-WSI-samples-for-HPCs).
 2. Identify background and artifact clusters and create pickle file with tiles to remove:
    - From the previous step you can identify which HPCs contain background and artifacts.
-   - Use this [notebook](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/h5_handling/review_cluster_create_pickles.ipynb) to create the pickle files in order to remove tile vector representations from the H5 file. 
+   - Use this [notebook](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/tile_cleaning/review_cluster_create_pickles.ipynb) to create the pickle files in order to remove tile vector representations from the H5 file. 
 3. Remove tile instances from H5 file:
    - Remove tile vector representations contained into the pickle file from the H5 file (created in Step 5).
 
@@ -510,18 +510,21 @@ python3 ./report_representationsleiden_cox.py \
 You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb). 
 
 ### 11. Get tiles and WSI samples for HPCs
-This step 
+This step provides tile images per each HPC and WSI with cluster overlays. In order to provide WSIs, you will need to edit the dictionary `value_cluster_ids` in line 52 of `report_representationsleiden_samples.py`. Clusters provided at key `1` will show in the output csv files as related to outcome classification (`1`) or survival(`dead event`). If the cluster if provided at key `0`, it will show as related to outcome classification (`0`) or survival (`survival event`).    
 
 **Step Inputs:**
 - H5 file with tile vector representations and metadata. E.g.:
-    - Complete set (Step 5): `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5`
-- [Optional] H5 file with external cohort. It should include the same kind of metadata. E.g.:
-    - Additional file: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined_lungsubtype_survival.h5`
-- Pickle file with 5-fold cross-validation. E.g.:
-    - Lung type classification (Step 4): [utilities/files/LUADLUSC/lungsubtype_Institutions.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
-    - LUAD Overall Survival (Step 4): [utilities/files/LUAD/overall_survival_TCGA_folds.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
+    - Complete set (Step 5): `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5`
+- Dataset with original tile images that macth with previous H5 file. E.g.:
+    - TCGAFFPE_LUADLUSC_5x_60pc ([Workspace setup](#Workspace-setup)): `datasets/TCGAFFPE_LUADLUSC_5x_60pc_250K`
 
 **Step Output:**
+- Folder under `meta_folder/leiden_%resolution_fold%fold`. E.g.: `lung_subtypes_nn250/leiden_2p0_fold4`
+  - wsi_clusters: folder with original WSI and WSI with HPC overlay.
+  - wsi_annotation.csv: CSV with WSI names dominant HPC and percentage over the total area. In addition, it provides a link to the GDC website where it can be further visualized.
+  - images: folder with tiles per HPC
+  - cluster_annotation.csv: CSV with HPCs.
+  - backtrack: folder with information to back track tiles provided for each HPC.
 
 Usage:
 ```
@@ -534,8 +537,8 @@ optional arguments:
   --matching_field       Key used to match folds split and H5 representation file.
   --resolution          Minimum number of tiles per matching_field.
   --dpi DPI             Highest quality: 1000.
-  --fold FOLD           Minimum number of tiles per matching_field.
-  --dataset DATASET     Dataset to use.
+  --fold FOLD           Cluster fold configuration to use.
+  --dataset DATASET     Dataset with thei tile images that match tile vector representations in h5_complete_path.
   --h5_complete_path    H5 file path to run the leiden clustering folds.
   --h5_additional_path  Additional H5 representation to assign leiden clusters.
   --min_tiles MIN_TILES Minimum number of tiles per matching_field.
@@ -543,7 +546,7 @@ optional arguments:
   --img_size IMG_SIZE   Image size for the model.
   --img_ch IMG_CH       Number of channels for the model.
   --marker MARKER       Marker of dataset to use.
-  --tile_img            Dump cluster tile images.
+  --tile_img            Flag to dump cluster tile images.
   --extensive           Flag to dump test set cluster images in addition to train.
   --additional_as_fold  Flag to specify if additional H5 file will be used for cross-validation.
 
