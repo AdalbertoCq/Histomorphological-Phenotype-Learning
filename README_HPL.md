@@ -1,4 +1,4 @@
-## HPL Instructions
+# HPL Instructions
 The flow consists in the following steps:
 1. [Self-supervised Barlow Twins training.](#1.-Self-supervised-model-training)
 2. [Tile vector representations.](#2.-Tile-vector-representations)
@@ -12,7 +12,7 @@ The flow consists in the following steps:
 10. [Correlation between annotations and clusters.](#10.-Correlation-between-annotations-and-clusters)
 11. [Get tiles and WSI samples for HPCs.](#11.-Get-tiles-and-WSI-samples-for-HPCs)
 
-### 1. Self supervised model training
+## 1. Self supervised model training
 
 This step trains the self-supervised model on a given dataset.
 
@@ -56,7 +56,7 @@ python3 run_representationspathology.py \
 --report 
 ```
 
-### 2. Tile vector representations
+## 2. Tile vector representations
 This step uses the self-supervised trained CNN to find vector representations for each tile image.
 
 There are two options when to run this step. You can do it by file (e.g. an external cohort) or by using an entire dataset (e.g. TCGA training, validation, and test sets).
@@ -133,7 +133,7 @@ python3 ./run_representationspathology_projection.py \
 --model BarlowTwins_3 
 ```
 
-### 3. Combine all representation sets into one H5 file
+## 3. Combine all representation sets into one H5 file
 This step takes all set H5 files with tile vector representations and merges then into a single H5 file.
 
 **Step Inputs:**
@@ -171,7 +171,7 @@ python3 ./utilities/h5_handling/combine_complete_h5.py \
 --model ContrastivePathology_BarlowTwins_2
 ```
 
-### 4. Fold cross validation files for classification and survival analysis
+## 4. Fold cross validation files for classification and survival analysis
 This step defines the 5-fold cross-validation to run the classification and survival analysis. The files created here will be used in the Leiden clustering, logistic regression, and Cox proportional hazards.
 
 **Step Inputs:**
@@ -187,7 +187,7 @@ You can create the CSV and pickle files with these notebooks:
     - LUAD vs LUSC: [utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/files/LUADLUSC/LUADLUSC_lungsubtype_overall_survival.csv)
     - LUAD Overall Survival: [utilities/files/LUAD/overall_survival_TCGA_folds.csv](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/files/LUAD/overall_survival_TCGA_folds.csv)
 
-### 5. Include metadata in H5 file
+## 5. Include metadata in H5 file
 This step includes metadata into the H5 file. It used the data in the CSV files from the previous steps. The metadata is later used in the cancer type classification (logistic regression) or survival analysis (Cox proportional hazards).
 
 **Step Inputs:**
@@ -225,7 +225,7 @@ Command example:
  --meta_name lungsubtype_survival
 ```
 
-### 6. Leiden clustering based on fold cross validation
+## 6. Leiden clustering based on fold cross validation
 This step performs clustering by only using representations in the training set. Samples in the training set are taken from the fold pickle (Step 4). Keep in mind that if there are 5 folds, the script will perform 5 different clustering configurations. One per training set.
 
 At this step you can select if you want to run several resolution parameters or just one. The resolution parameter indirectly controls the number of clusters, where a higher value results in higher number of clusters.
@@ -280,7 +280,7 @@ python3 ./run_representationsleiden.py \
 
 ```
 
-### 7. Remove background tiles
+## 7. Remove background tiles
 **Optional step**
 
 This is step removes tile vector representations that correspond to background or artifact tile images. It's composed by 4 different steps.
@@ -323,7 +323,7 @@ python3 ./utilities/tile_cleaning/remove_indexes_h5.py \
     - Repeat Step 6 ['Leiden clustering'](#6.-Leiden-clustering-based-on-fold-cross-validation).
 
 
-### 8. Logistic regression for classification
+## 8. Logistic regression for classification
 This is step runs a binary classification over logistic regression.
 
 
@@ -367,7 +367,7 @@ python3 ./report_representationsleiden_lr.py \
 --h5_additional_path ./results/ContrastivePathology_BarlowTwins_3/NYU_BiFrFF_5x/h224_w224_n3_zdim128/hdf5_NYU_BiFrFF_5x_he_test_luad.h5
 ```
 
-### 9. Cox proportional hazards for survival regression
+## 9. Cox proportional hazards for survival regression
 
 Usage:
 ```
@@ -402,10 +402,10 @@ python3 ./report_representationsleiden_cox.py \
 --h5_additional_path ./results/ContrastivePathology_BarlowTwins_3/NYU_LUADall_5x/h224_w224_n3_zdim128/hdf5_NYU_LUADall_5x_he_combined_os_pfs_survival.h5  
 ```
 
-### 10. Correlation between annotations and clusters
+## 10. Correlation between annotations and clusters
 You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
 
-### 11. Get tiles and WSI samples for HPCs
+## 11. Get tiles and WSI samples for HPCs
 This step provides tile images per each HPC and WSI with cluster overlays. In order to provide WSIs, you will need to edit the dictionary `value_cluster_ids` in line 52 of `report_representationsleiden_samples.py`. Clusters provided at key `1` will show in the output csv files as related to outcome classification (`1`) or survival(`dead event`). If the cluster if provided at key `0`, it will show as related to outcome classification (`0`) or survival (`survival event`).
 
 **Step Inputs:**
