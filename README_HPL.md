@@ -231,7 +231,7 @@ This step performs clustering by only using representations in the training set.
 At this step you can select if you want to run several resolution parameters or just one. The resolution parameter indirectly controls the number of clusters, where a higher value results in higher number of clusters.
 By default it will run the following resolutions `[0.4, 0.7, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]`. If you are just running one resolution value, you can provide it through the argument `--resolution`. If you want to run a range of them, you can modify this at line 45 of `run_representationsleiden.py`.
 
-[**Note**] If you are running this step for filtering out background and artifact tiles (Step 7).  
+[**Note**] If you are running this step for filtering out background and artifact tiles (Step 7). I suggest to use `--resolution 5.0`.
 
 [**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the [paper](https://arxiv.org/abs/2205.01931).
 
