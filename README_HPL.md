@@ -229,9 +229,9 @@ Command example:
 This step performs clustering by only using representations in the training set. Samples in the training set are taken from the fold pickle (Step 4). Keep in mind that if there are 5 folds, the script will perform 5 different clustering configurations. One per training set.
 
 At this step you can select if you want to run several resolution parameters or just one. The resolution parameter indirectly controls the number of clusters, where a higher value results in higher number of clusters.
-If you are just running one resolution value, you can provide it through the argument `--resolution`. If you want to run a range of them, you can modify this at line 45 of `run_representationsleiden.py`.
+By default it will run the following resolutions `[0.4, 0.7, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]`. If you are just running one resolution value, you can provide it through the argument `--resolution`. If you want to run a range of them, you can modify this at line 45 of `run_representationsleiden.py`.
 
-[**Note**] If you are running this step for filtering out background and artifact tiles (Step 7). I suggest to use `--resolution 5.0`.
+[**Note**] If you are running this step for filtering out background and artifact tiles (Step 7).  
 
 [**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the [paper](https://arxiv.org/abs/2205.01931).
 
@@ -343,6 +343,8 @@ The latter allows to compare the significance of HPCs across folds for the class
 In our paper, we first run the classification task with different cluster configurations per fold. The purpose of this step is to ensure that defining HPCs with different WSI will yield similar results. 
 After this, we locked down a cluster fold by providing the argument `--force_fold`.
 
+[**Note**] The script runs the alphas `[0.1, 0.5, 1.0, 5.0, 10.0, 25.0]` and resolutions `[1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]` by default. If you want to run different alphas or resolutions you can edit these at lines 45-46 of `report_representationsleiden_lr.py`. 
+
 **Step Inputs:**
 - Cluster configuration files (Step 6): Files that contain HPC assignations for each tile. E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/lungsubtype_nn250/adatas`
 - Folds pickle file (Step 4): This file contains the training, validation, and test set for the classification task. E.g.: [utilities/files/LUADLUSC/lungsubtype_Institutions.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/files/LUADLUSC/lungsubtype_Institutions.pkl)
@@ -408,13 +410,17 @@ The latter allows to compare the significance of HPCs across folds for the survi
 In our paper, we first run the survival task with different cluster configurations per fold. The purpose of this step is to ensure that defining HPCs with different WSI will yield similar results.
 After this, we locked down a cluster fold by providing the argument `--force_fold`.
 
+[**Note**] The script runs a range of alpha penalties `10. ** np.linspace(-4, 4, 50)`, l1 ratios `[0.0]`, and resolutions `[1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]` by default. If you want to run different alphas or resolutions you can edit these at lines 48-52 of `report_representationsleiden_cox.py`.
+
 **Step Inputs:**
 - Cluster configuration files (Step 6): Files that contain HPC assignations for each tile. E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/luad_overall_survival_nn250/adatas`
 - Folds pickle file (Step 4): This file contains the training and test set for the survival task. E.g.: [utilities/files/LUAD/overall_survival_TCGA_folds.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
 - H5 file with tile vector representations (Step 5/7). E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5`
 
 **Step Outputs:**
-
+At the provided `meta_folder` directory, you will find the following files:
+- `c_index_%s_l1_ratio_%s_mintiles_%s.jpg`: Summary figure with c-index performance for all resolutions
+- `c_index_%s_l1_ratio_%s_mintiles_%s.csv`: CSV file with raw results of the previous figure.
 
 Usage:
 ```
