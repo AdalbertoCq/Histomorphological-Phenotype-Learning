@@ -467,8 +467,23 @@ python3 ./report_representationsleiden_cox.py \
 --h5_additional_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined_filtered.h5  
 ```
 
-## 9.B Cox proportional hazards for survival regression - Individual Resolution
+## 9.B Cox proportional hazards for survival regression - Individual resolution and penalty
+This is step runs a survival analysis with a Cox proportional hazards for a particular resolution and penalty.
 
+This script will provide forest plots and Kaplan-Meier plots for the specific resolution and alpha. 
+The alpha penalty is optional, if not provided it will run a range of penalties and select the one based on best performance for the TCGA test set, using the additional cohort to verify performance and generalization.  
+
+**Step Inputs:**
+- Cluster configuration files (Step 6): Files that contain HPC assignations for each tile. E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/luad_overall_survival_nn250/adatas`
+- Folds pickle file (Step 4): This file contains the training and test set for the survival task. E.g.: [utilities/files/LUAD/overall_survival_TCGA_folds.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
+- H5 file with tile vector representations (Step 5/7). E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5`
+
+**Step Outputs:**
+At the provided `meta_folder` directory, you will find the following files:
+- `KM_leiden_%s.jpg`: Kaplan-Meier plot for a given set. 
+- `hazard_ratios_summary.jpg`: Summary figure with log hazard ratios and performance variations for the different alpha penalties.
+- `leiden_%s_fold_%s_clusters.jpg`: Forest plot for HPC and fold.
+- `leiden_%s_stat_all_clusters.jpg`: If the `force_fold` parameter is provided, it will output this file that summarizes the Forest plot for HPC across all folds.
 
 ## 10. Correlation between annotations and clusters
 You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
