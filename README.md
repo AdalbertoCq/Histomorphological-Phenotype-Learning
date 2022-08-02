@@ -148,8 +148,8 @@ You can find cluster configurations used in the publication results at:
 
 ### TCGA WSI & patient vector representations
 You can find WSI and patient vector representations used in the publication results at:
-2. [LUAD vs LUSC type classification](https://drive.google.com/drive/folders/1TcwIJuSNGl4GC-rT3jh_5cqML7hGR0Ht?usp=sharing)
-3. [LUAD survival](https://drive.google.com/drive/folders/1CaB1UArfvkAUxGkR5hv9eD9CMDqJhIIO?usp=sharing)
+1. [LUAD vs LUSC type classification](https://drive.google.com/drive/folders/1TcwIJuSNGl4GC-rT3jh_5cqML7hGR0Ht?usp=sharing)
+2. [LUAD survival](https://drive.google.com/drive/folders/1CaB1UArfvkAUxGkR5hv9eD9CMDqJhIIO?usp=sharing)
 
 ## Dockers
 These are the dockers with the environments to run the steps of HPL. Step **'Leiden clustering'** needs to be run with docker [**2**], all other steps can be run with docker [**1**]:
@@ -194,12 +194,12 @@ wandb==0.12.7
 ```
 
 ## Frequently Asked Questions
-#### A. I have my own cohort and I want to assign existing clusters to my own WSI tiles. Is it possible?
+#### I have my own cohort and I want to assign existing clusters to my own WSI tiles. Is it possible?
 Yes, make sure you download the TCGA cluster configurations provided at the 'TCGA clusters' section.
 
 You can follow steps on how to assign existing clusters in [here](README_additional_cohort.md).
 
-#### B. When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
+#### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
 Based on experience, this error occurs with non-compatible version on numba, umap-learn, and scanpy. The package versions in the python environment should work.
 
 
