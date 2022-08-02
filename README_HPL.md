@@ -327,7 +327,9 @@ python3 ./utilities/tile_cleaning/remove_indexes_h5.py \
 This is step runs a binary classification over logistic regression.
 
 It is important to mention that you can run this step by using the different cluster configuration per fold or you can select to use a common cluster configuration across the classification folds. 
-The latter allows to compare the significance of HPCs across folds for the classification task. [**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the [paper](https://arxiv.org/abs/2205.01931).
+The latter allows to compare the significance of HPCs across folds for the classification task. 
+
+[**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the [paper](https://arxiv.org/abs/2205.01931).
 
 In our paper, we first run the classification task with different cluster configurations per fold. The purpose of this step is to ensure that defining clusters with different WSI will yield similar results. 
 After this, we locked down a cluster fold by providing the argument `--force_fold`.
@@ -338,9 +340,13 @@ After this, we locked down a cluster fold by providing the argument `--force_fol
 - H5 file with tile vector representations (Step 5/7). E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5`
 
 **Step Outputs:**
-- 
-
-
+At the provided `meta_folder` directory, you will find the following files:
+- `alphas_summary_auc_mintiles_%s_label1.jpg`: Summary figure with logistic regression performance for all different alpha penalties. In addition, it provides a table with statistically significant HPCs per resolution and fold for prediciton.
+- `clusters_stats_mintiles_%s_label1.csv`: CSV file with raw results of the previous figure.
+- `alpha_%s_mintiles_%s`: Directory with results for a given alpha penalty:
+  - `luad_auc_results_mintiles_%s.jpg`: Figure with logistic regression performance for the given penalty.
+  - `luad_auc_results_mintiles_%s.csv`: Raw data for previous figure.
+  - `forest_plots`: Directory with Forest plots for all resolutions and folds. If `force_fold` is provided, it will output an additional file `leiden_%s_stats_all_folds_label1.jpg` that summarizes the Forest plot for all folds. 
 
 Usage:
 ```
