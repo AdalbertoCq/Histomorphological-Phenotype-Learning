@@ -130,6 +130,8 @@ This section contains the following TCGA files produced by HPL:
 3. TCGA cluster configurations.
 4. TCGA WSI & patient representations. 
 
+For the New York University cohorts, please send reasonable requests to the corresponding authors.
+
 ### Pretrained Models
 Self-supervised model weights:
 1. [Lung adenocarcinoma (LUAD) and squamous cell carcinoma (LUSC) model](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020).
@@ -192,12 +194,12 @@ wandb==0.12.7
 ```
 
 ## Frequently Asked Questions
-#### I have my own cohort and I want to assign existing clusters to my own WSI tiles. Is it possible?
+#### A. I have my own cohort and I want to assign existing clusters to my own WSI tiles. Is it possible?
 Yes, make sure you download the TCGA cluster configurations provided at the 'TCGA clusters' section.
 
 You can follow steps on how to assign existing clusters in [here](README_additional_cohort.md).
 
-#### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
+#### B. When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
 Based on experience, this error occurs with non-compatible version on numba, umap-learn, and scanpy. The package versions in the python environment should work.
 
 
