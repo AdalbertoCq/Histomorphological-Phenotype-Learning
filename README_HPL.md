@@ -399,7 +399,7 @@ python3 ./report_representationsleiden_lr.py \
 --h5_additional_path ./results/ContrastivePathology_BarlowTwins_3/NYU_BiFrFF_5x/h224_w224_n3_zdim128/hdf5_NYU_BiFrFF_5x_he_test_luad.h5
 ```
 
-## 9. Cox proportional hazards for survival regression
+## 9.A Cox proportional hazards for survival regression
 This is step runs a survival analysis with a Cox proportional hazards.
 
 It is important to mention that you can run this step by using the different cluster configuration per fold or you can select to use a common cluster configuration across the survival folds.
@@ -466,6 +466,9 @@ python3 ./report_representationsleiden_cox.py \
 --h5_complete_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 \
 --h5_additional_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined_filtered.h5  
 ```
+
+## 9.B Cox proportional hazards for survival regression - Individual Resolution
+
 
 ## 10. Correlation between annotations and clusters
 You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
