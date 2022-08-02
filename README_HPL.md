@@ -326,7 +326,11 @@ python3 ./utilities/tile_cleaning/remove_indexes_h5.py \
 ## 8. Logistic regression for classification
 This is step runs a binary classification over logistic regression.
 
+It is important to mention that you can run this step by using the different cluster configuration per fold or you can select to use a common cluster configuration across the classification folds. 
+The latter allows to compare the significance of HPCs across folds for the classification task. [**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the [paper](https://arxiv.org/abs/2205.01931).
 
+In our paper, we first run the classification task with different cluster configurations per fold. The purpose of this step is to ensure that defining clusters with different WSI will yield similar results. 
+After this, we locked down a cluster fold by providing the argument `--force_fold`.
 
 **Step Inputs:**
 - Cluster configuration files (Step 6): Files that contain HPC assignations for each tile. E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/lungsubtype_nn250/adatas`
@@ -334,9 +338,9 @@ This is step runs a binary classification over logistic regression.
 - H5 file with tile vector representations (Step 5/7). E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5`
 
 **Step Outputs:**
+- 
 
 
-[**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the [paper](https://arxiv.org/abs/2205.01931).
 
 Usage:
 ```
@@ -362,6 +366,17 @@ python3 ./report_representationsleiden_lr.py \
 --meta_field luad \
 --matching_field slides \
 --min_tiles 100 \
+--folds_pickle ./utilities/files/LUAD/folds_LUAD_Institutions.pkl \
+--h5_complete_path ./results/ContrastivePathology_BarlowTwins_3/TCGAFFPE_5x_perP/h224_w224_n3_zdim128/hdf5_TCGAFFPE_5x_perP_he_complete_lungsubtype_survival.h5 \
+--h5_additional_path ./results/ContrastivePathology_BarlowTwins_3/NYU_BiFrFF_5x/h224_w224_n3_zdim128/hdf5_NYU_BiFrFF_5x_he_test_luad.h5
+```
+```
+python3 ./report_representationsleiden_lr.py \
+--meta_folder lung_subtypes_nn250 \
+--meta_field luad \
+--matching_field slides \
+--min_tiles 100 \
+--force_fold 4 \
 --folds_pickle ./utilities/files/LUAD/folds_LUAD_Institutions.pkl \
 --h5_complete_path ./results/ContrastivePathology_BarlowTwins_3/TCGAFFPE_5x_perP/h224_w224_n3_zdim128/hdf5_TCGAFFPE_5x_perP_he_complete_lungsubtype_survival.h5 \
 --h5_additional_path ./results/ContrastivePathology_BarlowTwins_3/NYU_BiFrFF_5x/h224_w224_n3_zdim128/hdf5_NYU_BiFrFF_5x_he_test_luad.h5
