@@ -260,16 +260,25 @@ optional arguments:
   -h, --help            show this help message and exit
   --subsample           Number of samples used to run Leiden. Default is None, 200000 works well.
   --n_neighbors         Number of neighbors to use when creating the graph. Default is 250.
-  --meta_field           Purpose of the clustering, name of output folder.
-  --matching_field       Key used to match folds split and H5 representation file.
-  --rep_key REP_KEY     Key pattern for representations to grab: z_latent, h_latent.
+  --meta_field          Purpose of the clustering, name of output folder.
+  --matching_field      Key used to match folds split and H5 representation file.
+  --rep_key             Key pattern for representations to grab: z_latent, h_latent.
   --folds_pickle        Pickle file with folds information.
   --main_path           Workspace main path.
   --h5_complete_path    H5 file path to run the leiden clustering folds.
   --h5_additional_path  Additional H5 representation to assign leiden clusters.
 
 ```
-Command example:
+Command examples:
+```
+python3 ./run_representationsleiden.py \
+--meta_field lung_subtypes_nn250 \
+--matching_field slides \
+--folds_pickle ./utilities/files/LUAD/folds_LUAD_Institutions.pkl \
+--h5_complete_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5 \
+--subsample 200000
+
+```
 ```
 python3 ./run_representationsleiden.py \
 --meta_field luad_overall_survival_nn250 \
@@ -331,7 +340,7 @@ The latter allows to compare the significance of HPCs across folds for the class
 
 [**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the [paper](https://arxiv.org/abs/2205.01931).
 
-In our paper, we first run the classification task with different cluster configurations per fold. The purpose of this step is to ensure that defining clusters with different WSI will yield similar results. 
+In our paper, we first run the classification task with different cluster configurations per fold. The purpose of this step is to ensure that defining HPCs with different WSI will yield similar results. 
 After this, we locked down a cluster fold by providing the argument `--force_fold`.
 
 **Step Inputs:**
@@ -389,6 +398,23 @@ python3 ./report_representationsleiden_lr.py \
 ```
 
 ## 9. Cox proportional hazards for survival regression
+This is step runs a survival analysis with a Cox proportional hazards.
+
+It is important to mention that you can run this step by using the different cluster configuration per fold or you can select to use a common cluster configuration across the survival folds.
+The latter allows to compare the significance of HPCs across folds for the survival task.
+
+[**Important**] You can find further information on this step in the sections **Online Methods - Evaluation** and **Supplementary Figure 8** from the [paper](https://arxiv.org/abs/2205.01931).
+
+In our paper, we first run the survival task with different cluster configurations per fold. The purpose of this step is to ensure that defining HPCs with different WSI will yield similar results.
+After this, we locked down a cluster fold by providing the argument `--force_fold`.
+
+**Step Inputs:**
+- Cluster configuration files (Step 6): Files that contain HPC assignations for each tile. E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/luad_overall_survival_nn250/adatas`
+- Folds pickle file (Step 4): This file contains the training and test set for the survival task. E.g.: [utilities/files/LUAD/overall_survival_TCGA_folds.pkl](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/files/LUAD/overall_survival_TCGA_folds.pkl)
+- H5 file with tile vector representations (Step 5/7). E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5`
+
+**Step Outputs:**
+
 
 Usage:
 ```
@@ -419,8 +445,20 @@ python3 ./report_representationsleiden_cox.py \
 --event_data_field os_event_data \
 --min_tiles 100 \
 --folds_pickle ./utilities/files/LUAD/overall_survival_TCGA_folds.pkl \
---h5_complete_path ./results/ContrastivePathology_BarlowTwins_3/TCGAFFPE_5x_perP/h224_w224_n3_zdim128/hdf5_TCGAFFPE_5x_perP_he_complete_os_survival.h5 \
+--h5_complete_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 \
 --h5_additional_path ./results/ContrastivePathology_BarlowTwins_3/NYU_LUADall_5x/h224_w224_n3_zdim128/hdf5_NYU_LUADall_5x_he_combined_os_pfs_survival.h5  
+```
+```
+python3 ./report_representationsleiden_cox.py \
+--meta_folder luad_overall_survival_nn250 \
+--matching_field samples \
+--event_ind_field os_event_ind \
+--event_data_field os_event_data \
+--min_tiles 100 \
+--force_fold 0 \
+--folds_pickle ./utilities/files/LUAD/overall_survival_TCGA_folds.pkl \
+--h5_complete_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 \
+--h5_additional_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined_filtered.h5  
 ```
 
 ## 10. Correlation between annotations and clusters
