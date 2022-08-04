@@ -201,6 +201,12 @@ You can follow steps on how to assign existing clusters in [here](README_additio
 
 #### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
 Based on experience, this error occurs with non-compatible version on numba, umap-learn, and scanpy. The package versions in the python environment should work.
+But these alternative package combination works:
+```
+scanpy==1.7.1 
+pynndescent==0.5.0 
+numba==0.51.2
+```
 
 
 
