@@ -132,7 +132,12 @@ This section contains the following TCGA files produced by HPL:
 
 For the New York University cohorts, please send reasonable requests to the corresponding authors.
 
-### Pretrained Models
+### TCGA Tile Images
+You can find the WSI tile images at:
+1. [LUAD & LUSC](https://drive.google.com/drive/folders/1FuPkMnv6CiDe26doUXfEfQEWShgbmp9P?usp=sharing)
+2. [LUAD & LUSC 250K](https://drive.google.com/drive/folders/1FuPkMnv6CiDe26doUXfEfQEWShgbmp9P?usp=sharing) subsample for self-supervised model training.
+
+### TCGA Pretrained Models
 Self-supervised model weights:
 1. [Lung adenocarcinoma (LUAD) and squamous cell carcinoma (LUSC) model](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020).
 2. [PanCancer: BRCA, HNSC, KICH, KIRC, KIRP, LUSC, LUAD](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_PanCancer_5x/19949708).
