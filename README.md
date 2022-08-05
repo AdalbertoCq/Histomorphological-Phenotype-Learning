@@ -126,7 +126,7 @@ You can find the full details [here](README_HPL.md).
 ## TCGA HPL files
 This section contains the following TCGA files produced by HPL:
 1. TCGA LUAD & LUSC WSI tile image datasets.
-2. Self-supervised trained weights.
+2. TCGA Self-supervised trained weights.
 3. TCGA tile projections.
 4. TCGA cluster configurations.
 5. TCGA WSI & patient representations. 
