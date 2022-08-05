@@ -134,8 +134,8 @@ For the New York University cohorts, please send reasonable requests to the corr
 
 ### TCGA Tile Images
 You can find the WSI tile images at:
-1. [LUAD & LUSC](https://drive.google.com/drive/folders/1FuPkMnv6CiDe26doUXfEfQEWShgbmp9P?usp=sharing)
-2. [LUAD & LUSC 250K](https://drive.google.com/drive/folders/1FuPkMnv6CiDe26doUXfEfQEWShgbmp9P?usp=sharing) subsample for self-supervised model training.
+1. [LUAD & LUSC 60% Background max](https://drive.google.com/drive/folders/18skVh8Vk6zoxG3Se5Vlb7a3EKP2xHXXd?usp=sharing)
+2. [LUAD & LUSC 60% Background max](https://drive.google.com/drive/folders/1FuPkMnv6CiDe26doUXfEfQEWShgbmp9P?usp=sharing) - 250K subsample for self-supervised model training.
 
 ### TCGA Pretrained Models
 Self-supervised model weights:
