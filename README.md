@@ -125,14 +125,15 @@ You can find the full details [here](README_HPL.md).
 
 ## TCGA HPL files
 This section contains the following TCGA files produced by HPL:
-1. Self-supervised trained weights.
-2. TCGA tile projections.
-3. TCGA cluster configurations.
-4. TCGA WSI & patient representations. 
+1. TCGA LUAD & LUSC WSI tile image datasets.
+2. Self-supervised trained weights.
+3. TCGA tile projections.
+4. TCGA cluster configurations.
+5. TCGA WSI & patient representations. 
 
 For the New York University cohorts, please send reasonable requests to the corresponding authors.
 
-### TCGA Tile Images
+### TCGA LUAD & LUSC WSI tile image datasets
 You can find the WSI tile images at:
 1. [LUAD & LUSC 60% Background max](https://drive.google.com/drive/folders/18skVh8Vk6zoxG3Se5Vlb7a3EKP2xHXXd?usp=sharing)
 2. [LUAD & LUSC 60% Background max](https://drive.google.com/drive/folders/1FuPkMnv6CiDe26doUXfEfQEWShgbmp9P?usp=sharing) - 250K subsample for self-supervised model training.
