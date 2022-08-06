@@ -160,9 +160,9 @@ You can find WSI and patient vector representations used in the publication resu
 ## Dockers
 These are the dockers with the environments to run the steps of HPL. Step **'Leiden clustering'** needs to be run with docker [**2**], all other steps can be run with docker [**1**]:
 1. **Self-Supervised models training and projections:**
-     - [aclaudioquiros/tf_package:v16](https://hub.docker.com/r/aclaudioquiros/tf_package/tags)
+   - [aclaudioquiros/tf_package:v16](https://hub.docker.com/r/aclaudioquiros/tf_package/tags)
 2. **Leiden clustering:**
-    - [gcfntnu/scanpy:1.7.0](https://hub.docker.com/r/gcfntnu/scanpy) 
+   - [gcfntnu/scanpy:1.7.0](https://hub.docker.com/r/gcfntnu/scanpy) 
    
 ## Python Environment
 The code uses Python 3.7.12 and the following packages:
@@ -214,5 +214,5 @@ pynndescent==0.5.0
 numba==0.51.2
 ```
 
-
+#### If you are having any issue running this scripts, please leave a message on the Issues Github tab.
 
