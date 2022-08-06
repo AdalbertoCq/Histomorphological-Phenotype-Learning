@@ -1,19 +1,18 @@
 # HPL Instructions
 The flow consists in the following steps:
-1. [Self-supervised Barlow Twins training.](#1.-Self-supervised-model-training)
-2. [Tile vector representations.](#2.-Tile-vector-representations)
-3. [Combination of all sets into one H5.](#3.-Combine-all-representation-sets-into-one-H5-file)
-4. [Fold cross validation files.](#4.-Fold-cross-validation-files-for-classification-and-survival-analysis)
-5. [Include metadata in H5 file.](#5.-Include-metadata-in-H5-file)
-6. [Leiden clustering.](#6.-Leiden-clustering-based-on-fold-cross-validation)
-7. [Removing background tiles [Optional].](#7.-Remove-background-tiles)
-8. [Logistic regression for lung type WSI classification.](#8.-Logistic-regression-for-classification)
-9. [Cox proportional hazards for survival regression.](#9.-Cox-proportional-hazards-for-survival-regression)
-10. [Correlation between annotations and clusters.](#10.-Correlation-between-annotations-and-clusters)
-11. [Get tiles and WSI samples for HPCs.](#11.-Get-tiles-and-WSI-samples-for-HPCs)
+1. Self-supervised Barlow Twins training.
+2. Tile vector representations.
+3. Combination of all sets into one H5.
+4. Fold cross validation files.
+5. Include metadata in H5 file.
+6. Leiden clustering.
+7. Removing background tiles.
+8. Logistic regression for lung type WSI classification.
+9. Cox proportional hazards for survival regression.
+10. Correlation between annotations and clusters.
+11. Get tiles and WSI samples for HPCs.
 
 ## 1. Self supervised model training
-
 This step trains the self-supervised model on a given dataset.
 
 **Step Inputs:**
@@ -290,8 +289,7 @@ python3 ./run_representationsleiden.py \
 ```
 
 ## 7. Remove background tiles
-**Optional step**
-
+**Optional step**.
 This is step removes tile vector representations that correspond to background or artifact tile images. It's composed by 4 different steps.
 
 1. Get tile samples per HPC:
