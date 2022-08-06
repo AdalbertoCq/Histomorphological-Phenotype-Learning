@@ -424,7 +424,7 @@ At the provided `meta_folder` directory, you will find the following files:
 
 Usage:
 ```
-Report classification and cluster performance based on Logistic Regression.
+Report survival and cluster performance based on Cox proportional hazards.
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -484,6 +484,44 @@ At the provided `meta_folder` directory, you will find the following files:
 - `hazard_ratios_summary.jpg`: Summary figure with log hazard ratios and performance variations for the different alpha penalties.
 - `leiden_%s_fold_%s_clusters.jpg`: Forest plot for HPC and fold.
 - `leiden_%s_stat_all_clusters.jpg`: If the `force_fold` parameter is provided, it will output this file that summarizes the Forest plot for HPC across all folds.
+
+Usage:
+```
+Report survival and cluster performance based on Cox proportional hazards.
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --alpha ALPHA         Cox regression penalty value.
+  --resolution          Leiden resolution.
+  --meta_folder         Purpose of the clustering, name of folder.
+  --matching_field       Key used to match folds split and H5 representation file.
+  --event_ind_field      Key used to match event indicator field.
+  --event_data_field     Key used to match event data field.
+  --diversity_key       Key use to check diversity within cluster: Slide, Institution, Sample.
+  --type_composition    Space transformation type: percent, clr, ilr, alr.
+  --l1_ratio            L1 Penalty for Cox regression.
+  --min_tiles           Minimum number of tiles per matching_field.
+  --force_fold          Force fold of clustering.
+  --folds_pickle        Pickle file with folds information.
+  --h5_complete_path    H5 file path to run the leiden clustering folds.
+  --h5_additional_path  Additional H5 representation to assign leiden clusters.
+  --additional_as_fold  Flag to specify if additional H5 file will be used for cross-validation.
+```
+Command example:
+```
+python3 ./report_representationsleiden_cox_individual.py \
+--meta_folder luad_overall_survival_nn250 \
+--matching_field samples \
+--event_ind_field pfs_event_ind \
+--event_data_field pfs_event_data \
+--folds_pickle ./utilities/files/LUAD/overall_survival_TCGA_folds.pkl \
+--h5_complete_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 \ 
+--h5_additional_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined_filtered.h5 \ 
+--resolution 2.0 \
+--force_fold 0 \
+--l1_ratio 0.0 \
+--alpha 1.0 
+```
 
 ## 10. Correlation between annotations and clusters
 You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
