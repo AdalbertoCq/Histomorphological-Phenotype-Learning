@@ -38,18 +38,18 @@ Slides summarizing methodology and results:
 In this repository you will find the following sections: 
 1. [WSI tiling process](#WSI-tiling-process): Instructions on how to create H5 files from WSI tiles.
 2. [Workspace setup](#Workspace-setup): Details on H5 file content and directory structure.
-3. [HPL instructions](#HPL-Instructions): Step-by-step instructions on how to run the complete methodology.
-   1. [Self-supervised Barlow Twins training.](#1.-Self-supervised-model-training)
-   2. [Tile vector representations.](#2.-Tile-vector-representations)
-   3. [Combination of all sets into one H5.](#3.-Combine-all-representation-sets-into-one-H5-file)
-   4. [Fold cross validation files.](#4.-Fold-cross-validation-files-for-classification-and-survival-analysis)
-   5. [Include metadata in H5 file.](#5.-Include-metadata-in-H5-file)
-   6. [Leiden clustering.](#6.-Leiden-clustering-based-on-fold-cross-validation)
-   7. [Removing background tiles [Optional].](#7.-Remove-background-tiles)
-   8. [Logistic regression for lung type WSI classification.](#8.-Logistic-regression-for-classification)
-   9. [Cox proportional hazards for survival regression.](#9.-Cox-proportional-hazards-for-survival-regression)
-   10. [Correlation between annotations and clusters.](#10.-Correlation-between-annotations-and-clusters)
-   11. [Get tiles and WSI samples for HPCs.](#11.-Get-tiles-and-WSI-samples-for-HPCs)
+3. [HPL instructions](./README_HPL.md): Step-by-step instructions on how to run the complete methodology.
+   1. Self-supervised Barlow Twins training.
+   2. Tile vector representations.
+   3. Combination of all sets into one H5.
+   4. Fold cross validation files.
+   5. Include metadata in H5 file.
+   6. Leiden clustering.
+   7. Removing background tiles.
+   8. Logistic regression for lung type WSI classification.
+   9. Cox proportional hazards for survival regression.
+   10. Correlation between annotations and clusters.
+   11. Get tiles and WSI samples for HPCs.
 4. [TCGA HPL files](#TCGA-HPL-files): HPL output files of paper results.  
 5. [Dockers](#Dockers): Docker environments to run HPL steps.
 6. [Python Environment](#Python-Environment): Python version and packages.
