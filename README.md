@@ -200,10 +200,8 @@ wandb==0.12.7
 ```
 
 ## Frequently Asked Questions
-#### I have my own cohort and I want to assign existing clusters to my own WSI tiles. Is it possible?
-Yes, make sure you download the TCGA cluster configurations provided at the 'TCGA clusters' section.
-
-You can follow steps on how to assign existing clusters in [here](README_additional_cohort.md).
+#### I have my own cohort and I want to assign existing clusters to my own WSI. Is it possible?
+You can follow steps on how to assign existing clusters in [here](README_additional_cohort.md). These instructions will give you assignation to the same clusters reported in the publication.
 
 #### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
 Based on experience, this error occurs with non-compatible version on numba, umap-learn, and scanpy. The package versions in the python environment should work.
@@ -214,5 +212,5 @@ pynndescent==0.5.0
 numba==0.51.2
 ```
 
-#### If you are having any issue running this scripts, please leave a message on the Issues Github tab.
+#### If you are having any issue running these scripts, please leave a message on the Issues Github tab.
 
