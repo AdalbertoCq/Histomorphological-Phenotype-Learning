@@ -200,6 +200,10 @@ wandb==0.12.7
 ```
 
 ## Frequently Asked Questions
+#### I want to reproduce the paper results.
+You can find TCGA files, results, and commands to reproduce them [here](./README_replication.md). For any questions regarding the  New York University cohorts, please address reasonable requests to the corresponding authors.
+
+
 #### I have my own cohort and I want to assign existing clusters to my own WSI. Is it possible?
 You can follow steps on how to assign existing clusters in [here](README_additional_cohort.md). These instructions will give you assignation to the same clusters reported in the publication.
 
@@ -212,5 +216,5 @@ pynndescent==0.5.0
 numba==0.51.2
 ```
 
-#### If you are having any issue running these scripts, please leave a message on the Issues Github tab.
+### If you are having any issue running these scripts, please leave a message on the Issues Github tab.
 
