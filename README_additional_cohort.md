@@ -30,7 +30,7 @@ python3 ./run_representationsleiden_assignment.py \
 - [**Note**] You will see warnings for folds 0-3, that's fine: [Warning] H5AD file not found at '.h5ad' or '_subsample.h5ad'.
 - At the end of this step you should see a csv file with your cohort tile cluster assignations. E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/removal/adatas/NYUFFPE_LUADLUSC_5x_60pc_he_combined_leiden_5p0__fold4.csv`
 
-4. Execute [steps 7.2 and 7.3 of the HPL intructions](./README_HPL.md):
+4. Execute [steps 7.2 and 7.3 of the HPL instructions](./README_HPL.md):
    - The cluster ids used to remove this tiles can be found in the [notebook](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/tile_cleaning/review_cluster_create_pickles.ipynb)
    - `clusters_to_remove = [104, 102, 99, 90, 86, 83, 73, 58, 97, 89, 21]`
    - At the end of these steps you should have a file without tile representations that belong to the background/artifact clusters. E.g.: `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128/hdf5_this_is_your_external_cohort_filtered.h5`
