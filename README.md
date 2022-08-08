@@ -203,7 +203,7 @@ wandb==0.12.7
 #### I want to reproduce the paper results.
 You can find TCGA files, results, and commands to reproduce them [here](./README_replication.md). For any questions regarding the  New York University cohorts, please address reasonable requests to the corresponding authors.
 
-#### I have my own cohort and I want to assign existing clusters to my own WSI. Is it possible?
+#### I have my own cohort and I want to assign existing clusters to my own WSI. 
 You can follow steps on how to assign existing clusters in [here](README_additional_cohort.md). These instructions will give you assignation to the same clusters reported in the publication.
 
 #### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
