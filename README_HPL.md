@@ -525,7 +525,9 @@ python3 ./report_representationsleiden_cox_individual.py \
 You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
 
 ## 11. Get tiles and WSI samples for HPCs
-This step provides tile images per each HPC and WSI with cluster overlays. In order to provide WSIs, you will need to edit the dictionary `value_cluster_ids` in line 52 of `report_representationsleiden_samples.py`. Clusters provided at key `1` will show in the output csv files as related to outcome classification (`1`) or survival(`dead event`). If the cluster if provided at key `0`, it will show as related to outcome classification (`0`) or survival (`survival event`).
+This step provides tile images per each HPC and WSI with cluster overlays. 
+
+In order to provide WSIs, you will need to edit the dictionary `value_cluster_ids` in line 52 of `report_representationsleiden_samples.py`. Clusters provided at key `1` will show in the output csv files as related to outcome classification (`1`) or survival(`dead event`). If the cluster if provided at key `0`, it will show as related to outcome classification (`0`) or survival (`survival event`). You can also randomly obtain WSI by modifying the flag `only_id=False`.
 
 **Step Inputs:**
 - H5 file with tile vector representations and metadata. E.g.:
