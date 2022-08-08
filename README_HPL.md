@@ -510,8 +510,8 @@ Command example:
 python3 ./report_representationsleiden_cox_individual.py \
 --meta_folder luad_overall_survival_nn250 \
 --matching_field samples \
---event_ind_field pfs_event_ind \
---event_data_field pfs_event_data \
+--event_ind_field os_event_ind \
+--event_data_field os_event_data \
 --folds_pickle ./utilities/files/LUAD/overall_survival_TCGA_folds.pkl \
 --h5_complete_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 \ 
 --h5_additional_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_NYUFFPE_LUADLUSC_5x_60pc_he_combined_filtered.h5 \ 
