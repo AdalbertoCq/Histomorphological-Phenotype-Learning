@@ -7,7 +7,7 @@ Download and setup both datasets TCGA LUAD & LUSC WSI tile images [here](./READM
 After doing this step you should have a directory containing the TCGA LUAD & LUSC tile image dataset `datasets/TCGAFFPE_LUADLUSC_5x_60pc`
 
 ## 2. Download folder with TCGA tile vector representations and cluster configurations. 
-You can directly download the whole `results` folder [here](). The folder contains the following:
+You can directly download the whole `results` folder [here](https://drive.google.com/drive/folders/1KrH4elKZB3XIy-GQyUzwDFhVuejhbtt-?usp=sharing). The folder contains the following:
 1. TCGA tile vector representations (filtered background and artifacts): `results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5`
 2. `lungtype_nn250`: cluster configurations and results lung type classification. 
 3. `lungtype_nn250_clusterfold4`: cluster configurations and results lung type classification with consistent clusters across classification folds.
