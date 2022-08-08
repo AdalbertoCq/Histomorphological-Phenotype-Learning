@@ -126,3 +126,10 @@ python3 ./report_representationsleiden_samples.py \
 ```
 
 ## 4. Paper figures 
+The following notebooks reproduce the paper figures. 
+[**Note**] In the paper we also include the external NYU cohorts in some figures. Please note that the following notebooks/scripts only used the TCGA cohort data.
+For any questions regarding the NYU cohorts please address reasonable requests to the corresponding authors.
+
+1. [Cluster (HPC) correlations figures notebook ](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
+2. [LUAD vs LUSC figures notebook](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
+3. [LUAD Survival figures notebook](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
