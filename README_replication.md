@@ -30,7 +30,7 @@ python3 ./report_representationsleiden_lr.py \
 --meta_field luad \
 --matching_field slides \
 --folds_pickle ./utilities/files/LUADLUSC/lungsubtype_Institutions.pkl \
---h5_complete_path ./results_2/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 
+--h5_complete_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 
 ```
 
 Logistic regression for lung classification (consistent cluster configuration per fold):
@@ -40,7 +40,7 @@ python3 ./report_representationsleiden_lr.py \
 --meta_field luad \
 --matching_field slides \
 --folds_pickle ./utilities/files/LUADLUSC/lungsubtype_Institutions.pkl \
---h5_complete_path ./results_2/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 \
+--h5_complete_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 \
 --force_fold 4
 ```
 
@@ -58,7 +58,7 @@ python3 ./report_representationsleiden_cox.py \
 Cox proportional hazards for LUAD overall survival analysis (consistent cluster configuration per fold):
 ```
 python3 ./report_representationsleiden_cox.py \
- --meta_folder luad_overall_survival_nn250 \
+ --meta_folder luad_overall_survival_nn250_clusterfold0 \
  --matching_field samples \
  --event_ind_field os_event_ind \
  --event_data_field os_event_data \
