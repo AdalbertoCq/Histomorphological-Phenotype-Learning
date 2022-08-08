@@ -321,7 +321,8 @@ def run_cph_regression_individual(orig_alpha, resolution, meta_folder, matching_
 
 	# Particular run path
 	alpha_path = os.path.join(main_cluster_path, '%s_%s_alpha_%s_l1ratio_%s_mintiles_%s' % (meta_folder, groupby, str(orig_alpha).replace('.','p'), str(l1_ratio).replace('.','p'), min_tiles))
-	if not os.path.isdir(alpha_path): os.makedirs(alpha_path)
+	if not os.path.isdir(alpha_path):
+		os.makedirs(alpha_path)
 
 	# First run the Cox regression for the selected resolution
 	run_cph_regression(alphas, [resolution], meta_folder, matching_field, folds, event_ind_field, event_data_field, h5_complete_path, h5_additional_path, diversity_key, type_composition,
