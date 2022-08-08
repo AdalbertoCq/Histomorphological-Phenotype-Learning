@@ -97,4 +97,32 @@ python3 ./report_representationsleiden_cox_individual.py \
 --alpha 1.0 
 ```
 
+Cluster tile and WSI samples for lung classification:
+- Remember to uncomment lines 58-66 from `report_representationsleiden_samples.py`. This command will replicate the samples in the folder `lungtype_nn250_clusterfold4/leiden_2p0_fold4`.
+```
+python3 ./report_representationsleiden_samples.py \
+--meta_folder lungtype_nn250_clusterfold4 \
+--meta_field luad \
+--matching_field slides \
+--resolution 2.0 \
+--fold 4 \
+--h5_complete_path results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 \
+--dpi 1000 \
+--dataset TCGAFFPE_LUADLUSC_5x_60pc
+```
+
+Cluster tile and WSI samples for lung classification:
+- Remember to uncomment lines 58-66 from `report_representationsleiden_samples.py`. This command will replicate the samples in the folder `lungtype_nn250_clusterfold4/leiden_2p0_fold4`.
+```
+python3 ./report_representationsleiden_samples.py \
+--meta_folder luad_overall_survival_nn250_clusterfold0 \
+--meta_field luad \
+--matching_field slides \
+--resolution 2.0 \
+--fold 0 \
+--h5_complete_path results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 \
+--dpi 1000 \
+--dataset TCGAFFPE_LUADLUSC_5x_60pc
+```
+
 ## 4. Paper figures 
