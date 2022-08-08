@@ -131,6 +131,6 @@ The following notebooks reproduce the paper figures.
 For any questions regarding the NYU cohorts please address reasonable requests to the corresponding authors.
 
 1. [Cluster (HPC) correlations figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
-2. [LUAD vs LUSC figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
+2. [LUAD vs LUSC figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/paper_figures/visualizations.ipynb).
 3. [LUAD Survival figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/paper_figures/visualizations_survival.ipynb).
 4. [UMAP and PAGA figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations.ipynb).
