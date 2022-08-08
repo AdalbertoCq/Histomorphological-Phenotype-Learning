@@ -15,7 +15,9 @@ You can directly download the whole `results` folder [here](). The folder contai
 5. luad_overall_survival_nn250_clusterfold0: cluster configurations and results LUAD survival regression with consistent clusters across survival folds.
 
 In our paper, we first run the classification and survival task with different cluster configurations per fold. The purpose of this step is to ensure that defining clusters (HPCs) with different WSI will yield similar results. After this, we locked down a cluster fold by providing the argument `--force_fold`.
-This is the difference between `lungtype_nn250` and `lungtype_nn250_clusterfold4`, and also `luad_overall_survival_nn250` and `luad_overall_survival_nn250_clusterfold0`. [Important] You can find further information on this step in the sections Online Methods - Evaluation and Supplementary Figure 8 from the paper.
+This is the difference between `lungtype_nn250` and `lungtype_nn250_clusterfold4`, and also `luad_overall_survival_nn250` and `luad_overall_survival_nn250_clusterfold0`. 
+
+**[Important]** You can find further information on this step in the sections Online Methods - Evaluation and Supplementary Figure 8 from the paper.
 
 ## 3. Running the lung classification and LUAD survival regressions.
 The previous folders already contain the results from the paper. Nevertheless, if you wanted to rerun the steps 8 (Logisitic regression for lung classification) and 9 (Cox proportional hazards for survival analysis) from [HPL](./README_HPL.md); these are the commands:
