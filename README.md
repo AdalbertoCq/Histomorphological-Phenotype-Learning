@@ -50,10 +50,10 @@ In this repository you will find the following sections:
    9. Cox proportional hazards for survival regression.
    10. Correlation between annotations and clusters.
    11. Get tiles and WSI samples for HPCs.
-4. [TCGA HPL files](#TCGA-HPL-files): HPL output files of paper results.  
-5. [Dockers](#Dockers): Docker environments to run HPL steps.
-6. [Python Environment](#Python-Environment): Python version and packages.
-7. [Frequently Asked Questions](#Frequently-Asked-Questions).
+4. [Frequently Asked Questions](#Frequently-Asked-Questions).
+5. [TCGA HPL files](#TCGA-HPL-files): HPL output files of paper results.  
+6. [Dockers](#Dockers): Docker environments to run HPL steps.
+7. [Python Environment](#Python-Environment): Python version and packages.
 
 ---
 
@@ -122,6 +122,28 @@ The flow consists in the following steps:
 11. Get tiles and WSI samples for HPCs.
 
 You can find the full details [here](README_HPL.md).
+
+---
+
+## Frequently Asked Questions
+#### I want to reproduce the paper results.
+You can find TCGA files, results, and commands to reproduce them [here](./README_replication.md). For any questions regarding the  New York University cohorts, please address reasonable requests to the corresponding authors.
+
+#### I have my own cohort and I want to assign existing clusters to my own WSI.
+You can follow steps on how to assign existing clusters in [here](README_additional_cohort.md). These instructions will give you assignation to the same clusters reported in the publication.
+
+#### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
+Based on experience, this error occurs with non-compatible version on numba, umap-learn, and scanpy. The package versions in the python environment should work.
+But these alternative package combination works:
+```
+scanpy==1.7.1 
+pynndescent==0.5.0 
+numba==0.51.2
+```
+
+### If you are having any issue running these scripts, please leave a message on the Issues Github tab.
+
+---
 
 ## TCGA HPL files
 This section contains the following TCGA files produced by HPL:
@@ -199,21 +221,4 @@ umap-learn==0.5.0
 wandb==0.12.7
 ```
 
-## Frequently Asked Questions
-#### I want to reproduce the paper results.
-You can find TCGA files, results, and commands to reproduce them [here](./README_replication.md). For any questions regarding the  New York University cohorts, please address reasonable requests to the corresponding authors.
-
-#### I have my own cohort and I want to assign existing clusters to my own WSI. 
-You can follow steps on how to assign existing clusters in [here](README_additional_cohort.md). These instructions will give you assignation to the same clusters reported in the publication.
-
-#### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
-Based on experience, this error occurs with non-compatible version on numba, umap-learn, and scanpy. The package versions in the python environment should work.
-But these alternative package combination works:
-```
-scanpy==1.7.1 
-pynndescent==0.5.0 
-numba==0.51.2
-```
-
-### If you are having any issue running these scripts, please leave a message on the Issues Github tab.
 
