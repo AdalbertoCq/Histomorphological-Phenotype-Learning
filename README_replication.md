@@ -33,7 +33,7 @@ Folders with paper results:
    - `luad_overall_survival_nn250_clusterfold0_leiden_2.0_alpha_1p0_l1ratio_0p0_mintiles_100`: Directory with results for clusters, alpha penalty, and resolution used.
    - `luad_overall_survival_nn250_clusterfold0_leiden_2.0_alpha_1p0_l1ratio_0p0_mintiles_100/leiden_2p0_stats_all_folds.jpg`: Forest plot for clusters, alpha penalty, and resolution used.
    - `luad_overall_survival_nn250_clusterfold0_leiden_2.0_alpha_1p0_l1ratio_0p0_mintiles_100/KM_leiden_2p0_test.jpg`: Kaplan-Meier plot for TCGA high and low-risk groups, and p-value.
-   - `leiden_2p0_fold0`: Directory containing cluster tile samples and WSI with cluster overlays for the paper results.
+   - `leiden_2p0_fold0`: Directory containing correlation values, correlation figures, cluster tile samples, and WSI with cluster overlays for the paper results.
 
 ## 3. Running the lung classification and LUAD survival regressions.
 The previous folders already contain the results from the paper. Nevertheless, if you wanted to rerun the steps 8 (Logisitic regression for lung classification) and 9 (Cox proportional hazards for survival analysis) from [HPL](./README_HPL.md); these are the commands:
