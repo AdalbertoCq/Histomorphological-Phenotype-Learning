@@ -134,3 +134,6 @@ For any questions regarding the NYU cohorts please address reasonable requests t
 2. [LUAD vs LUSC figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/paper_figures/visualizations.ipynb).
 3. [LUAD Survival figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/paper_figures/visualizations_survival.ipynb).
 4. [UMAP and PAGA figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations.ipynb).
+
+For the [UMAP and PAGA figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations.ipynb) notebook, you will need to use a different 
+matplotlib version ` python3 -m pip install matplotlib==3.1.1`.
