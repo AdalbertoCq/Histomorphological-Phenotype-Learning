@@ -130,10 +130,10 @@ The following notebooks reproduce the paper figures.
 [**Note**] In the paper we also include the external NYU cohorts in some figures. Please note that the following notebooks/scripts only used the TCGA cohort data.
 For any questions regarding the NYU cohorts please address reasonable requests to the corresponding authors.
 
-1. [Cluster (HPC) correlations figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
+1. [Cluster (HPC) correlations figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations.ipynb).
 2. [LUAD vs LUSC figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/paper_figures/visualizations.ipynb).
 3. [LUAD Survival figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/paper_figures/visualizations_survival.ipynb).
-4. [UMAP and PAGA figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations.ipynb).
+4. [UMAP and PAGA figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations_UMAP_PAGA.ipynb).
 
-For the [UMAP and PAGA figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations.ipynb) notebook, you will need to use a different 
+For the [UMAP and PAGA figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations_UMAP_PAGA.ipynb) notebook, you will need to use a different 
 matplotlib version ` python3 -m pip install matplotlib==3.1.1`.
