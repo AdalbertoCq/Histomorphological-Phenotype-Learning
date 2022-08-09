@@ -110,4 +110,6 @@ python3 ./report_representationsleiden_cox_individual.py \
 ```
 
 ## 10. Correlation between annotations and clusters
-You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
+You can find the notebooks for cluster correlations and UMAP/PAGA figures at:
+1. [Cluster (HPC) correlations figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
+4. [UMAP and PAGA figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations.ipynb).
