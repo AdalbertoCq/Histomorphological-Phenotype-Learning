@@ -527,7 +527,11 @@ You can find the notebook to run correlations and figures [here](https://github.
 ## 11. Get tiles and WSI samples for HPCs
 This step provides tile images per each HPC and WSI with cluster overlays. 
 
-In order to provide WSIs, you will need to edit the dictionary `value_cluster_ids` in line 52 of `report_representationsleiden_samples.py`. Clusters provided at key `1` will show in the output csv files as related to outcome classification (`1`) or survival(`dead event`). If the cluster if provided at key `0`, it will show as related to outcome classification (`0`) or survival (`survival event`). You can also randomly obtain WSI by modifying the flag `only_id=False`.
+You will need to use the flag `--tile_img` to obtain tile examples for all clusters. 
+
+To obtain WSIs, you will need to set the variables `only_id` and `value_cluster_ids` in line 52 of `report_representationsleiden_samples.py`. 
+The dictionary `value_cluster_ids` defines which WSI will be selected based on the percentage of the provided clusters. Clusters provided at key `1` will show in the output csv files as related to outcome classification (`1`) or survival(`dead event`). If the cluster is provided at key `0`, it will show as related to outcome classification (`0`) or survival (`survival event`). 
+The flag `only_id=False` will provide randomly selected WSI with cluster overlays. You can find examples of usage for these variables at lines 57 and 70 of `report_representationsleiden_samples.py`.
 
 **Step Inputs:**
 - H5 file with tile vector representations and metadata. E.g.:
@@ -579,7 +583,7 @@ python3 ./report_representationsleiden_samples.py \
 --fold 0 \
 --h5_complete_path results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128_filtered/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival_filtered.h5 \
 --dpi 1000 \
---dataset TCGAFFPE_LUADLUSC_5x_60pc
-  
+--dataset TCGAFFPE_LUADLUSC_5x_60pc \
+--tile_img
 ```
 
