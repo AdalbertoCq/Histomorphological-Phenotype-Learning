@@ -201,7 +201,7 @@ This step includes metadata into the H5 file. It used the data in the CSV files 
 
 [**Important**] Please verify that the values in the column with patients or slides (matching_field) follows the same format as the 'dataset' in the H5 file that contains the same type of information. This field is to cross-check each sample and include the metadata into the H5 file.
 
-You can find the TCGA tile vector representation used in the paper in the section [**TCGA tile vector representations**](#TCGA-tile-vector-representations)
+You can find the TCGA tile vector representation used in the paper in the section [**TCGA tile vector representations**](./README.md#TCGA-HPL-files)
 
 ```
 Script to create a subset H5 representation file based on meta data file.
