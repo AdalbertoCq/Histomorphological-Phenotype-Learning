@@ -166,7 +166,9 @@ Self-supervised model weights:
 2. [PanCancer: BRCA, HNSC, KICH, KIRC, KIRP, LUSC, LUAD](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_PanCancer_5x/19949708).
 
 ### TCGA tile vector representations
-You can find tile projections for TCGA LUAD and LUSC cohorts [here](https://drive.google.com/file/d/1KEHA0-AhxQsP_lQE06Jc5S8rzBkfKllV/view?usp=sharing). These are the projections used in the publication results.
+You can find tile projections for TCGA LUAD and LUSC cohorts at the following locations. These are the projections used in the publication results.
+1. [TCGA LUAD & LUSC tile vector representations (background and artifact tiles unfiltered)](https://drive.google.com/file/d/1_mXaTHAF6gb0Y4RgNhJCS2l9mgZoE7gR/view?usp=sharing)
+2. [TCGA LUAD & LUSC tile vector representations](https://drive.google.com/file/d/1KEHA0-AhxQsP_lQE06Jc5S8rzBkfKllV/view?usp=sharing)
 
 ### TCGA clusters
 You can find cluster configurations used in the publication results at:

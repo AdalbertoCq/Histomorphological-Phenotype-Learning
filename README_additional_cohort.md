@@ -23,7 +23,7 @@ Include metadata in the H5 file of your cohort by running [step 5 of HPL methodo
 python3 ./run_representationsleiden_assignment.py \
 --resolution 5.0
 --meta_field removal \
---folds_pickle ./utilities/files/LUAD/folds_LUAD_Institutions.pkl \
+--folds_pickle ./utilities/files/LUADLUSC/lungsubtype_Institutions.pkl \
 --h5_complete_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc_250K/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5 \
 --h5_additional_path hdf5_this_is_your_external_cohort.h5
 ```
