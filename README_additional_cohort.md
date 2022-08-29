@@ -114,7 +114,6 @@ You can find the notebooks for cluster correlations and UMAP/PAGA figures at:
 1. [Cluster (HPC) correlations figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations.ipynb).
 4. [UMAP and PAGA figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations_UMAP_PAGA.ipynb).
 
-
 ## 11. Get tiles and WSI samples for HPCs
 This step provides tile images per each HPC and WSI with cluster overlays.
 
