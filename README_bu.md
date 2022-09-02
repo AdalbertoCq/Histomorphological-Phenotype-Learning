@@ -189,19 +189,38 @@ These are the dockers with the environments to run the steps of HPL. Step **'Lei
    - [gcfntnu/scanpy:1.7.0](https://hub.docker.com/r/gcfntnu/scanpy) 
    
 ## Python Environment
-The code uses Python 3.8 and the necessary packages can be found at [requirements.txt](./requirements.txt)
-
-The flow uses TensorFlow 1.15 and according to [TensorFlows Specs](https://www.tensorflow.org/install/source#gpu) the closest CUDA and cuDNN version are `cudatoolkits==10.0` and `cudnn=7.6.0`. 
-However, depending on your GPU card you might need to use `cudatoolkits==11.7` and `cudnn=8.0` instead. 
-Newer cards with Ampere architecture (Nvidia 30s or A100s) would only work with CUDA 11.X, Nvidia maintains this [repo](https://github.com/NVIDIA/tensorflow), so you can use TensorFlow 1.15 with the new version of CUDA.
-
-These commands should get the right environment to run HPL:
+The code uses Python 3.7.12 and the following packages:
 ```
-conda create -n HPL python=3.8 \ 
-conda activate HPL \
-python3 -m pip install --user nvidia-pyindex \
-python3 -m pip install --user nvidia-tensorflow \
-python3 -m pip install -r requirements.txt \
+anndata==0.7.8
+autograd==1.3
+einops==0.3.0
+h5py==3.4.0
+lifelines==0.26.3
+matplotlib==3.5.1
+numba==0.52.0
+numpy==1.21.2
+opencv-python==4.1.0.25
+pandas==1.3.3
+Pillow==8.1.0
+pycox==0.2.2
+scanpy==1.8.1
+scikit-bio==0.5.6
+scikit-image==0.15.0
+scikit-learn==0.24.0
+scikit-network==0.24.0
+scikit-survival==0.16.0
+scipy==1.7.1
+seaborn==0.11.2
+setuptools-scm==6.3.2
+simplejson==3.13.2
+sklearn==0.0
+sklearn-pandas==2.2.0
+statsmodels==0.13.0
+tensorboard==1.14.0
+tensorflow-gpu==1.14.0
+tqdm==4.32.2
+umap-learn==0.5.0
+wandb==0.12.7
 ```
 
 
