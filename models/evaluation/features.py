@@ -2,7 +2,6 @@ from models.evaluation.latent_space import *
 from data_manipulation.utils import *
 from models.utils import *
 
-import tensorflow.contrib.gan as tfgan
 import tensorflow as tf
 import numpy as np
 import matplotlib
@@ -76,6 +75,8 @@ def real_samples(data, data_output_path, num_samples=10000, save_img=False):
 
 # Extract Inception-V1 features from images in HDF5.
 def inception_tf_feature_activations(hdf5s, input_shape, batch_size):
+	import tensorflow.contrib.gan as tfgan
+
 	images_input = tf.placeholder(dtype=tf.float32, shape=[None] + input_shape, name='images')
 	images = 2*images_input
 	images -= 1

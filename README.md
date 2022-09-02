@@ -188,6 +188,15 @@ These are the dockers with the environments to run the steps of HPL. Step **'Lei
 2. **Leiden clustering:**
    - [gcfntnu/scanpy:1.7.0](https://hub.docker.com/r/gcfntnu/scanpy) 
    
+If you want to run the docker image in your local machine. These commands should get you up and running. 
+Keep in mind that if you want to run the **Leiden clustering** step in HPL, you would need to change the image name:
+
+```
+docker run -it --mount src=`pwd`,target=/tmp/Workspace,type=bind aclaudioquiros/tf_package:v16
+cd Workspace
+# Command you want to run here.
+```
+
 ## Python Environment
 The code uses Python 3.8 and the necessary packages can be found at [requirements.txt](./requirements.txt)
 
