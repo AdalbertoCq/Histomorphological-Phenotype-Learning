@@ -86,8 +86,6 @@ statsmodels==0.13.0
 stdlib-list==0.8.0
 subprocess32==3.5.4
 tables==3.7.0
-tensorboard==1.15.0
-tensorflow-estimator==1.15.1
 termcolor==1.1.0
 termcolor-whl==1.1.2
 threadpoolctl==3.1.0
