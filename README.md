@@ -51,9 +51,9 @@ In this repository you will find the following sections:
    10. Correlation between annotations and clusters.
    11. Get tiles and WSI samples for HPCs.
 4. [Frequently Asked Questions](#Frequently-Asked-Questions).
-5. [TCGA HPL files](#TCGA-HPL-files): HPL output files of paper results.  
-6. [Dockers](#Dockers): Docker environments to run HPL steps.
-7. [Python Environment](#Python-Environment): Python version and packages.
+5. [TCGA HPL files](#TCGA-HPL-files): HPL output files of paper results.
+6. [Python Environment](#Python-Environment): Python version and packages.
+7. [Dockers](#Dockers): Docker environments to run HPL steps.
 
 ---
 
@@ -181,22 +181,6 @@ You can find WSI and patient vector representations used in the publication resu
 1. [LUAD vs LUSC type classification](https://drive.google.com/file/d/1K2Fteuv0UrTF856vnJMr4DSyrlqu_vop/view?usp=sharing)
 2. [LUAD survival](https://drive.google.com/file/d/13P3bKcmD9C7fvEisArOVOTxf19ko6Xyv/view?usp=sharing)
 
-## Dockers
-These are the dockers with the environments to run the steps of HPL. Step **'Leiden clustering'** needs to be run with docker [**2**], all other steps can be run with docker [**1**]:
-1. **Self-Supervised models training and projections:**
-   - [aclaudioquiros/tf_package:v16](https://hub.docker.com/r/aclaudioquiros/tf_package/tags)
-2. **Leiden clustering:**
-   - [gcfntnu/scanpy:1.7.0](https://hub.docker.com/r/gcfntnu/scanpy) 
-   
-If you want to run the docker image in your local machine. These commands should get you up and running. 
-Keep in mind that if you want to run the **Leiden clustering** step in HPL, you would need to change the image name:
-
-```
-docker run -it --mount src=`pwd`,target=/tmp/Workspace,type=bind aclaudioquiros/tf_package:v16
-cd Workspace
-# Command you want to run here.
-```
-
 ## Python Environment
 The code uses Python 3.8 and the necessary packages can be found at [requirements.txt](./requirements.txt)
 
@@ -211,6 +195,23 @@ conda activate HPL \
 python3 -m pip install --user nvidia-pyindex \
 python3 -m pip install --user nvidia-tensorflow \
 python3 -m pip install -r requirements.txt \
+```
+
+## Dockers
+These are the dockers with the environments to run the steps of HPL. Step **'Leiden clustering'** needs to be run with docker [**2**], all other steps can be run with docker [**1**]:
+1. **Self-Supervised models training and projections:**
+    - [aclaudioquiros/tf_package:v16](https://hub.docker.com/r/aclaudioquiros/tf_package/tags)
+2. **Leiden clustering:**
+    - [gcfntnu/scanpy:1.7.0](https://hub.docker.com/r/gcfntnu/scanpy)
+
+If you want to run the docker image in your local machine. These commands should get you up and running.
+Please take into account that the image [aclaudioquiros/tf_package:v16](https://hub.docker.com/r/aclaudioquiros/tf_package/tags) uses CUDA 10.0, if your GPU card uses the Ampere architecture (Nvidia 30s or A100s) it won't work appropriately.   
+In addition, if you want to run the [Step 6 - Leiden clustering in HPL](./README_HPL.md), you would need to change the image name:
+
+```
+docker run -it --mount src=`pwd`,target=/tmp/Workspace,type=bind aclaudioquiros/tf_package:v16
+cd Workspace
+# Command you want to run here.
 ```
 
 
