@@ -164,10 +164,8 @@ optional arguments:
 Command example:
 ```
 python3 ./utilities/h5_handling/combine_complete_h5.py \
---img_size 224 \
---z_dim 128 \
---dataset TCGAFFPE_5x_perP \
---model ContrastivePathology_BarlowTwins_2
+--dataset TCGAFFPE_LUADLUSC_5x_60pc \
+--model BarlowTwins_3
 ```
 
 ## 4. Fold cross validation files for classification and survival analysis
