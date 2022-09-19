@@ -58,13 +58,14 @@ def data_specs(h5_path):
 def create_metadata_h5(h5_file, meta_name, list_meta_field, matching_field, meta_individuals, num_tiles, key_dict, override):
     h5_metadata_path = h5_file.replace('.h5', '_%s.h5' % meta_name)
 
-    if override:
-        os.remove(h5_metadata_path)
     if os.path.isfile(h5_metadata_path):
-        print('File already exists, if you want to overwrite enable the flag --override')
-        print(h5_metadata_path)
-        print()
-        exit()
+        if override:
+            os.remove(h5_metadata_path)
+        else:
+            print('File already exists, if you want to overwrite enable the flag --override')
+            print(h5_metadata_path)
+            print()
+            exit()
 
     storage_dict = dict()
     content      = h5py.File(h5_metadata_path, mode='w')
