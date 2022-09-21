@@ -279,7 +279,7 @@ python3 ./run_representationsleiden.py \
 ```
 python3 ./run_representationsleiden.py \
 --meta_field luad_overall_survival_nn250 \
---matching_field slides \
+--matching_field samples \
 --folds_pickle ./utilities/files/LUAD/overall_survival_TCGA_folds.pkl \
 --h5_complete_path ./results/BarlowTwins_3/TCGAFFPE_LUADLUSC_5x_60pc/h224_w224_n3_zdim128/hdf5_TCGAFFPE_LUADLUSC_5x_60pc_he_complete_lungsubtype_survival.h5 \
 --subsample 200000
