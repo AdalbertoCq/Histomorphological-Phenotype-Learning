@@ -126,6 +126,12 @@ def read_csvs(adatas_path, matching_field, groupby, i, fold, h5_complete_path, h
 
 		train_df    = complete_df[complete_df[matching_field].astype(str).isin(train_samples)]
 		test_df     = complete_df[complete_df[matching_field].astype(str).isin(test_samples)]
+		if train_df.shape[0] == 0 or test_df.shape[0] == 0:
+			print('Warning:')
+			print('\tTrain set DataFrame samples:', train_df.shape[0])
+			print('\tTest  set DataFrame samples:', test_df.shape[0])
+			print('Example of instances in DataFrame[%s]:' %matching_field, complete_df[matching_field].loc[0])
+			print('Example of instances in pickle:       ' %matching_field, train_samples)
 		valid_df    = None
 		if len(valid_samples) > 0:
 			valid_df = complete_df[complete_df[matching_field].astype(str).isin(valid_samples)]
@@ -139,6 +145,14 @@ def read_csvs(adatas_path, matching_field, groupby, i, fold, h5_complete_path, h
 
 		# Get clusters from the reference clustering train set.
 		leiden_clusters = np.unique(complete_df[groupby].values.astype(int))
+
+
+	if len(leiden_clusters)-1!=np.max(leiden_clusters):
+		print('\t\t[Warning] Resolution %s Fold %s is missing a cluster label' % (groupby, i))
+		print('\t\t          Comp len(leiden_clusters) vs max:', len(leiden_clusters), np.max(leiden_clusters))
+		print('\t\t          Missing cluster label:', set(range(np.max(leiden_clusters))).difference(set(leiden_clusters)))
+		print('\t\t          Bug from ScanPy.')
+		leiden_clusters = np.array(range(np.max(leiden_clusters)+1))
 
 	train_df = train_df.dropna(subset=[groupby])
 	test_df = test_df.dropna(subset=[groupby])
@@ -456,6 +470,7 @@ def feature_selector(data, fields, top_percent):
 # Method to build sample representation based on clusters.
 def sample_representation(frame_classification, matching_field, sample, groupby, leiden_clusters, type_):
 	# Space feature vector representation.
+	# samples_features = [0]*len(leiden_clusters)
 	samples_features = [0]*len(leiden_clusters)
 	# Get cluster counts for sample.
 	clusters_slide, clusters_counts = np.unique(frame_classification[frame_classification[matching_field]==sample][groupby], return_counts=True)
