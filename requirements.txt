@@ -125,3 +125,4 @@ wrapt==1.14.1
 yaspin==2.2.0
 zipp==3.8.1
 lxml==4.9.1
+kneed==0.8.2
