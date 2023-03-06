@@ -1,18 +1,18 @@
-# Self-supervised learning in non-small cell lung cancer discovers novel morphological clusters linked to patient outcome and molecular phenotypes
-* **[Quiros A.C.<sup>+</sup>, Coudray N.<sup>+</sup>, Yeaton A., Yang X., Chiriboga L., Karimkhan A., Narula N., Pass H., Moreira A.L., Le Quesne J.<sup>\*</sup>, Tsirigos A.<sup>\*</sup>, and Yuan K.<sup>\*</sup> Self-supervised learning in non-small cell lung cancer discovers novel morphological clusters linked to patient outcome and molecular phenotypes. 2022](https://arxiv.org/abs/2205.01931)**
+# Histomorphological Phenotype Learning
+* **[Quiros A.C.<sup>+</sup>, Coudray N.<sup>+</sup>, Yeaton A., Yang X., Chiriboga L., Karimkhan A., Narula N., Pass H., Moreira A.L., Le Quesne J.<sup>\*</sup>, Tsirigos A.<sup>\*</sup>, and Yuan K.<sup>\*</sup> Mapping the landscape of histomorphological cancer phenotypes using self-supervised learning on unlabeled, unannotated pathology slides. 2023](https://arxiv.org/abs/2205.01931)**
 
 ---
 
 **Abstract:**
 
-*Histopathological images provide the definitive source of cancer diagnosis, containing information used by pathologists to identify and subclassify malignant disease, and to guide therapeutic choices. These images contain vast amounts of information, much of which is currently unavailable to human interpretation. Supervised deep learning approaches have been powerful for classification tasks, but they are inherently limited by the cost and quality of annotations. Therefore, we developed Histomorphological Phenotype Learning, an unsupervised methodology, which requires no annotations and operates via the self-discovery of discriminatory image features in small image tiles. Tiles are grouped into morphologically similar clusters which appear to represent recurrent modes of tumor growth emerging under natural selection. These clusters have distinct features which can be identified using orthogonal methods. Applied to lung cancer tissues, we show that they align closely with patient outcomes, with histopathologically recognised tumor types and growth patterns, and with transcriptomic measures of immunophenotype.*
+*Definitive cancer diagnosis and management depend upon the extraction of information from microscopy images by pathologists. These images contain complex information requiring time-consuming expert human interpretation that is prone to human bias. Supervised deep learning approaches have proven powerful for classification tasks, but they are inherently limited by the cost and quality of annotations used for training these models. To address this limitation of supervised methods, we developed Histomorphological Phenotype Learning (HPL), a fully unsupervised methodology that requires no expert labels or annotations and operates via the automatic discovery of discriminatory image features in small image tiles. Tiles are grouped into morphologically similar clusters which constitute a library of histomorphological phenotypes, revealing trajectories from benign to malignant tissue via inflammatory and reactive phenotypes. These clusters have distinct features which can be identified using orthogonal methods, linking histologic, molecular and clinical phenotypes. Applied to lung cancer tissues, we show that they align closely with patient survival, with histopathologically recognised tumor types and growth patterns, and with transcriptomic measures of immunophenotype. We then demonstrate that these properties are maintained in a multi-cancer study. These results show the clusters represent recurrent host responses and modes of tumor growth emerging under natural selection.*
 
 ---
 
 ## Citation
 ```
-@misc{QuirosCoudray2022,
-      title={Self-supervised learning in non-small cell lung cancer discovers novel morphological clusters linked to patient outcome and molecular phenotypes},
+@misc{QuirosCoudray2023,
+      title={Mapping the landscape of histomorphological cancer phenotypes using self-supervised learning on unlabeled, unannotated pathology slides},
       author={Adalberto Claudio Quiros and Nicolas Coudray and Anna Yeaton and Xinyu Yang and Luis Chiriboga and Afreen Karimkhan and Navneet Narula and Harvey Pass and Andre L. Moreira and John Le Quesne and Aristotelis Tsirigos and Ke Yuan},
       year={2022},
       eprint={2205.01931},
