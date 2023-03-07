@@ -1,4 +1,4 @@
-# Imports
+2# Imports
 from skbio.stats.composition import clr, ilr, alr, multiplicative_replacement
 from sklearn.feature_selection import VarianceThreshold
 from sklearn.preprocessing import OneHotEncoder
@@ -130,8 +130,8 @@ def read_csvs(adatas_path, matching_field, groupby, i, fold, h5_complete_path, h
 			print('Warning:')
 			print('\tTrain set DataFrame samples:', train_df.shape[0])
 			print('\tTest  set DataFrame samples:', test_df.shape[0])
-			print('Example of instances in DataFrame[%s]:' %matching_field, complete_df[matching_field].loc[0])
-			print('Example of instances in pickle:       ' %matching_field, train_samples)
+			print('Example of instances in DataFrame[%s]:' % matching_field, complete_df[matching_field].loc[0])
+			print('Example of instances in pickle[%s]:   ' % matching_field, train_samples[:5])
 		valid_df    = None
 		if len(valid_samples) > 0:
 			valid_df = complete_df[complete_df[matching_field].astype(str).isin(valid_samples)]
@@ -281,7 +281,7 @@ def cluster_ratios_slide(frame_classification, matching_field, sample, groupby, 
 	samples_features = np.array(samples_features, dtype=np.float64)
 
 	# Space transformation from compositional data.
-	# Compositional data breaks assumptions from commoin linear models: Logisic Regression but also Cox Propotional Hazard Regression.
+	# Compositional data breaks assumptions from common linear models: Logistic Regression but also Cox Proportional Hazard Regression.
 	if type_ == 'percent':
 		samples_features = np.array(samples_features)/np.sum(samples_features)
 	elif type_ == 'alr':
@@ -289,14 +289,13 @@ def cluster_ratios_slide(frame_classification, matching_field, sample, groupby, 
 		samples_features = np.log(samples_features[:-1]/samples_features[-1])
 	elif type_ == 'clr':
 		samples_features = samples_features + 1.
-		geo_mean        = np.prod(samples_features)**(1.0/samples_features.shape[0])
+		geo_mean         = np.prod(samples_features)**(1.0/samples_features.shape[0])
 		samples_features = np.log(samples_features/geo_mean)
-
 	elif type_ == 'ilr':
 		samples_features = samples_features + 1.
 		samples_features = ilr(samples_features)
 	else:
-		print('Not contemplated composity alternative space.')
+		print('Not contemplated compositional alternative space.')
 		print('Options: Percent, ALR, CLR, and ILR.')
 		exit()
 
@@ -497,7 +496,7 @@ def sample_representation(frame_classification, matching_field, sample, groupby,
 
 ''' ############### Set Representations for CSV ############### '''
 def build_cohort_representations(meta_folder, meta_field, matching_field, groupby, fold_number, folds_pickle, h5_complete_path, h5_additional_path, type_composition, min_tiles,
-								 use_conn=False, use_ratio=False, top_variance_feat=99, reduction=2):
+								 use_conn=False, use_ratio=False, top_variance_feat=99, reduction=2, return_tiles=False):
 	# Build paths references.
 	main_cluster_path = h5_complete_path.split('hdf5_')[0]
 	main_cluster_path = os.path.join(main_cluster_path, meta_folder)
@@ -519,7 +518,8 @@ def build_cohort_representations(meta_folder, meta_field, matching_field, groupb
 	frame_clusters, frame_samples = create_frames(frame_complete, groupby, meta_field, diversity_key=matching_field, reduction=reduction)
 
 	# Create representations per sample: cluster % of total sample.
-	data, data_df, features = prepare_data_classes(dataframes, matching_field, meta_field, groupby, leiden_clusters, type_composition, min_tiles, use_conn=use_conn, use_ratio=use_ratio, top_variance_feat=top_variance_feat)
+	data, data_df, features = prepare_data_classes(dataframes, matching_field, meta_field, groupby, leiden_clusters, type_composition, min_tiles, use_conn=use_conn,
+												   use_ratio=use_ratio, top_variance_feat=top_variance_feat, return_tiles=return_tiles)
 
 	# Include features that are not the regular leiden clusters.
 	frame_clusters = include_features_frame_clusters(frame_clusters, leiden_clusters, features, groupby)
@@ -532,7 +532,7 @@ def build_cohort_representations(meta_folder, meta_field, matching_field, groupb
 		result_purities = purities
 	else:
 		result_purities = [purity if flag==1 else 100-purity for flag, purity in zip(flags, purities)]
-	result_purities = ['Purity'] + result_purities + [np.NAN]
+	result_purities = ['Purity'] + result_purities + [np.NAN]*(len(data_df[0].columns)-len(leiden_clusters)-1)
 
 	# Combine a complete dataframe.
 	data_df.insert(0, pd.DataFrame(np.stack(result_purities).reshape((1,-1)), columns=data_df[0].columns.values.tolist()))
@@ -541,13 +541,13 @@ def build_cohort_representations(meta_folder, meta_field, matching_field, groupb
 	# Include sample field.
 	complete_df.insert(0, 'samples', complete_df['slides'].apply(lambda x: '-'.join(x.split('-')[:3])))
 
-	adata_name    = h5_complete_path.split('/hdf5_')[1].split('.h5')[0] + '_%s__fold%s_%s.csv' % (groupby.replace('.', 'p'), fold_number, meta_folder)
+	adata_name    = h5_complete_path.split('/hdf5_')[1].split('.h5')[0] + '_%s__fold%s_%s_%s_mintiles_%s.csv' % (groupby.replace('.', 'p'), fold_number, meta_folder, type_composition, min_tiles)
 	complete_path = os.path.join(rep_cluster_path, adata_name)
 	complete_df.to_csv(complete_path, index=False)
 
 	additional_complete_df = None
 	if h5_additional_path is not None:
-		adata_name      = h5_additional_path.split('/hdf5_')[1].split('.h5')[0] + '_%s__fold%s_%s.csv' % (groupby.replace('.', 'p'), fold_number, meta_folder)
+		adata_name      = h5_additional_path.split('/hdf5_')[1].split('.h5')[0] + '_%s__fold%s_%s_%s_mintiles_%s.csv' % (groupby.replace('.', 'p'), fold_number, meta_folder, type_composition, min_tiles)
 		additional_path = os.path.join(rep_cluster_path, adata_name)
 
 		additional_complete_df = pd.DataFrame(np.stack(result_purities).reshape((1,-1)), columns=data_df[0].columns.values.tolist())
@@ -585,11 +585,13 @@ def prepare_set_representation(frame, matching_field, meta_field, groupby, leide
 
 '''############### Subtype Classification ###############'''
 # Prepare set data for binary classification.
-def prepare_set_classes(frame, matching_field, meta_field, groupby, leiden_clusters, type_, min_tiles, use_conn=True, own_corr=True, use_ratio=False, top_variance_feat=100, keep_features=None):
+def prepare_set_classes(frame, matching_field, meta_field, groupby, leiden_clusters, type_, min_tiles, use_conn=True, own_corr=True, use_ratio=False, top_variance_feat=100, keep_features=None,
+						return_tiles=False):
 	# Get slide representations just with % per cluster in slide.
 	slide_rep_df = prepare_set_representation(frame, matching_field=matching_field, meta_field=meta_field, groupby=groupby, leiden_clusters=leiden_clusters, type_=type_, min_tiles=min_tiles)
 	slide_rep_df = slide_rep_df.reset_index()
-	slide_rep_df = slide_rep_df.drop(columns=['tiles'])
+	if not return_tiles:
+		slide_rep_df = slide_rep_df.drop(columns=['tiles'])
 
 	# Get cluster connectivity within the slides.
 	if use_conn:
@@ -624,24 +626,24 @@ def prepare_set_classes(frame, matching_field, meta_field, groupby, leiden_clust
 	return data, slide_rep, keep_features, features
 
 # Prepare complete fold data for survival: Train/Validation/Test/Additional
-def prepare_data_classes(dataframes, matching_field, meta_field, groupby, leiden_clusters, type_composition, min_tiles, use_conn=True, own_corr=True, use_ratio=False, top_variance_feat=100):
+def prepare_data_classes(dataframes, matching_field, meta_field, groupby, leiden_clusters, type_composition, min_tiles, use_conn=True, own_corr=True, use_ratio=False, top_variance_feat=100, return_tiles=False):
 	train_df, valid_df, test_df, additional_df = dataframes
 
 	# Create representations per sample: cluster % of total sample.
 	train, train_slides_df, keep_features, features  = prepare_set_classes(train_df, matching_field, meta_field, groupby, leiden_clusters, type_=type_composition, min_tiles=min_tiles,
-																		   use_conn=use_conn, own_corr=own_corr, use_ratio=use_ratio, top_variance_feat=top_variance_feat, keep_features=None)
+																		   use_conn=use_conn, own_corr=own_corr, use_ratio=use_ratio, top_variance_feat=top_variance_feat, keep_features=None, return_tiles=return_tiles)
 	valid           = None
 	valid_slides_df = None
 	if valid_df is not None:
 		valid, valid_slides_df, _,             _         = prepare_set_classes(valid_df, matching_field, meta_field, groupby, leiden_clusters, type_=type_composition, min_tiles=min_tiles,
-																			   use_conn=use_conn, own_corr=own_corr, use_ratio=use_ratio, top_variance_feat=top_variance_feat, keep_features=keep_features)
+																			   use_conn=use_conn, own_corr=own_corr, use_ratio=use_ratio, top_variance_feat=top_variance_feat, keep_features=keep_features, return_tiles=return_tiles)
 	test,  test_slides_df,  _,             _         = prepare_set_classes(test_df,  matching_field, meta_field, groupby, leiden_clusters, type_=type_composition, min_tiles=min_tiles,
-																		   use_conn=use_conn, own_corr=own_corr, use_ratio=use_ratio, top_variance_feat=top_variance_feat, keep_features=keep_features)
+																		   use_conn=use_conn, own_corr=own_corr, use_ratio=use_ratio, top_variance_feat=top_variance_feat, keep_features=keep_features, return_tiles=return_tiles)
 	additional           = None
 	additional_slides_df = None
 	if additional_df is not None:
 		additional, additional_slides_df, _, _ = prepare_set_classes(additional_df, matching_field, meta_field, groupby, leiden_clusters, type_=type_composition, min_tiles=min_tiles,
-																	 use_conn=use_conn, use_ratio=use_ratio, top_variance_feat=top_variance_feat, keep_features=keep_features)
+																	 use_conn=use_conn, use_ratio=use_ratio, top_variance_feat=top_variance_feat, keep_features=keep_features, return_tiles=return_tiles)
 
 	return [train, valid, test, additional], [train_slides_df, valid_slides_df, test_slides_df, additional_slides_df], features
 

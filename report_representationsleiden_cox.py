@@ -50,6 +50,7 @@ alphas      = 10. ** np.linspace(-4, 4, 50)
 
 # resolutions = [0.4, 0.7, 1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0]
 resolutions = [1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
+resolutions = [2.0]
 
 # Report figures for clusters.
 if report_clusters: run_circular_plots(resolutions, meta_folder, event_ind_field, matching_field, folds_pickle, h5_complete_path, h5_additional_path, diversity_key)

@@ -7,17 +7,19 @@ import os
 
 ''' ############ Cluster correlations with annotations - Slide Representations ############ '''
 def correlations(complete_df, clusters, anno_fields, corr_method, method):
-    all_data = np.zeros((len(anno_fields), len(clusters), 2))
+    all_data = np.zeros((len(anno_fields), len(clusters), 3))
     for i, annotation in enumerate(anno_fields):
         for j, cluster in enumerate(clusters):
             corr_df = complete_df[[cluster, annotation]]
             corr_df = corr_df.dropna()
+            num_samples = corr_df.shape[0]
             if corr_method == 'spearman':
                 rho, pval = spearmanr(corr_df[cluster], corr_df[annotation])
             elif corr_method == 'pearson':
                 rho, pval = pearsonr(corr_df[cluster], corr_df[annotation])
             all_data[i,j, 0] = rho
             all_data[i,j, 1] = pval
+            all_data[i,j, 2] = num_samples
 
     all_data_rho = pd.DataFrame(all_data[:,:,0], columns=clusters)
     all_data_rho.index = anno_fields
@@ -25,18 +27,27 @@ def correlations(complete_df, clusters, anno_fields, corr_method, method):
     all_data_pval = pd.DataFrame(all_data[:,:,1], columns=clusters)
     all_data_pval.index = anno_fields
 
-    # p-value correction.
+    all_data_samples = pd.DataFrame(all_data[:,:,2], columns=clusters)
+    all_data_samples.index = anno_fields
+
+    # p-value correction and handling of NAN due to no variation in HPC values.
     shape = all_data_pval.values.shape
-    flat_pvalues = all_data_pval.values.flatten()
-    reject, pvals_corrected, _, _ = smm.multipletests(pvals=flat_pvalues, method=method)
+    indexes_pval = np.argwhere((~all_data_pval.isnull()).values)
+    flat_pvalues  = [all_data_pval.values[row, column] for row, column in indexes_pval]
+    reject, pvals_corrected, _, _ = smm.multipletests(pvals=flat_pvalues, method='fdr_bh')
+
+    final_pvals = np.ones(shape)*np.NAN
+    for p_val, index in zip(pvals_corrected, indexes_pval):
+        row, column = index
+        final_pvals[row, column] = p_val
 
     # Wrap into a dataframe.
-    all_data_pval = pd.DataFrame(pvals_corrected.reshape(shape), columns=clusters)
+    all_data_pval = pd.DataFrame(final_pvals, columns=clusters)
     all_data_pval.index = anno_fields
 
-    return all_data_rho, all_data_pval
+    return all_data_rho, all_data_pval, all_data_samples
 
-def correlate_clusters_annotation(slide_rep_df, annotations_df, matching_field, purity_field, groupby, fold_number, directory, file_name,
+def correlate_clusters_annotation(slide_rep_df, annotations_df, matching_field, purity_field, groupby, fold_number, directory=None, file_name=None,
                                   corr_method='spearman', method_correction='fdr_bh', field_th=0, pval_th=0.01):
     run_path          = os.path.join(directory, '%s_fold%s' % (groupby.replace('.','p'), fold_number))
     correlations_path = os.path.join(run_path, 'correlations')
@@ -50,21 +61,24 @@ def correlate_clusters_annotation(slide_rep_df, annotations_df, matching_field, 
     # Combine into one data frame
     complete_df    = slide_rep_df.merge(annotations_df, how='inner', left_on=matching_field, right_on=matching_field)
     # Correlations.
-    all_data_rho, all_data_pval = correlations(complete_df, clusters, anno_fields, corr_method=corr_method, method=method_correction)
+    all_data_rho, all_data_pval, all_data_samples = correlations(complete_df, clusters, anno_fields, corr_method=corr_method, method=method_correction)
     # Mask for p-value threshold.
     mask = (all_data_pval.values > pval_th)
     mask = pd.DataFrame(mask, columns=clusters)
     mask.index = anno_fields
 
-    remove_fields = mask[np.logical_not(mask).sum(axis=1)<=field_th].index
-    all_data_pval = all_data_pval.drop(index=remove_fields)
-    all_data_rho  = all_data_rho.drop(index=remove_fields)
-    mask          = mask.drop(index=remove_fields)
+    if field_th is not None:
+        remove_fields = mask[np.logical_not(mask).sum(axis=1)<=field_th].index
+        all_data_pval = all_data_pval.drop(index=remove_fields)
+        all_data_rho  = all_data_rho.drop(index=remove_fields)
+        mask          = mask.drop(index=remove_fields)
 
-    all_data_rho.to_csv(os.path.join(correlations_path,  file_name+'_coef.csv'))
-    all_data_pval.to_csv(os.path.join(correlations_path, file_name+'_pval.csv'))
+    if file_name is not None:
+        all_data_rho.to_csv(os.path.join(correlations_path,     file_name+'_coef.csv'))
+        all_data_pval.to_csv(os.path.join(correlations_path,    file_name+'_pval.csv'))
+        all_data_samples.to_csv(os.path.join(correlations_path, file_name+'_samples.csv'))
 
-    return all_data_rho, all_data_pval, mask, complete_df
+    return all_data_rho, all_data_pval, all_data_samples, mask, complete_df
 
 def mask_cox_clusters(mask, cox_clusters):
     for cluster in mask.columns:
@@ -128,7 +142,7 @@ def correlate_clusters_occurrance_annotation(slide_rep_df, purity_field, groupby
     return all_data_rho, all_data_pval, mask
 
 ''' ############ Cluster purity with cell annotations - Tiles ############ '''
-def ks_test_cluster_purities(cluster_anno_df, fields, groupby, fold_number, directory, file_name, p_th=0.01, critical_values_flag=True, method_correction='fdr_bh'):
+def ks_test_cluster_purities(cluster_anno_df, fields, groupby, fold_number, directory, file_name, p_th=0.01, critical_values_flag=False, method_correction='fdr_bh'):
     from scipy.stats import ks_2samp
     c_alpha = {0.05:1.36, 0.01:1.63, 0.005:1.73}
 
@@ -172,13 +186,11 @@ def ks_test_cluster_purities(cluster_anno_df, fields, groupby, fold_number, dire
     critical_coef = pd.DataFrame(critical_coef, columns=fields, index=cluster_ids.astype(str)).transpose()
     critical_ref  = pd.DataFrame(critical_ref,  columns=fields, index=cluster_ids.astype(str)).transpose()
     p_values      = pd.DataFrame(p_values,      columns=fields, index=cluster_ids.astype(str)).transpose()
-
+    
     # p-value correction.
     shape = p_values.values.shape
     flat_pvalues = p_values.values.flatten()
     reject, pvals_corrected, _, _ = smm.multipletests(pvals=flat_pvalues, method=method_correction)
-
-    # Wrap into a dataframe.
     p_values = pd.DataFrame(pvals_corrected.reshape(shape), columns=cluster_ids.astype(str), index=fields)
 
     critical_coef.to_csv(os.path.join(correlations_path,  file_name+'_critical_coef.csv'))
@@ -224,7 +236,7 @@ def perform_hypergeometric(k, n, k_cap, n_cap, pvalue_as_strengh, pvalue_min=1e-
     return  p_value, fold, overrep
 
 # Perform purity for all types in df using hyper-geometric.
-def cluster_purity_hypergeom(frame, frame_clusters, groupby, meta_field, pval_th=0.01, pvalue_as_strengh=False, method_correction='fdr_bh'):
+def cluster_purity_hypergeom(frame, frame_clusters, groupby, meta_field, pval_th=0.01, pvalue_as_strengh=False, method_correction='fdr_bh', hardcut=0):
     from scipy.stats import hypergeom
 
     cluster_ids = np.unique(frame_clusters[groupby].values.astype(int))
@@ -233,13 +245,14 @@ def cluster_purity_hypergeom(frame, frame_clusters, groupby, meta_field, pval_th
 
     p_values = np.ones((len(cluster_ids),  len(classes_reference)))
     strength = np.zeros((len(cluster_ids), len(classes_reference)))
+    strength = np.zeros((len(cluster_ids), len(classes_reference)))
     for cluster_id in cluster_ids:
         frame_cluster = frame[frame[groupby].values.astype(int)==cluster_id]
         cluster_counts, cluster_ss = get_counts(frame_cluster, meta_field, classes_reference)
         for i, class_ in enumerate(classes_reference):
             p_value = 1
             fold    = 1
-            if cluster_ss != 0:
+            if cluster_ss != 0 and cluster_ss >= hardcut:
                 p_value, fold, rep = perform_hypergeometric(cluster_counts[i], cluster_ss, population_counts[i], population_ss, pvalue_as_strengh)
             p_values[cluster_id, i] = p_value
             strength[cluster_id, i] = fold

@@ -21,7 +21,7 @@ def summarize_cluster_evalutation(data_csv, meta_folder, metrics):
     metrics_add_2 = list()
     for metric_show, curve, direction in metrics:
         if curve == 'convex':
-            values_1 = (cluster_evaluations[metric_show].max() - cluster_evaluations[metric_show])
+            values_1 = (1 - cluster_evaluations[metric_show]/cluster_evaluations[metric_show].max())
         else:
             values_1 = cluster_evaluations[metric_show]
         cluster_evaluations['%s_institutions' % metric_show] = values_1*cluster_evaluations['insitution_precense']

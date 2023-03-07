@@ -105,13 +105,23 @@ def train_cox(datas, penalizer, l1_ratio, event_ind_field='event_ind', event_dat
 	return cph, predictions, frame_clusters
 
 # Evaluate survival model: C-Index.
-def evalutaion_survival(datas, predictions, event_ind_field='event_ind', event_data_field='event_data'):
+def evalutaion_survival(datas, predictions, event_ind_field='event_ind', event_data_field='event_data', c_index_type='Harrels'):
 	cis = list()
 	for i, data_i in enumerate(datas):
 		data, set_named = data_i
 		if data is not None:
 			prediction, set_namep = predictions[i]
-			c_index = np.round(concordance_index_censored(data[event_ind_field]==1.0, data[event_data_field], prediction)[0], 2)
+			# Concordance index for right-censored data.
+			if c_index_type=='Harrels':
+				c_index = np.round(concordance_index_censored(data[event_ind_field]==1.0, data[event_data_field], prediction)[0], 2)
+			# Concordance index for right-censored data based on inverse probability of censoring weights
+			elif c_index_type=='ipcw':
+				train_data = datas[0][0].copy(deep=True)
+				train_data[event_ind_field]  = train_data[event_ind_field].astype(bool)
+				train_data[event_data_field] = train_data[event_data_field].astype(float)
+				data[event_ind_field]       = data[event_ind_field].astype(bool)
+				data[event_data_field]      = data[event_data_field].astype(float)
+				c_index = np.round(concordance_index_ipcw(survival_train=train_data[[event_ind_field,event_data_field]].to_records(index=False), survival_test=data[[event_ind_field,event_data_field]].to_records(index=False), estimate=prediction)[0], 2)
 			if set_namep != set_named:
 				print('Mismatch between adata and predictions')
 				print('Data set:', set_named, 'Prediction set:', set_namep)
@@ -300,7 +310,6 @@ def get_best_alpha(main_cluster_path, meta_folder, l1_ratio, min_tiles, resoluti
 def run_cph_regression_individual(orig_alpha, resolution, meta_folder, matching_field, folds_pickle, event_ind_field, event_data_field, h5_complete_path, h5_additional_path, diversity_key,
 								  type_composition, min_tiles, max_months, additional_as_fold, force_fold, l1_ratio=0.0, q_buckets=2, use_conn=False, use_ratio=False, top_variance_feat=10,
 								  remove_clusters=None, p_th=0.05):
-
 	groupby     = 'leiden_%s' % resolution
 
 	# Get folds from existing split.
@@ -316,13 +325,12 @@ def run_cph_regression_individual(orig_alpha, resolution, meta_folder, matching_
 	main_cluster_path = os.path.join(main_cluster_path, meta_folder)
 	adatas_path       = os.path.join(main_cluster_path, 'adatas')
 
-	# Retrieve best alpha performance.
+	# Retrieve the best alpha performance.
 	alpha, alphas, _ = get_best_alpha(main_cluster_path, meta_folder, l1_ratio, min_tiles, resolution, force_fold)
 
 	# Particular run path
 	alpha_path = os.path.join(main_cluster_path, '%s_%s_alpha_%s_l1ratio_%s_mintiles_%s' % (meta_folder, groupby, str(orig_alpha).replace('.','p'), str(l1_ratio).replace('.','p'), min_tiles))
-	if not os.path.isdir(alpha_path):
-		os.makedirs(alpha_path)
+	if not os.path.isdir(alpha_path): os.makedirs(alpha_path)
 
 	# First run the Cox regression for the selected resolution
 	run_cph_regression(alphas, [resolution], meta_folder, matching_field, folds, event_ind_field, event_data_field, h5_complete_path, h5_additional_path, diversity_key, type_composition,
@@ -368,7 +376,7 @@ def run_cph_regression_individual(orig_alpha, resolution, meta_folder, matching_
 		frame_clusters.to_csv(os.path.join(alpha_path, '%s_fold%s_clusters.csv' % (str(groupby).replace('.', 'p'), i)), index=False)
 		report_forest_plot_cph(event_ind_field, frame_clusters, os.path.join(alpha_path, '%s_fold%s_clusters.csv' % (str(groupby).replace('.', 'p'), i)), p_th=p_th)
 
-		# High, low risk groups
+		# High, low risk groups.
 		high_lows = get_high_low_risks(predictions, datas_all, i, matching_field, q_buckets=q_buckets)
 		risk_groups, additional_risk = combine_risk_groups(risk_groups, additional_risk, high_lows, i, num_folds, matching_field, event_ind_field, event_data_field)
 
@@ -425,7 +433,6 @@ def run_cph_regression(alphas, resolutions, meta_folder, matching_field, folds, 
 		for i, fold in enumerate(folds):
 			# Read CSV files for train, validation, test, and additional sets.
 			dataframes, _, leiden_clusters = read_csvs(adatas_path, matching_field, groupby, i, fold, h5_complete_path, h5_additional_path, additional_as_fold, force_fold)
-
 			# Prepare data for COX.
 			data, datas_all, features = prepare_data_survival(dataframes, groupby, leiden_clusters, type_composition, max_months, matching_field, event_ind_field, event_data_field, min_tiles,
 															  use_conn=use_conn, use_ratio=use_ratio, top_variance_feat=top_variance_feat, remove_clusters=remove_clusters)

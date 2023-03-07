@@ -9,8 +9,8 @@ from models.clustering.logistic_regression_leiden_clusters import *
 ##### Main #######
 parser = argparse.ArgumentParser(description='Report classification and cluster performance based on Logistic Regression.')
 parser.add_argument('--meta_folder',         dest='meta_folder',         type=str,            default=None,        help='Purpose of the clustering, name of folder.')
-parser.add_argument('--meta_field',           dest='meta_field',           type=str,            default=None,        help='Meta field to use for the Logistic Regression.')
-parser.add_argument('--matching_field',       dest='matching_field',       type=str,            default=None,        help='Key used to match folds split and H5 representation file.')
+parser.add_argument('--meta_field',          dest='meta_field',           type=str,            default=None,        help='Meta field to use for the Logistic Regression.')
+parser.add_argument('--matching_field',      dest='matching_field',       type=str,            default=None,        help='Key used to match folds split and H5 representation file.')
 parser.add_argument('--diversity_key',       dest='diversity_key',       type=str,            default=None,        help='Key use to check diversity within cluster: Slide, Institution, Sample.')
 parser.add_argument('--type_composition',    dest='type_composition',    type=str,            default='clr',       help='Space transformation type: percent, clr, ilr, alr.')
 parser.add_argument('--min_tiles',           dest='min_tiles',           type=int,            default=100,         help='Minimum number of tiles per matching_field.')
@@ -42,8 +42,9 @@ use_ratio         = False
 top_variance_feat = 99
 
 # Default alphas and resolutions.
-alphas      = [0.1, 0.5, 1.0, 5.0, 10.0, 25.0]
-resolutions = [1.0, 1.5, 2.0, 2.5, 3.0, 3.5, 4.0, 4.5, 5.0]
+alphas      = [0.1, 0.5, 1.0, 5.0, 10.0, 25.0, 30.0]
+alphas      = [0.5, 1.0, 5.0, 10.0, 25.0, 30.0]
+resolutions = [1.0, 1.5, 2.0, 2.5, 3.0,  3.5,  4.0, 4.5, 5.0, 5.5, 6.0, 6.5, 7.0,  7.5,  8.0, 8.5, 9.0, 9.5]
 
 # Report figures for clusters.
 if report_clusters:

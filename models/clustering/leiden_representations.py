@@ -222,26 +222,43 @@ def run_clustering(frame, dim_columns, rest_columns, resolution, groupby, n_neig
 
 # Assign cluster to representation give a frame reference.
 def assign_clusters(frame, dim_columns, rest_columns, groupby, adata, main_cluster_path, adata_name, include_connections=False, save_adata=False, tabs='\t\t'):
-	# Crete AnnData based on frame.
-	print('%s%s File' % (tabs, adata_name))
-	adata_test = anndata.AnnData(X=frame[dim_columns].to_numpy(), obs=frame[rest_columns].astype('category'))
+	# If frame excceds maximum size, divide into smaller chuncks to avoid memory overrun.
+	max_size = 500000
+	if frame.shape[0] > max_size:
+		frame = frame.reset_index()
+		num_chuncks = np.ceil(frame.shape[0]/max_size).astype(int)
+		sub_frames = [frame.loc[i*max_size:(i+1)*max_size-1] for i in range(num_chuncks)]
+	else:
+		sub_frames = [frame]
 
-	# Assign cluster based on nearest neighbors from reference frame assignations.
-	print('%sNearest Neighbors on data' % tabs)
-	sc.tl.ingest(adata_test, adata, obs=groupby, embedding_method='pca', neighbors_key='nn_leiden')
+	mapped_frames = list()
 
-	# Save to csv.
-	adata_to_csv(adata_test, main_cluster_path, adata_name)
+	add = 0
+	for i, frame in enumerate(sub_frames):
+		# Crete AnnData based on frame.
+		print('%s%s File %s' % (tabs, adata_name, i))
+		adata_test = anndata.AnnData(X=frame[dim_columns].to_numpy(), obs=frame[rest_columns].astype('category'))
 
-	# Looks and dumps surrounding tile leiden connections per tile.
-	if include_connections:
-		include_tile_connections(groupby, main_cluster_path, adata_name)
+		# Assign cluster based on nearest neighbors from reference frame assignations.
+		print('%sNearest Neighbors on data' % tabs)
+		sc.tl.ingest(adata_test, adata, obs=groupby, embedding_method='pca', neighbors_key='nn_leiden')
 
-	# Keep H5ad file.
-	if save_adata:
-		adata_test.write(os.path.join(main_cluster_path, adata_name + '.h5ad'), compression='gzip')
+		# Looks and dumps surrounding tile leiden connections per tile.
+		if include_connections:
+			include_tile_connections(groupby, main_cluster_path, adata_name)
+
+		# Keep H5ad file.
+		if save_adata:
+			adata_test.write(os.path.join(main_cluster_path, adata_name + '_%s.h5ad' % i), compression='gzip')
+
+		mapped_frames.append(pd.DataFrame(adata_test.obs).copy(deep=True))
+		del adata_test
+
+	# Combine all frames again and save to CSV.
+	frame = pd.concat(mapped_frames, axis=0)
+	frame.to_csv(os.path.join(main_cluster_path, '%s.csv' % adata_name), index=False)
+
 	print()
-	del adata_test
 
 
 # Flow to assign clusters to an additional h5 file.
@@ -329,6 +346,8 @@ def run_leiden(meta_field, matching_field, rep_key, h5_complete_path, h5_additio
 		print('Leiden %s' % resolution)
 		groupby = 'leiden_%s' % resolution
 		for i, fold in enumerate(folds):
+			if i != 0:
+				continue
 			print('\tFold', i)
 
 			# Fold split.

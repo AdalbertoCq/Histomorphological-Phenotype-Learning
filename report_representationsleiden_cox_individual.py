@@ -1,4 +1,4 @@
-# Imports
+ # Imports
 import argparse
 import os
 
@@ -27,9 +27,9 @@ args               = parser.parse_args()
 alpha              = args.alpha
 resolution         = args.resolution
 meta_folder        = args.meta_folder
-matching_field      = args.matching_field
-event_ind_field     = args.event_ind_field
-event_data_field    = args.event_data_field
+matching_field     = args.matching_field
+event_ind_field    = args.event_ind_field
+event_data_field   = args.event_data_field
 diversity_key      = args.diversity_key
 type_composition   = args.type_composition
 min_tiles          = args.min_tiles
@@ -40,12 +40,17 @@ h5_complete_path   = args.h5_complete_path
 h5_additional_path = args.h5_additional_path
 additional_as_fold = args.additional_as_fold
 
+# Use connectivity between clusters as features.
+use_conn          = False
+use_ratio         = False
+top_variance_feat = 0
+
 # Other features
 q_buckets  = 2
 max_months = 15.0*15.0
 
 # Run Cox Proportional Hazard Regression with L1/L2 Penalties.
 run_cph_regression_individual(alpha, resolution, meta_folder, matching_field, folds_pickle, event_ind_field, event_data_field, h5_complete_path, h5_additional_path, diversity_key, type_composition,
-							  min_tiles, max_months, additional_as_fold, force_fold, l1_ratio, q_buckets=q_buckets, use_conn=False, use_ratio=False, top_variance_feat=0, remove_clusters=None,
-							  p_th=0.05)
+							  min_tiles, max_months, additional_as_fold, force_fold, l1_ratio, q_buckets=q_buckets, use_conn=use_conn, use_ratio=use_ratio, top_variance_feat=top_variance_feat,
+							  remove_clusters=None, p_th=0.05)
 
