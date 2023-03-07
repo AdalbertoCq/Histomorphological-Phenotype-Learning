@@ -101,6 +101,7 @@ optional arguments:
 Command example:
 ```
 python3 ./run_representationspathology_projection.py \
+--dataset TCGAFFPE_LUADLUSC_5x_60pc_250K \
 --checkpoint ./data_model_output/BarlowTwins_3/TCGAFFPE_5x_perP_250k/h224_w224_n3_zdim128/checkpoints/BarlowTwins_3.ckt \
 --real_hdf5 ./datasets/TCGAFFPE_5x_perP/he/patches_h224_w224/hdf5_TCGAFFPE_5x_perP_he_test.h5 \
 --model BarlowTwins_3 
@@ -519,8 +520,10 @@ python3 ./report_representationsleiden_cox_individual.py \
 --alpha 1.0 
 ```
 
-## 10. Correlation between annotations and clusters
-You can find the notebook to run correlations and figures [here](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations_figures.ipynb).
+## 10. Correlation between annotations and HPCs
+Notebooks for correlation and other survival results can be found the following locations:
+- [LUAD](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations.ipynb)
+- [Multi-cancer](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations_multicancer.ipynb)
 
 ## 11. Get tiles and WSI samples for HPCs
 This step provides tile images per each HPC and WSI with cluster overlays. 
