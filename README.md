@@ -160,7 +160,7 @@ You can find the WSI tile images at:
 1. [LUAD & LUSC](https://drive.google.com/drive/folders/18skVh8Vk6zoxG3Se5Vlb7a3EKP2xHXXd?usp=sharing)
 2. [LUAD & LUSC 250K subsample](https://drive.google.com/drive/folders/1FuPkMnv6CiDe26doUXfEfQEWShgbmp9P?usp=sharing) for self-supervised model training.
 3. [Multi-Cancer (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)](https://drive.google.com/drive/folders/1CI99pwhWFQUgVlj3kFKYqcBECdl_xwnF?usp=share_link)
-4. [Multi-Cancer (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC) 250K subsample](https://drive.google.com/drive/folders/1CI99pwhWFQUgVlj3kFKYqcBECdl_xwnF?usp=share_link)
+4. [Multi-Cancer (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC) 250K subsample](https://drive.google.com/drive/folders/1EfOZCXAwNheYCpIGS7nsee3SJkhNNEiy?usp=share_link) for self-supervised model training.
 
 ### TCGA Pretrained Models
 Self-supervised model weights:
