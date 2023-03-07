@@ -14,7 +14,7 @@
 @misc{QuirosCoudray2023,
       title={Mapping the landscape of histomorphological cancer phenotypes using self-supervised learning on unlabeled, unannotated pathology slides},
       author={Adalberto Claudio Quiros and Nicolas Coudray and Anna Yeaton and Xinyu Yang and Luis Chiriboga and Afreen Karimkhan and Navneet Narula and Harvey Pass and Andre L. Moreira and John Le Quesne and Aristotelis Tsirigos and Ke Yuan},
-      year={2022},
+      year={2023},
       eprint={2205.01931},
       archivePrefix={arXiv},
       primaryClass={cs.CV}        
@@ -118,7 +118,7 @@ The flow consists in the following steps:
 7. Removing background tiles.
 8. Logistic regression for lung type WSI classification.
 9. Cox proportional hazards for survival regression.
-10. Correlation between annotations and clusters.
+10. Correlation between annotations and HPCs.
 11. Get tiles and WSI samples for HPCs.
 
 *You can find the full details [here](README_HPL.md).*
@@ -129,8 +129,8 @@ The flow consists in the following steps:
 #### I want to reproduce the paper results.
 You can find TCGA files, results, and commands to reproduce them [here](./README_replication.md). For any questions regarding the  New York University cohorts, please address reasonable requests to the corresponding authors.
 
-#### I have my own cohort and I want to assign existing clusters to my own WSI.
-You can follow steps on how to assign existing clusters in [here](README_additional_cohort.md). These instructions will give you assignation to the same clusters reported in the publication.
+#### I have my own cohort and I want to assign existing HPCs to my own WSI.
+You can follow steps on how to assign existing HPCs in [here](README_additional_cohort.md). These instructions will give you assignation to the same HPCs reported in the publication.
 
 #### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
 Based on experience, this error occurs with non-compatible version on numba, umap-learn, and scanpy. The package versions in the python environment should work.
@@ -159,31 +159,31 @@ For the New York University cohorts, please send reasonable requests to the corr
 You can find the WSI tile images at:
 1. [LUAD & LUSC 60% Background max](https://drive.google.com/drive/folders/18skVh8Vk6zoxG3Se5Vlb7a3EKP2xHXXd?usp=sharing)
 2. [LUAD & LUSC 60% Background max 250K subsample](https://drive.google.com/drive/folders/1FuPkMnv6CiDe26doUXfEfQEWShgbmp9P?usp=sharing) for self-supervised model training.
-3. [Multi-Cancer: BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC](https://drive.google.com/drive/folders/1CI99pwhWFQUgVlj3kFKYqcBECdl_xwnF?usp=share_link)
+3. [Multi-Cancer (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)](https://drive.google.com/drive/folders/1CI99pwhWFQUgVlj3kFKYqcBECdl_xwnF?usp=share_link)
 
 ### TCGA Pretrained Models
 Self-supervised model weights:
-1. [Lung adenocarcinoma (LUAD) and squamous cell carcinoma (LUSC) model](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020).
-2. [Multi-Cancer model (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_PanCancer_5x/19949708).
+1. [LUAD & LUSC model](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020)
+2. [Multi-Cancer model (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_PanCancer_5x/19949708)
 
 ### TCGA tile vector representations
 You can find tile projections for TCGA LUAD and LUSC cohorts at the following locations. These are the projections used in the publication results.
 1. [LUAD & LUSC tile vector representations (background and artifact tiles unfiltered)](https://drive.google.com/file/d/1_mXaTHAF6gb0Y4RgNhJCS2l9mgZoE7gR/view?usp=sharing)
 2. [LUAD & LUSC tile vector representations](https://drive.google.com/file/d/1KEHA0-AhxQsP_lQE06Jc5S8rzBkfKllV/view?usp=sharing)
-3. [Multi-Cancer tile vector representations (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)]()
+3. [Multi-Cancer tile vector representations (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)](https://drive.google.com/file/d/1u4FK45QrCjGS3FeWmOe2EspR6cfi7Y31/view?usp=share_link)
 
-### TCGA clusters
-You can find cluster configurations used in the publication results at:
+### TCGA HPC files
+You can find HPC configurations used in the publication results at:
 1. [Background and artifact removal](https://drive.google.com/drive/folders/1K0F0rfKb2I_DJgmxYGl6skeQXWqFAGL4?usp=sharing)
 2. [LUAD vs LUSC type classification](https://drive.google.com/drive/folders/1TcwIJuSNGl4GC-rT3jh_5cqML7hGR0Ht?usp=sharing)
 3. [LUAD survival](https://drive.google.com/drive/folders/1CaB1UArfvkAUxGkR5hv9eD9CMDqJhIIO?usp=sharing)
-4. [Multi-cancer (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)]()
+4. [Multi-cancer (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)](https://drive.google.com/drive/folders/1RDxVR__cRiyJjRY2Cv8ofRcFz_cPK_aL?usp=share_link)
 
 ### TCGA WSI & patient vector representations
 You can find WSI and patient vector representations used in the publication results at:
 1. [LUAD vs LUSC type classification](https://drive.google.com/file/d/1K2Fteuv0UrTF856vnJMr4DSyrlqu_vop/view?usp=sharing)
 2. [LUAD survival](https://drive.google.com/file/d/13P3bKcmD9C7fvEisArOVOTxf19ko6Xyv/view?usp=sharing)
-3. [Multi-cancer (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)]()
+3. [Multi-cancer (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)](https://drive.google.com/file/d/1f9y4dtFfIMe9QsrKZnlk2BPfOt9zI73x/view?usp=share_link)
 
 ## Python Environment
 The code uses Python 3.8 and the necessary packages can be found at [requirements.txt](./requirements.txt)
