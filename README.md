@@ -121,7 +121,7 @@ The flow consists in the following steps:
 10. Correlation between annotations and clusters.
 11. Get tiles and WSI samples for HPCs.
 
-You can find the full details [here](README_HPL.md).
+*You can find the full details [here](README_HPL.md).*
 
 ---
 
@@ -147,39 +147,43 @@ numba==0.51.2
 
 ## TCGA HPL files
 This section contains the following TCGA files produced by HPL:
-1. TCGA LUAD & LUSC WSI tile image datasets.
+1. TCGA WSI tile image datasets.
 2. TCGA Self-supervised trained weights.
 3. TCGA tile projections.
-4. TCGA cluster configurations.
+4. TCGA HPC configurations.
 5. TCGA WSI & patient representations. 
 
 For the New York University cohorts, please send reasonable requests to the corresponding authors.
 
-### TCGA LUAD & LUSC WSI tile image datasets
+### TCGA WSI tile image datasets
 You can find the WSI tile images at:
 1. [LUAD & LUSC 60% Background max](https://drive.google.com/drive/folders/18skVh8Vk6zoxG3Se5Vlb7a3EKP2xHXXd?usp=sharing)
 2. [LUAD & LUSC 60% Background max 250K subsample](https://drive.google.com/drive/folders/1FuPkMnv6CiDe26doUXfEfQEWShgbmp9P?usp=sharing) for self-supervised model training.
+3. [Multi-Cancer: BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC](https://drive.google.com/drive/folders/1CI99pwhWFQUgVlj3kFKYqcBECdl_xwnF?usp=share_link)
 
 ### TCGA Pretrained Models
 Self-supervised model weights:
 1. [Lung adenocarcinoma (LUAD) and squamous cell carcinoma (LUSC) model](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020).
-2. [PanCancer: BRCA, HNSC, KICH, KIRC, KIRP, LUSC, LUAD](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_PanCancer_5x/19949708).
+2. [Multi-Cancer model (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_PanCancer_5x/19949708).
 
 ### TCGA tile vector representations
 You can find tile projections for TCGA LUAD and LUSC cohorts at the following locations. These are the projections used in the publication results.
-1. [TCGA LUAD & LUSC tile vector representations (background and artifact tiles unfiltered)](https://drive.google.com/file/d/1_mXaTHAF6gb0Y4RgNhJCS2l9mgZoE7gR/view?usp=sharing)
-2. [TCGA LUAD & LUSC tile vector representations](https://drive.google.com/file/d/1KEHA0-AhxQsP_lQE06Jc5S8rzBkfKllV/view?usp=sharing)
+1. [LUAD & LUSC tile vector representations (background and artifact tiles unfiltered)](https://drive.google.com/file/d/1_mXaTHAF6gb0Y4RgNhJCS2l9mgZoE7gR/view?usp=sharing)
+2. [LUAD & LUSC tile vector representations](https://drive.google.com/file/d/1KEHA0-AhxQsP_lQE06Jc5S8rzBkfKllV/view?usp=sharing)
+3. [Multi-Cancer tile vector representations (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)]()
 
 ### TCGA clusters
 You can find cluster configurations used in the publication results at:
 1. [Background and artifact removal](https://drive.google.com/drive/folders/1K0F0rfKb2I_DJgmxYGl6skeQXWqFAGL4?usp=sharing)
 2. [LUAD vs LUSC type classification](https://drive.google.com/drive/folders/1TcwIJuSNGl4GC-rT3jh_5cqML7hGR0Ht?usp=sharing)
 3. [LUAD survival](https://drive.google.com/drive/folders/1CaB1UArfvkAUxGkR5hv9eD9CMDqJhIIO?usp=sharing)
+4. [Multi-cancer (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)]()
 
 ### TCGA WSI & patient vector representations
 You can find WSI and patient vector representations used in the publication results at:
 1. [LUAD vs LUSC type classification](https://drive.google.com/file/d/1K2Fteuv0UrTF856vnJMr4DSyrlqu_vop/view?usp=sharing)
 2. [LUAD survival](https://drive.google.com/file/d/13P3bKcmD9C7fvEisArOVOTxf19ko6Xyv/view?usp=sharing)
+3. [Multi-cancer (BLCA, BRCA, CESC, COAD, LUSC, LUAD, PRAD, SKCM, STAD, UCEC)]()
 
 ## Python Environment
 The code uses Python 3.8 and the necessary packages can be found at [requirements.txt](./requirements.txt)
