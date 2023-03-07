@@ -1,5 +1,5 @@
 # Histomorphological Phenotype Learning
-* **[Quiros A.C.<sup>+</sup>, Coudray N.<sup>+</sup>, Yeaton A., Yang X., Chiriboga L., Karimkhan A., Narula N., Pass H., Moreira A.L., Le Quesne J.<sup>\*</sup>, Tsirigos A.<sup>\*</sup>, and Yuan K.<sup>\*</sup> Mapping the landscape of histomorphological cancer phenotypes using self-supervised learning on unlabeled, unannotated pathology slides. 2023](https://arxiv.org/abs/2205.01931)**
+* **[Quiros A.C.<sup>+</sup>, Coudray N.<sup>+</sup>, Yeaton A., Yang X., Liu B., Chiriboga L., Karimkhan A., Narula N., Moore D.A., Park C.Y., Pass H., Moreira A.L., Le Quesne J.<sup>\*</sup>, Tsirigos A.<sup>\*</sup>, and Yuan K.<sup>\*</sup> Mapping the landscape of histomorphological cancer phenotypes using self-supervised learning on unlabeled, unannotated pathology slides. 2023](https://arxiv.org/abs/2205.01931)**
 
 ---
 
@@ -13,7 +13,7 @@
 ```
 @misc{QuirosCoudray2023,
       title={Mapping the landscape of histomorphological cancer phenotypes using self-supervised learning on unlabeled, unannotated pathology slides},
-      author={Adalberto Claudio Quiros and Nicolas Coudray and Anna Yeaton and Xinyu Yang and Luis Chiriboga and Afreen Karimkhan and Navneet Narula and Harvey Pass and Andre L. Moreira and John Le Quesne and Aristotelis Tsirigos and Ke Yuan},
+      author={Adalberto Claudio Quiros and Nicolas Coudray and Anna Yeaton and Xinyu Yang and Bojing Liu and Luis Chiriboga and Afreen Karimkhan and Navneet Narula and David A. Moore and Christopher Y. Park and Harvey Pass and Andre L. Moreira and John Le Quesne and Aristotelis Tsirigos and Ke Yuan},
       year={2023},
       eprint={2205.01931},
       archivePrefix={arXiv},
@@ -21,11 +21,11 @@
 }
 ```
 
-## Demo Materials
+<!-- ## Demo Materials -->
 
-Slides summarizing methodology and results: 
-- [Light-weight version.](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/demos/slides/HPL%20Summary.pdf)
-- [High-resolution version.](https://drive.google.com/file/d/1F5ffZqXoNLpT5dgzVLhhCnnspyUe4FPQ/view?usp=sharing)
+<!-- Slides summarizing methodology and results:  -->
+<!-- - [Light-weight version.](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/demos/slides/HPL%20Summary.pdf)
+- [High-resolution version.](https://drive.google.com/file/d/1F5ffZqXoNLpT5dgzVLhhCnnspyUe4FPQ/view?usp=sharing) -->
 <p align="center">
   <img src="https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/12589de42685f38630e5b2378c0e6f27e16b3ea3/demos/framework_methodology.jpg" width="500">
 </p>
