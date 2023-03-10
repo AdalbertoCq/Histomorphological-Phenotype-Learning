@@ -1,4 +1,6 @@
-# HPL Instructions - Mapping an external cohort to existing clusters
+# HPL Instructions - Mapping an external cohort to existing HPCs.
+
+In these intructions, we provide detailed steps to map tissue tiles from an external set of WSIs to extisting HPCs. We use the files corresponding to the LUAD HPCs results in the paper. In case you want to map tissue tiles to the Multi-cancer HPCs, execute until step 6 included, once background/artifact have been removed from your cohort's H5 file. You can continue with the reamining steps using the multi-cancer files provided in this section of the [Readme file](./README.md#TCGA-HPL-files).
 
 ## 1. WSI tiling process
 Use the [WSI tiling process](./README.md#WSI-tiling-process) to obtain tile images from the original WSIs.
@@ -111,8 +113,10 @@ python3 ./report_representationsleiden_cox_individual.py \
 
 ## 10. Correlation between annotations and clusters
 You can find the notebooks for cluster correlations and UMAP/PAGA figures at:
-1. [Cluster (HPC) correlations figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations.ipynb).
-4. [UMAP and PAGA figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations_UMAP_PAGA.ipynb).
+1. [HPC correlations figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations.ipynb).
+2. [UMAP and PAGA figures](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations_UMAP_PAGA.ipynb).
+3. [Multi-cancer HPC correlations and survival analysis](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations_multicancer.ipynb).
+4. [WSI HPC overlays](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_WSI_overlay.ipynb).
 
 ## 11. Get tiles and WSI samples for HPCs
 This step provides tile images per each HPC and WSI with cluster overlays.
