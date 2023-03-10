@@ -522,8 +522,8 @@ python3 ./report_representationsleiden_cox_individual.py \
 
 ## 10. Correlation between annotations and HPCs
 Notebooks for correlations and other survival results can be found the following locations:
-- [LUAD](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations.ipynb)
-- [Multi-cancer](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations_multicancer.ipynb)
+- [LUAD HPC correlations and survival analysis.](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations.ipynb)
+- [Multi-cancer HPC correlations and survival analysis.](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations_multicancer.ipynb)
 
 ## 11. Get tiles and WSI samples for HPCs
 This step provides tile images per each HPC and WSI with cluster overlays. 
