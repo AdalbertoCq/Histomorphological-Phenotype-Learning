@@ -46,12 +46,13 @@ In this repository you will find the following sections:
    5. Include metadata in H5 file.
    6. Leiden clustering.
    7. Removing background tiles.
-   8. Logistic regression for lung type WSI classification.
-   9. Cox proportional hazards for survival regression.
-   10. Correlation between annotations and clusters.
-   11. Get tiles and WSI samples for HPCs.
+   8. HPC configuration selection.
+   9. Logistic regression for lung type WSI classification.
+   10. Cox proportional hazards for survival regression.
+   11. Correlation between annotations and HPCs.
+   12. Get tiles and WSI samples for HPCs.
 4. [Frequently Asked Questions](#Frequently-Asked-Questions).
-5. [TCGA HPL files](#TCGA-HPL-files): HPL output files of paper results.
+5. [TCGA HPL files](#TCGA-HPL-files): HPL output files from our paper results.
 6. [Python Environment](#Python-Environment): Python version and packages.
 7. [Dockers](#Dockers): Docker environments to run HPL steps.
 
@@ -116,21 +117,22 @@ The flow consists in the following steps:
 5. Include metadata in H5 file.
 6. Leiden clustering.
 7. Removing background tiles.
-8. Logistic regression for lung type WSI classification.
-9. Cox proportional hazards for survival regression.
-10. Correlation between annotations and HPCs.
-11. Get tiles and WSI samples for HPCs.
+8. HPC configuration selection.
+9. Logistic regression for lung type WSI classification.
+10. Cox proportional hazards for survival regression.
+11. Correlation between annotations and HPCs.
+12. Get tiles and WSI samples for HPCs.
 
-*You can find the full details [here](README_HPL.md).*
+*You can find the full details on HPL instructions in this [Readme_HPL file](README_HPL.md).*
 
 ---
 
 ## Frequently Asked Questions
 #### I want to reproduce the paper results.
-You can find TCGA files, results, and commands to reproduce them [here](./README_replication.md). For any questions regarding the  New York University cohorts, please address reasonable requests to the corresponding authors.
+You can find TCGA files, results, and commands to reproduce them on this [Readme_replication file](./README_replication.md). For any questions regarding the  New York University cohorts, please address reasonable requests to the corresponding authors.
 
 #### I have my own cohort and I want to assign existing HPCs to my own WSI.
-You can follow steps on how to assign existing HPCs in [here](README_additional_cohort.md). These instructions will give you assignation to the same HPCs reported in the publication.
+You can follow steps on how to assign existing HPCs in this [Readme_additional_cohort file](README_additional_cohort.md). These instructions will guide you through assigning LUAD and Multi-cancer HPCs reported in the publication to your own cohort.
 
 #### When I run the Leiden clustering step. I get an \'TypeError: can't pickle weakref objects\' error in some folds.
 Based on experience, this error occurs with non-compatible version on numba, umap-learn, and scanpy. The package versions in the python environment should work.
