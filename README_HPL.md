@@ -521,7 +521,7 @@ python3 ./report_representationsleiden_cox_individual.py \
 ```
 
 ## 10. Correlation between annotations and HPCs
-Notebooks for correlation and other survival results can be found the following locations:
+Notebooks for correlations and other survival results can be found the following locations:
 - [LUAD](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/cluster_correlations.ipynb)
 - [Multi-cancer](https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/utilities/visualizations/visualizations_multicancer.ipynb)
 
