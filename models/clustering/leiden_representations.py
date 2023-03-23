@@ -346,8 +346,6 @@ def run_leiden(meta_field, matching_field, rep_key, h5_complete_path, h5_additio
 		print('Leiden %s' % resolution)
 		groupby = 'leiden_%s' % resolution
 		for i, fold in enumerate(folds):
-			if i != 0:
-				continue
 			print('\tFold', i)
 
 			# Fold split.
