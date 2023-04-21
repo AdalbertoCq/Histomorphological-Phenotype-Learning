@@ -1,0 +1,47 @@
+HPC,Epithelium Stroma Ratio Detailed,Tissue Morphologies,Lymphocytic Infiltration,Epithelium Stroma Ratio,Hot/Warm/Cold Lymphocytic Infiltration,Summary,Exemplar Tiles,Pathologist Agreement
+0,more stroma,Tumor with Stroma,Severe,More Stroma ,Hot,Inflamed irregular acini,"1,1",2
+1,elastosis or collagenosis,Tumor with Stroma,Severe,More Stroma ,Hot,"Inflamed compact stroma, sparse tumor","4,2",1
+2,near-normal lung,Lung Parenchyma,Mild,Non-Tumor,Cold,Compressed normal lung and smaller airways/vessels,"9,1",2
+3,elastosis or collagenosis,Stroma,Mild,Non-Tumor,Cold,Coarse fibrillar stroma,"3,2",3
+4,near-normal lung,Lung Parenchyma,Mild,Non-Tumor,Cold,Open normal lung,"9,1",3
+5,more epithelium,Tumor with Stroma,Moderate,More Epithelium ,Hot,Solid with stromal TILs,"6,1",3
+6,more epithelium,Tumor with Stroma,Mild,More Epithelium ,Warm,Solid and sieve-like cribriform,"19,2",2
+7,more stroma,Tumor with Stroma,Mild,More Stroma ,Warm,Stroma-rich solid,"5,2",2
+8,more epithelium,Tumor with Stroma,Mild,More Epithelium ,Hot,Angulated columnar acini,"10,2",3
+9,reactive lung changes,Tumor with Stroma,Moderate,More Stroma ,Hot,"Diverse, inflamed, sparse tumor","14,3",2
+10,near-normal lung,Lung Parenchyma,Mild,Non-Tumor,Cold,Haemorrhagic lung,"12,3",1
+11,more epithelium,Tumor with Stroma,Moderate,More Epithelium ,Warm,Discohesive solid and compressed lumina,"10,1",2
+12,reactive lung changes,Tumor with Stroma,Mild,More Stroma ,Hot,Diverse metaplastic and acinar,"17,2",1
+13,near-normal lung,Lung Parenchyma,Moderate,Non-Tumor,Warm,Open lung with Mild interstitial thickening,"3,2",2
+14,necrosis,Stroma,N/A,Non-Tumor,Warm,Necrosis,"0,2",2
+15,more epithelium,Tumor with Stroma,Mild,More Epithelium ,Warm,"Solid, cold","5,0",3
+16,elastosis or collagenosis,Stroma,Moderate,Non-Tumor,Hot,Inflamed elastosis/collapse,"4,4",3
+17,reactive lung changes,Tumor with Stroma,Moderate,Equal,Hot,Surfaces and margins,"12,0",2
+18,roughly equal,Tumor with Stroma,Mild,More Epithelium ,Warm,Complex acinar/cribriform nests,"11,3",3
+19,more epithelium,Tumor with Stroma,Very sparse,More Epithelium ,Warm,"Mucinous, lepidic","5,2",2
+20,other connective tissue,Mesenchymal Tissues,Very sparse,Non-Tumor,Warm,Peribronchial fat and glands,"8,0",2
+21,more epithelium,Tumor with Stroma,Mild,More Epithelium ,Warm,Compressed luminal patterns,"0,0",2
+22,vessels,Mesenchymal Tissues,Mild,Non-Tumor,Cold,Large vessel lumina,"5,3",3
+23,elastosis or collagenosis,Mesenchymal Tissues,Mild,Non-Tumor,Cold,Large vessel walls,"17,4",3
+24,more epithelium,Tumor with Stroma,Very sparse,More Epithelium ,Cold,Mucin lakes,"3,1",2
+25,more epithelium,Tumor with Stroma,Severe,More Epithelium ,Hot,"Solid, inflamed","9,2",2
+26,more stroma,Tumor with Stroma,Mild,More Stroma ,Cold,Small angulated acini in dense cold stroma,"5,1",2
+27,more stroma,Tumor with Stroma,Mild,Equal,Warm,Small discohesive nests,"7,0",1
+28,roughly equal,Tumor with Stroma,Mild,More Epithelium ,Warm,"Lepidic, papillary","4,0",2
+29,more epithelium,Tumor with Stroma,Moderate,More Epithelium ,Hot,Solid pattern overrun by TILs,"1,3",3
+30,more epithelium,Tumor with Stroma,Mild,More Epithelium ,Warm,Dispersed micropapillae,"13,2",3
+31,vessels,Mesenchymal Tissues,Moderate,Non-Tumor,Warm,Elastotic vessels,"1,3",2
+32,near-normal lung,Lung Parenchyma,Mild,Non-Tumor,Cold,Mildly fibrotic lung,"6,0",2
+33,more epithelium,Tumor with Stroma,Moderate,More Epithelium ,Hot,"Small nests, retraction artefact","13,3",2
+34,elastosis or collagenosis,Stroma,Moderate,Non-Tumor,Hot,Dense inflamed collagen,"6,2",2
+35,more epithelium,Tumor with Stroma,Mild,More Epithelium ,Warm,Papillae and micropapillae,"2,4",2
+36,reactive lung changes,Lung Parenchyma,Moderate,Non-Tumor,Hot,Inflammatory interstitial expansion,"0,7",2
+37,more stroma,Tumor with Stroma,Mild,Equal,Warm,"Lepidic, acinar/papillary","2,4",2
+38,more epithelium,Tumor with Stroma,Moderate,More Epithelium ,Hot,"Mostly solid, clear-cell change","1,2",3
+39,more epithelium,Tumor with Stroma,Moderate,More Epithelium ,Warm,Crowded discohesive nests,"4,0",2
+40,airway,Mesenchymal Tissues,Mild,Non-Tumor,Hot,Larger bronchi,"0,0",3
+41,roughly equal,Tumor with Stroma,Mild,Equal,Warm,Dense stroma with small nests,"3,0",2
+42,cartilage,Mesenchymal Tissues,Very sparse,Non-Tumor,Cold,Cartilage,"0,0",3
+43,other connective tissue,Lymphocytes,Severe,Non-Tumor,Hot,Confluent lymphocytes,"2,1",1
+44,other connective tissue,Fold Artefact,Moderate,More Stroma ,Hot,Fold Artefact,"4,0",2
+45,more stroma,Tumor with Stroma,Mild,More Epithelium ,Warm,Classical cribriform,"0,3",3
