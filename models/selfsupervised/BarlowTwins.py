@@ -32,15 +32,15 @@ from models.loss import *
 
 class RepresentationsPathology():
 	def __init__(self,
-				data,                       			# Dataset type, training, validatio, and test data.
+				data,                       			# Dataset type, training, validation, and test data.
 				z_dim,	                    			# Latent space dimensions.
 				beta_1,                      			# Beta 1 value for Adam Optimizer.
 				learning_rate_e,             			# Learning rate Encoder.
 				lambda_=5e-3,							# Lambda weight for redundant representation penalty.
-				temperature=0.1,                        # Temperature for contrastive consine similarity norm.
+				temperature=0.1,                        # Temperature for contrastive cosine similarity norm.
 				spectral=True,							# Spectral Normalization for weights.
 				layers=5,					 			# Number for layers for Encoder.
-				attention=28,                			# Attention Layer dimensions, default after hegiht and width equal 28 to pixels.
+				attention=28,                			# Attention Layer dimensions, default after height and width equal 28 to pixels.
 				power_iterations=1,          			# Iterations of the power iterative method: Calculation of Eigenvalues, Singular Values.
 				init = 'orthogonal',    			    # Weight Initialization: default Orthogonal.
 				regularizer_scale=1e-4,      			# Orthogonal regularization.
@@ -60,7 +60,7 @@ class RepresentationsPathology():
 		self.z_dim     = z_dim
 		self.init      = init
 
-		### Hyperparameters.
+		### Hyper-parameters.
 		self.power_iterations  = power_iterations
 		self.regularizer_scale = regularizer_scale
 		self.learning_rate_e   = learning_rate_e
@@ -72,7 +72,7 @@ class RepresentationsPathology():
 		self.crop          = True
 		self.rotation      = True
 		self.flip          = True
-		# Color transofrmation.
+		# Color transformation.
 		self.color_distort = True
 		# Gaussian Blur and Noise.
 		self.g_blur        = False
@@ -193,6 +193,11 @@ class RepresentationsPathology():
 
 	# Build the Self-supervised.
 	def build_model(self):
+
+		from tensorflow.python.client import device_lib
+		local_device_protos = device_lib.list_local_devices()
+		avail_gpus = [x.name for x in local_device_protos if x.device_type == 'GPU']
+
 		################### INPUTS & DATA AUGMENTATION #####################################################################################################################################
 		# Inputs.
 		self.real_images_1, self.real_images_2, self.transf_real_images_1, self.transf_real_images_2, self.learning_rate_input_e = self.model_inputs()
@@ -218,6 +223,9 @@ class RepresentationsPathology():
 		self.train_encoder  = self.optimization()
 
 	def project_subsample(self, session, data, epoch, data_out_path, report, batch_size=50):
+		# Updated
+		if not report:
+			return
 
 		# Handle directories and copies.
 		results_path = os.path.join(data_out_path, 'results')
@@ -254,8 +262,12 @@ class RepresentationsPathology():
 			z_path   , label_z_path    = report_progress_latent(epoch=epoch, w_samples=z_storage,    img_samples=img_storage, img_path=hdf5_path.split('/hdf5')[0], storage_name='z_lat',    metric='euclidean')
 			if self.wandb_flag:
 				wandb.log({"Conv Space": wandb.Image(conv_path), "H Space":    wandb.Image(h_path), "Z Space":    wandb.Image(z_path)})
-		except:
+		except Exception as ex:
 			print('Issue printing latent space images. Epoch', epoch)
+			if hasattr(ex, 'message'):
+				print('\t\tException', ex.message)
+			else:
+				print('\t\tException', ex)
 		finally:
 			os.remove(hdf5_path)
 
@@ -273,15 +285,17 @@ class RepresentationsPathology():
 
 		# Setups.
 		checkpoints, csvs = setup_output(data_out_path=data_out_path, model_name=self.model_name, restore=restore)
-		losses = ['Redundancy Reduction Loss']
+		losses = ['Redundancy Reduction Loss Train', 'Redundancy Reduction Loss Validation']
 		setup_csvs(csvs=csvs, model=self, losses=losses)
 		report_parameters(self, epochs, restore, data_out_path)
 
 		# Session Options.
-		config = tf.ConfigProto()
+		# config = tf.ConfigProto(allow_soft_placement=True, log_device_placement=True)
+		config = tf.ConfigProto(allow_soft_placement=True)
 		config.gpu_options.allow_growth = True
 		run_options = tf.RunOptions(report_tensor_allocations_upon_oom=True)
 
+		print('Starting run.')
 		# Training session.
 		with tf.Session(config=config) as session:
 			if self.wandb_flag: wandb.tensorflow.log(tf.summary.merge_all())
@@ -324,8 +338,18 @@ class RepresentationsPathology():
 					if run_epochs % print_epochs == 0:
 						model_outputs = [self.loss_contrastive]
 						epoch_outputs = session.run(model_outputs, feed_dict=feed_dict, options=run_options)
-						update_csv(model=self, file=csvs[0], variables=epoch_outputs, epoch=epoch, iteration=run_epochs, losses=losses)
-						if self.wandb_flag: wandb.log({'Redundancy Reduction Loss': epoch_outputs[0]})
+
+						# Validation loss. 
+						batch_images, batch_labels = data.validation.next_batch(self.batch_size)
+						feed_dict = {self.real_images_1:batch_images, self.real_images_2:batch_images}
+						output_layers_transformed = [self.real_images_1_t1, self.real_images_1_t2]
+						transformed_images = session.run(output_layers_transformed, feed_dict=feed_dict, options=run_options)
+						feed_dict = {self.transf_real_images_1:transformed_images[0], self.transf_real_images_2:transformed_images[1], \
+								 self.real_images_1:batch_images, self.real_images_2:batch_images, self.learning_rate_input_e: self.learning_rate_e}
+						val_outputs = session.run(model_outputs, feed_dict=feed_dict, options=run_options)
+
+						update_csv(model=self, file=csvs[0], variables=[epoch_outputs[0], val_outputs[0]], epoch=epoch, iteration=run_epochs, losses=losses)
+						if self.wandb_flag: wandb.log({'Redundancy Reduction Loss Train': epoch_outputs[0], 'Redundancy Reduction Loss Validation': val_outputs[0],})
 						
 					run_epochs += 1
 					if epoch==0: break
