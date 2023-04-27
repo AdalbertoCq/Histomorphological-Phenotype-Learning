@@ -340,16 +340,17 @@ class RepresentationsPathology():
 						epoch_outputs = session.run(model_outputs, feed_dict=feed_dict, options=run_options)
 
 						# Validation loss. 
-						batch_images, batch_labels = data.validation.next_batch(self.batch_size)
-						feed_dict = {self.real_images_1:batch_images, self.real_images_2:batch_images}
-						output_layers_transformed = [self.real_images_1_t1, self.real_images_1_t2]
-						transformed_images = session.run(output_layers_transformed, feed_dict=feed_dict, options=run_options)
-						feed_dict = {self.transf_real_images_1:transformed_images[0], self.transf_real_images_2:transformed_images[1], \
-								 self.real_images_1:batch_images, self.real_images_2:batch_images, self.learning_rate_input_e: self.learning_rate_e}
-						val_outputs = session.run(model_outputs, feed_dict=feed_dict, options=run_options)
+						for batch_images, batch_labels in data.validation:
+							feed_dict = {self.real_images_1:batch_images, self.real_images_2:batch_images}
+							output_layers_transformed = [self.real_images_1_t1, self.real_images_1_t2]
+							transformed_images = session.run(output_layers_transformed, feed_dict=feed_dict, options=run_options)
+							feed_dict = {self.transf_real_images_1:transformed_images[0], self.transf_real_images_2:transformed_images[1], \
+									self.real_images_1:batch_images, self.real_images_2:batch_images, self.learning_rate_input_e: self.learning_rate_e}
+							val_outputs = session.run(model_outputs, feed_dict=feed_dict, options=run_options)
 
-						update_csv(model=self, file=csvs[0], variables=[epoch_outputs[0], val_outputs[0]], epoch=epoch, iteration=run_epochs, losses=losses)
-						if self.wandb_flag: wandb.log({'Redundancy Reduction Loss Train': epoch_outputs[0], 'Redundancy Reduction Loss Validation': val_outputs[0],})
+							update_csv(model=self, file=csvs[0], variables=[epoch_outputs[0], val_outputs[0]], epoch=epoch, iteration=run_epochs, losses=losses)
+							if self.wandb_flag: wandb.log({'Redundancy Reduction Loss Train': epoch_outputs[0], 'Redundancy Reduction Loss Validation': val_outputs[0],})
+							break
 						
 					run_epochs += 1
 					if epoch==0: break
