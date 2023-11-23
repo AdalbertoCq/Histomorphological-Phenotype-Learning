@@ -16,7 +16,7 @@ parser.add_argument('--dataset',       dest='dataset',       type=str,          
 parser.add_argument('--marker',        dest='marker',        type=str,            default='he',                   help='Marker of dataset to use, default is H&E.')
 parser.add_argument('--img_size',      dest='img_size',      type=int,            default=224,                    help='Image size for the model.')
 parser.add_argument('--img_ch',        dest='img_ch',        type=int,            default=3,                      help='Number of channels for the model.')
-parser.add_argument('--z_dim',         dest='z_dim',         type=int,            default=128,                    help='Latent space size for constrastive loss.')
+parser.add_argument('--z_dim',         dest='z_dim',         type=int,            default=128,                    help='Latent space size for contrastive loss.')
 parser.add_argument('--model',         dest='model',         type=str,            default='ContrastivePathology', help='Model name, used to select the type of model (SimCLR, BYOL, SwAV).')
 parser.add_argument('--main_path',     dest='main_path',     type=str,            default=None,                   help='Path for the output run.')
 parser.add_argument('--dbs_path',      dest='dbs_path',      type=str,            default=None,                   help='Directory with DBs to use.')
@@ -61,7 +61,7 @@ beta_1            = 0.5
 # Model Architecture param.
 layers_map = {512:7, 448:6, 256:6, 224:5, 128:5, 112:4, 56:3, 28:2}
 layers     = layers_map[image_height]
-spectral   = True
+spectral   = False
 attention  = 56
 init       = 'xavier'
 # init       = 'orthogonal'
@@ -84,6 +84,8 @@ elif 'Relational' in model:
 	from models.selfsupervised.RealReas import RepresentationsPathology
 elif 'BarlowTwins' in model:
 	from models.selfsupervised.BarlowTwins import RepresentationsPathology
+elif 'DINO' in model:
+	from models.selfsupervised.DINO import RepresentationsPathology
 
 # Collect dataset.
 data = Data(dataset=dataset, marker=marker, patch_h=image_height, patch_w=image_width, n_channels=image_channels, batch_size=batch_size, project_path=dbs_path)

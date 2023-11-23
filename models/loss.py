@@ -345,4 +345,8 @@ def cross_correlation_loss(z_a, z_b, lambda_):
     loss = on_diag + (lambda_ * off_diag)
     return loss
 
-
+def dino_loss(teacher_rep, student_rep, teacher_temp, student_temp, center):
+    s_logsoft = tf.nn.log_softmax(student_rep/student_temp, axis=-1)
+    t_soft    = tf.nn.softmax((teacher_rep-center)/teacher_temp, axis=-1)
+    loss      = tf.reduce_mean(tf.reduce_sum(-t_soft*s_logsoft, axis=-1), axis=0)
+    return loss

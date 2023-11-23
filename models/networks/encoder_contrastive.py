@@ -546,6 +546,33 @@ def byol_predictor(z_rep, z_dim, h_dim, spectral, activation, is_train, reuse, i
 	return q_pred
 
 
+def dino_head(z_rep, z_dim, h_dim, spectral, activation, is_train, reuse, init='xavier', regularizer=None, normalization=None, name='encoder_predictor'):
+	net = z_rep
+	if display:
+		print('PREDICTOR ENCODER INFORMATION:')
+		print('Normalization: ', normalization)
+		print('Activation: ', activation)
+		print()
+
+	with tf.variable_scope(name, reuse=reuse):
+
+		net = dense(inputs=net, out_dim=h_dim, spectral=spectral, init=init, regularizer=regularizer, scope=2)				
+		if normalization is not None: net = normalization(inputs=net, training=is_train)
+		net = activation(net)
+
+		net = dense(inputs=net, out_dim=h_dim, spectral=spectral, init=init, regularizer=regularizer, scope=1)				
+		if normalization is not None: net = normalization(inputs=net, training=is_train)
+		net = activation(net)
+
+		net = tf.math.l2_normalize(net, axis=1, name='projection')
+
+		# Q Prediction.
+		q_pred = dense(inputs=net, out_dim=z_dim, spectral=spectral, init=init, regularizer=regularizer, scope='q_pred', use_bias=False)				
+
+	print()
+	return q_pred
+
+
 
 def relational_module(aggregated_representations, h_dim, spectral, activation, is_train, reuse, init='xavier', regularizer=None, normalization=None, name='relational_module'):
 	net = aggregated_representations

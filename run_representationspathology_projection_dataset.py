@@ -78,15 +78,17 @@ elif 'Relational' in model:
 	from models.selfsupervised.RealReas import RepresentationsPathology
 elif 'BarlowTwins' in model:
 	from models.selfsupervised.BarlowTwins import RepresentationsPathology
+elif 'DINO' in model:
+	from models.selfsupervised.DINO import RepresentationsPathology
 
 # Collect dataset.
 data = Data(dataset=dataset, marker=marker, patch_h=image_height, patch_w=image_width, n_channels=image_channels, batch_size=batch_size, project_path=dbs_path)
 
 # Run PathologyContrastive Encoder.
-with tf.Graph().as_default():
+with tf.Graph().as_default():   
 	# Instantiate Model.
 	contrast_pathology = RepresentationsPathology(data=data, z_dim=z_dim, layers=layers, beta_1=beta_1, init=init, regularizer_scale=regularizer_scale, spectral=spectral, attention=attention, learning_rate_e=learning_rate_e, model_name=model)
-
+	
 	for real_hdf5 in [data.hdf5_train, data.hdf5_validation, data.hdf5_test]:
 		# Run projections into H5.
 		real_encode_contrastive_from_checkpoint(model=contrast_pathology, data=data, data_out_path=main_path, checkpoint=checkpoint, real_hdf5=real_hdf5, batches=batch_size, save_img=save_img)
