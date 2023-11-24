@@ -21,7 +21,10 @@ def save_model_config(model, data):
 	model_config['regularizer_scale'] = model.regularizer_scale
 	model_config['learning_rate_e']   = model.learning_rate_e
 	model_config['beta_1']            = model.beta_1
-	model_config['temperature']       = model.temperature
+	if hasattr(model, 'temperature'):
+		model_config['temperature'] = model.temperature
+	if hasattr(model, 'lambda_'):
+		model_config['lambda_'] = model.lambda_
 
 	### Data augmentation conditions.
 	# Spatial transformation.
@@ -35,8 +38,6 @@ def save_model_config(model, data):
 	model_config['g_noise']       = model.g_noise
 	# Sobel Filter.
 	model_config['sobel_filter']  = model.sobel_filter
-
-	model_config['lambda_']       = model.lambda_
 
 	model_config['model_name']    = model.model_name
 
