@@ -36,7 +36,7 @@ class RepresentationsPathology():
 				z_dim,	                    			# Latent space dimensions.
 				beta_1,                      			# Beta 1 value for Adam Optimizer.
 				learning_rate_e,             			# Learning rate Encoder.
-				teacher_temp=0.04,                       # Softmax temperature for teacher network.
+				teacher_temp=0.02,                       # Softmax temperature for teacher network.
 				student_temp=0.1,                       # Softmax temperature for student network.
 				center_mom=0.9,							# Momentum for teacher representation center. 
 				spectral=True,							# Spectral Normalization for weights.
@@ -46,6 +46,7 @@ class RepresentationsPathology():
 				init = 'orthogonal',    			    # Weight Initialization: default Orthogonal.
 				regularizer_scale=1e-4,      			# Orthogonal regularization.
 				beta=0.9995, 							# Beta value for EMA on teacher/student networks.
+				warmup_epochs=1,						# Number of epochs where the last layer of the Teacher's head is frozen.
 				model_name='RepresentationsPathology'   # Model Name.
 				):
 
@@ -61,6 +62,7 @@ class RepresentationsPathology():
 		self.spectral  = spectral
 		self.z_dim     = z_dim
 		self.init      = init
+		self.out_dim   = self.z_dim
 
 		### Hyper-parameters.
 		self.power_iterations  = power_iterations
@@ -71,6 +73,7 @@ class RepresentationsPathology():
 		self.teacher_temp      = teacher_temp
 		self.student_temp      = student_temp
 		self.center_mom        = center_mom
+		self.warmup_epochs     = warmup_epochs
 
 		### Data augmentation conditions.
 		# Spatial transformation.
@@ -108,7 +111,7 @@ class RepresentationsPathology():
 		transf_real_images_2 = tf.placeholder(dtype=tf.float32, shape=(self.batch_size, self.image_width, self.image_height, self.image_channels), name='transf_real_images_2')
 
 		# Center for teacher representations. 
-		center_input = tf.placeholder(dtype=tf.float32, shape=(self.z_dim), name='teacher_center')
+		center_input = tf.placeholder(dtype=tf.float32, shape=(self.out_dim), name='teacher_center')
 
 		# Learning rates.
 		learning_rate_e = tf.placeholder(dtype=tf.float32, name='learning_rate_e')
@@ -179,7 +182,7 @@ class RepresentationsPathology():
 
 	# Dino Head Network.
 	def head(self, z_rep, is_train, reuse, init, name):
-		q = dino_head(z_rep=z_rep, z_dim=self.z_dim, spectral=self.spectral, h_dim=self.z_dim, activation=ReLU, is_train=is_train, reuse=reuse, init=init, regularizer=None, normalization=None, name=name)
+		q = dino_head(z_rep=z_rep, z_dim=self.out_dim, spectral=self.spectral, h_dim=self.z_dim, activation=ReLU, is_train=is_train, reuse=reuse, init=init, regularizer=None, normalization=batch_norm, name=name)
 		return q
 
 	# Loss Function.
@@ -205,11 +208,13 @@ class RepresentationsPathology():
 		trainable_variables = tf.trainable_variables()
 		encoder_online_variables = [variable for variable in trainable_variables if variable.name.startswith('contrastive_encoder_online')]
 		encoder_target_variables = [variable for variable in trainable_variables if variable.name.startswith('contrastive_encoder_target')]
-		self.ops = list()
+		self.ops        = list()
+		self.ops_xfinal = list()
 		for online_var, target_var in zip(encoder_online_variables, encoder_target_variables):
 			online_value = online_var.read_value()
 			target_value = target_var.read_value()
 			self.ops.append(target_var.assign(self.beta*target_value + (1-self.beta)*online_value))
+			self.ops_xfinal.append(target_var.assign(self.beta*target_value + (1-self.beta)*online_value))
 
 		# Update Head.
 		encoder_online_variables = [variable for variable in trainable_variables if variable.name.startswith('head_online')]
@@ -218,7 +223,9 @@ class RepresentationsPathology():
 			online_value = online_var.read_value()
 			target_value = target_var.read_value()
 			self.ops.append(target_var.assign(self.beta*target_value + (1-self.beta)*online_value))
-		
+			if 'q_pred' not in target_var.name: 
+				self.ops_xfinal.append(target_var.assign(self.beta*target_value + (1-self.beta)*online_value))
+
 	# Build the Self-supervised.
 	def build_model(self):
 
@@ -250,7 +257,7 @@ class RepresentationsPathology():
 		self.q2 = self.head(z_rep=self.z_rep_tt2, is_train=True, reuse=True,  init=self.init, name='head_target')
 
 		# Mean center. 
-		self.mean_batch = tf.reduce_mean(tf.concat([self.z_rep_tt1, self.z_rep_tt2], axis=0), axis=[0])
+		self.mean_batch = tf.reduce_mean(tf.concat([self.q1, self.q2], axis=0), axis=[0])
 
 		################### INFERENCE #####################################################################################################################################
 		# Encoder Representations Inference.
@@ -341,7 +348,7 @@ class RepresentationsPathology():
 
 		print('Starting run.')
 		# Center for teacher representations. 
-		center_run = np.zeros((self.z_dim))
+		center_run = np.zeros((self.out_dim))
 
 		# Training session.
 		with tf.Session(config=config) as session:
@@ -384,7 +391,11 @@ class RepresentationsPathology():
 					center_run  = self.center_mom * center_run + (1-self.center_mom) * outputs[1]
 
 					# Train target network: Moving average of online network.
-					session.run(self.ops)
+					if run_epochs % 4 == 0:
+						if epochs > self.warmup_epochs:
+							session.run(self.ops)
+						else:
+							session.run(self.ops_xfinal)
 
 					####################################################################################################
 					if run_epochs % print_epochs == 0:
