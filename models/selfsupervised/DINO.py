@@ -391,11 +391,10 @@ class RepresentationsPathology():
 					center_run  = self.center_mom * center_run + (1-self.center_mom) * outputs[1]
 
 					# Train target network: Moving average of online network.
-					if run_epochs % 4 == 0:
-						if epochs > self.warmup_epochs:
-							session.run(self.ops)
-						else:
-							session.run(self.ops_xfinal)
+					if epochs > self.warmup_epochs:
+						session.run(self.ops)
+					else:
+						session.run(self.ops_xfinal)
 
 					####################################################################################################
 					if run_epochs % print_epochs == 0:
