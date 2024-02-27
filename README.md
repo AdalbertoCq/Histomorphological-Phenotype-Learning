@@ -1,6 +1,8 @@
 # Histomorphological Phenotype Learning
 * **[Quiros A.C.<sup>+</sup>, Coudray N.<sup>+</sup>, Yeaton A., Yang X., Liu B., Chiriboga L., Karimkhan A., Narula N., Moore D.A., Park C.Y., Pass H., Moreira A.L., Le Quesne J.<sup>\*</sup>, Tsirigos A.<sup>\*</sup>, and Yuan K.<sup>\*</sup> Mapping the landscape of histomorphological cancer phenotypes using self-supervised learning on unlabeled, unannotated pathology slides. 2024](https://arxiv.org/abs/2205.01931)**
 
+[![DOI](https://zenodo.org/badge/505573958.svg)](https://zenodo.org/doi/10.5281/zenodo.10718821)
+
 ---
 
 **Abstract:**
