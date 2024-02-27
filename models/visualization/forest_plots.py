@@ -519,7 +519,7 @@ def summary_cox_forest_plots(estimators, cis, alpha, alphas, confidence_interval
         if additional_confidence_interval is not None:
             all_data.extend([(a[3], 'Additional') for a in cis])
         all_data = pd.DataFrame(all_data, columns=['C-Index', 'Set'])
-        sns.pointplot(data=all_data, y='C-Index', x='Set', ax=ax_dict[str(6)], linewidth=0.01, dodge=.3, join=False, capsize=.04, markers='s', ci=95)
+        sns.pointplot(data=all_data, y='C-Index', x='Set', ax=ax_dict[str(6)], linewidth=0.01, dodge=.3, join=False, capsize=.04, markers='s', errorbar=('ci', 95))
 
     fig_path = os.path.join(alpha_path, 'hazard_ratios_summary.jpg')
     plt.savefig(fig_path)

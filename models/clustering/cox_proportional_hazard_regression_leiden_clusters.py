@@ -71,12 +71,12 @@ def summarize_stat_clusters_across_folds(event_ind_field, test_ci, additional_ci
 	complete_df.to_csv(os.path.join(alpha_path, '%s_stats_performance.csv' % (str(groupby).replace('.', 'p'))), index=False)
 
 # Calculate mean and 95% confidence intervals.
-# Using bootstrap to calculate CI.
 def mean_confidence_interval(data, confidence=0.95):
-	boots = sns.algorithms.bootstrap(data, func=np.mean, n_boot=1000, units=None, seed=None)
-	minus, plus = sns.utils.ci(boots, which=confidence*100)
-	mean = np.mean(data)
-	return np.array([mean, minus, plus])
+	std    = np.std(data)
+	se     = std/np.sqrt(len(data))
+	margin = 1.96*se
+	mean   = np.mean(data)
+	return np.array([mean, mean-margin, mean+margin])
 
 # Train lifelines CPH model.
 def train_cox(datas, penalizer, l1_ratio, event_ind_field='event_ind', event_data_field='event_data', robust=True, frame_clusters=None, groupby=None):
@@ -113,7 +113,8 @@ def evalutaion_survival(datas, predictions, event_ind_field='event_ind', event_d
 			prediction, set_namep = predictions[i]
 			# Concordance index for right-censored data.
 			if c_index_type=='Harrels':
-				c_index = np.round(concordance_index_censored(data[event_ind_field]==1.0, data[event_data_field], prediction)[0], 2)
+				# c_index = np.round(concordance_index_censored(data[event_ind_field]==1.0, data[event_data_field], prediction)[0], 2)
+				c_index = concordance_index_censored(data[event_ind_field]==1.0, data[event_data_field], prediction)[0]
 			# Concordance index for right-censored data based on inverse probability of censoring weights
 			elif c_index_type=='ipcw':
 				train_data = datas[0][0].copy(deep=True)
@@ -121,7 +122,8 @@ def evalutaion_survival(datas, predictions, event_ind_field='event_ind', event_d
 				train_data[event_data_field] = train_data[event_data_field].astype(float)
 				data[event_ind_field]       = data[event_ind_field].astype(bool)
 				data[event_data_field]      = data[event_data_field].astype(float)
-				c_index = np.round(concordance_index_ipcw(survival_train=train_data[[event_ind_field,event_data_field]].to_records(index=False), survival_test=data[[event_ind_field,event_data_field]].to_records(index=False), estimate=prediction)[0], 2)
+				# c_index = np.round(concordance_index_ipcw(survival_train=train_data[[event_ind_field,event_data_field]].to_records(index=False), survival_test=data[[event_ind_field,event_data_field]].to_records(index=False), estimate=prediction)[0], 2)
+				c_index = concordance_index_ipcw(survival_train=train_data[[event_ind_field,event_data_field]].to_records(index=False), survival_test=data[[event_ind_field,event_data_field]].to_records(index=False), estimate=prediction)[0]
 			if set_namep != set_named:
 				print('Mismatch between adata and predictions')
 				print('Data set:', set_named, 'Prediction set:', set_namep)
@@ -194,7 +196,7 @@ def mean_ci_cox(all_data, results_path_csv, ylim=[0.4, 1.0]):
 	sns.set_theme(style='darkgrid')
 	fig, ax = plt.subplots(figsize=(20, 7), nrows=1, ncols=1)
 	meanprops={"marker":"o", "markerfacecolor":"red", "markeredgecolor":"black", "markersize":"6"}
-	sns.pointplot(x='Resolution', hue='Set', y='C-Index', data=all_data, ax=ax, linewidth=0.01, dodge=.3, join=False, capsize=.04, markers='s', ci=95)
+	sns.pointplot(x='Resolution', hue='Set', y='C-Index', data=all_data, ax=ax, linewidth=0.01, dodge=.3, join=False, capsize=.04, markers='s', errorbar=('ci', 95))
 	if ylim is not None:
 		ax.set_ylim(ylim)
 	ax.set_title('Leiden + Cox Regression', fontweight='bold', fontsize=18)
@@ -385,10 +387,10 @@ def run_cph_regression_individual(orig_alpha, resolution, meta_folder, matching_
 	print()
 	test_ci       = mean_confidence_interval([a[2] for a in cis_folds])
 	additional_ci = None
-	print('\tTest       Mean/Mean-2*Std/Mean+2*Std: %s' % np.round(test_ci,2))
+	print('\tTest       Mean/Mean-1.96*SE/Mean+1.96*SE: %s' % np.round(test_ci,2))
 	if dataframes[-1] is not None:
 		additional_ci = mean_confidence_interval([a[3] for a in cis_folds])
-		print('\tAdditional Mean/Mean-2*Std/Mean+2*Std: %s' % np.round(additional_ci,2))
+		print('\tAdditional Mean/Mean-1.96*SE/Mean+1.96*SE: %s' % np.round(additional_ci,2))
 
 	# Kaplan-Meier plots for train, valid, test, and additional sets.
 	test_pval, additional_pval = save_fold_KMs(risk_groups, additional_risk, resolution, groupby, cis_folds, event_ind_field, event_data_field, max_months, alpha_path)

@@ -40,7 +40,7 @@ def summarize_cluster_evalutation(data_csv, meta_folder, metrics):
     for i, values in enumerate(metric_display):
         metric_show, curve, direction = values
         ax  = fig.add_subplot(4, 3, i+1)
-        sns.pointplot(data=cluster_evaluations, y=metric_show, x='resolution', ax=ax,  label='metric')
+        sns.pointplot(data=cluster_evaluations, y=metric_show, x='resolution', ax=ax,  label='metric', errorbar='se')
         kn = KneeLocator(performance_mean.index, performance_mean[metric_show], curve=curve, direction=direction)
         value_index = np.where(performance_mean.index==kn.knee)[0]
         if len(value_index)!=0:
@@ -51,16 +51,16 @@ def summarize_cluster_evalutation(data_csv, meta_folder, metrics):
             ax.set_title(meta_folder, fontsize=24)
     
     ax  = fig.add_subplot(4, 3, i+2)
-    sns.pointplot(data=cluster_evaluations, y='num_clusters', x='resolution', ax=ax)
+    sns.pointplot(data=cluster_evaluations, y='num_clusters', x='resolution', ax=ax, errorbar='se')
     for value_index in knee_values:
         ax.axvline(value_index, linestyle='--')
     ax  = fig.add_subplot(4, 3, i+3)
-    sns.pointplot(data=cluster_evaluations, y='insitution_precense', x='resolution', ax=ax, color='green')
+    sns.pointplot(data=cluster_evaluations, y='insitution_precense', x='resolution', ax=ax, color='green', errorbar='se')
     ax.set_ylim([0.0,1.0])
-    # sns.pointplot(data=cluster_evaluations, y='patient_precense',    x='resolution', ax=ax2, color='orange')
+    # sns.pointplot(data=cluster_evaluations, y='patient_precense',    x='resolution', ax=ax2, color='orange', errorbar='se')
 
     ax  = fig.add_subplot(4, 3, i+4)
-    sns.pointplot(data=cluster_evaluations, y='insitution_precense_size_weighted', x='resolution', ax=ax, color='green')
+    sns.pointplot(data=cluster_evaluations, y='insitution_precense_size_weighted', x='resolution', ax=ax, color='green', errorbar=('ci', 95))
     ax.set_ylim([0.0,1.0])
     
     plt.savefig(data_csv.replace('.csv', '.jpg'))
