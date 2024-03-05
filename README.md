@@ -131,9 +131,11 @@ The flow consists in the following steps:
 ---
 
 ## HPL Visualizer
-You can find standalong app in the following locations. These were built using [Marimo](https://github.com/marimo-team/marimo).
+You can find standalone apps in the following locations. These were built using [Marimo](https://github.com/marimo-team/marimo).
 1. [HPL Multicancer Visualizer](https://drive.google.com/file/d/1SWOQnnB5n73-MMxqLZJ13OI6yc6bacYR/view?usp=share_link).
 2. [HPL LUAD Visualizer](https://drive.google.com/file/d/1LMGTzb6vA3mL0NAbdwifJC1xrcvlMnWM/view?usp=share_link).
+
+You can edit the code by running `marimo edit tile_visualizer_umap.py`. Run the app with `marimo run tile_visualizer_umap.py`. 
 
 <p align="center">
   <img src="https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/demos/HPL_visualizer_mutlticancer.gif" alt="animated" />
