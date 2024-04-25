@@ -53,10 +53,11 @@ In this repository you will find the following sections:
    10. Cox proportional hazards for survival regression.
    11. Correlation between annotations and HPCs.
    12. Get tiles and WSI samples for HPCs.
-4. [Frequently Asked Questions](#Frequently-Asked-Questions).
-5. [TCGA HPL files](#TCGA-HPL-files): HPL output files from our paper results.
-6. [Python Environment](#Python-Environment): Python version and packages.
-7. [Dockers](#Dockers): Docker environments to run HPL steps.
+4. [HPL Visualizer](#HPL-Visualizer): Interactive app to visualize UMAP representations, tiles, and HPC membership
+5. [Frequently Asked Questions](#Frequently-Asked-Questions).
+6. [TCGA HPL files](#TCGA-HPL-files): HPL output files from our paper results.
+7. [Python Environment](#Python-Environment): Python version and packages.
+8. [Dockers](#Dockers): Docker environments to run HPL steps.
 
 ---
 
@@ -126,6 +127,19 @@ The flow consists in the following steps:
 12. Get tiles and WSI samples for HPCs.
 
 *You can find the full details on HPL instructions in this [Readme_HPL file](README_HPL.md).*
+
+---
+
+## HPL Visualizer
+You can find standalone apps in the following locations. These were built using [Marimo](https://github.com/marimo-team/marimo).
+1. [HPL Multicancer Visualizer](https://drive.google.com/file/d/1SWOQnnB5n73-MMxqLZJ13OI6yc6bacYR/view?usp=share_link).
+2. [HPL LUAD Visualizer](https://drive.google.com/file/d/1LMGTzb6vA3mL0NAbdwifJC1xrcvlMnWM/view?usp=share_link).
+
+You can edit the code by running `marimo edit tile_visualizer_umap.py`. Run the app with `marimo run tile_visualizer_umap.py`. 
+
+<p align="center">
+  <img src="https://github.com/AdalbertoCq/Histomorphological-Phenotype-Learning/blob/master/demos/HPL_visualizer_mutlticancer.gif" alt="animated" />
+</p>
 
 ---
 
