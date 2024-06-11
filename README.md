@@ -1,7 +1,11 @@
 # Histomorphological Phenotype Learning
-* **[Quiros A.C.<sup>+</sup>, Coudray N.<sup>+</sup>, Yeaton A., Yang X., Liu B., Chiriboga L., Karimkhan A., Narula N., Moore D.A., Park C.Y., Pass H., Moreira A.L., Le Quesne J.<sup>\*</sup>, Tsirigos A.<sup>\*</sup>, and Yuan K.<sup>\*</sup> Mapping the landscape of histomorphological cancer phenotypes using self-supervised learning on unlabeled, unannotated pathology slides. 2024](https://arxiv.org/abs/2205.01931)**
+* **Quiros A.C.<sup>+</sup>, Coudray N.<sup>+</sup>, Yeaton A., Yang X., Liu B., Chiriboga L., Karimkhan A., Narula N., Moore D.A., Park C.Y., Pass H., Moreira A.L., Le Quesne J.<sup>\*</sup>, Tsirigos A.<sup>\*</sup>, and Yuan K.<sup>\*</sup> Mapping the landscape of histomorphological cancer phenotypes using self-supervised learning on unlabeled, unannotated pathology slides. 2024**
 
 [![DOI](https://zenodo.org/badge/505573958.svg)](https://zenodo.org/doi/10.5281/zenodo.10718821)
+
+[Nature Communications](https://www.nature.com/articles/s41467-024-48666-7)
+
+[ArXiv](https://arxiv.org/abs/2205.01931)
 
 ---
 
@@ -13,13 +17,14 @@
 
 ## Citation
 ```
-@misc{QuirosCoudray2023,
-      title={Mapping the landscape of histomorphological cancer phenotypes using self-supervised learning on unlabeled, unannotated pathology slides},
-      author={Adalberto Claudio Quiros and Nicolas Coudray and Anna Yeaton and Xinyu Yang and Bojing Liu and Luis Chiriboga and Afreen Karimkhan and Navneet Narula and David A. Moore and Christopher Y. Park and Harvey Pass and Andre L. Moreira and John Le Quesne and Aristotelis Tsirigos and Ke Yuan},
-      year={2023},
-      eprint={2205.01931},
-      archivePrefix={arXiv},
-      primaryClass={cs.CV}        
+@article{QuirosCoudray2024,
+	author = {Claudio Quiros, Adalberto and Coudray, Nicolas and Yeaton, Anna and Yang, Xinyu and Liu, Bojing and Le, Hortense and Chiriboga, Luis and Karimkhan, Afreen and Narula, Navneet and Moore, David A. and Park, Christopher Y. and Pass, Harvey and Moreira, Andre L. and Le Quesne, John and Tsirigos, Aristotelis and Yuan, Ke},
+	journal = {Nature Communications},
+	number = {1},
+	pages = {4596},
+	title = {Mapping the landscape of histomorphological cancer phenotypes using self-supervised learning on unannotated pathology slides},
+	volume = {15},
+	year = {2024}}
 }
 ```
 
