@@ -192,7 +192,7 @@ Self-supervised model weights:
 
 ### Other Pretrained Models
 Self-supervised model weights:
-1. NYU Kidney model [5X](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020), [10X](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020), and [20X](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020)
+1. NYU Kidney model: [5X](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020), [10X](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020), and [20X](https://figshare.com/articles/dataset/Phenotype_Representation_Learning_PRL_-_LUAD_LUSC_5x/19715020)
 
 ### TCGA tile vector representations
 You can find tile projections for TCGA LUAD and LUSC cohorts at the following locations. These are the projections used in the publication results.
