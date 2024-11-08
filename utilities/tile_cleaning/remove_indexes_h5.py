@@ -60,17 +60,17 @@ def create_complete_h5(data_path, num_tiles, key_dict, indexes_to_remove, overri
             set_dict[key] = content[key]
 
         for i in range(set_dict[key].shape[0]):
+            if num_tiles == index:
+                break
+            
             # Original data.
             for key in storage_dict:
                 storage_dict[key][index] = set_dict[key][i]
             
             # Check if this is a tile to remove
             if i in indexes_to_remove:
-            	indexes_to_remove.remove(i)
-            	continue
-
-            if num_tiles == index:
-                break
+                indexes_to_remove.remove(i)
+                continue
 
             # Verbose.
             if i%1e+5==0:   
