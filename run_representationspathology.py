@@ -61,7 +61,7 @@ beta_1            = 0.5
 # Model Architecture param.
 layers_map = {512:7, 448:6, 256:6, 224:5, 128:5, 112:4, 56:3, 28:2}
 layers     = layers_map[image_height]
-spectral   = False
+spectral   = True
 attention  = 56
 init       = 'xavier'
 # init       = 'orthogonal'
